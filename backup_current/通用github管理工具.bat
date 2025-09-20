@@ -832,58 +832,7 @@ for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
 )
 
 echo.
-echo 步驟2: 備份所有主要檔案到 %new_version% 資料夾...
-echo ================================
-echo 正在備份 HTML 檔案...
-copy *.html "%new_version%\" >nul 2>&1
-if errorlevel 1 (
-    echo ❌ HTML 檔案備份失敗
-) else (
-    echo ✅ HTML 檔案備份成功
-)
-
-echo 正在備份 CSS 檔案...
-copy *.css "%new_version%\" >nul 2>&1
-if errorlevel 1 (
-    echo ❌ CSS 檔案備份失敗
-) else (
-    echo ✅ CSS 檔案備份成功
-)
-
-echo 正在備份 JavaScript 檔案...
-copy *.js "%new_version%\" >nul 2>&1
-if errorlevel 1 (
-    echo ❌ JavaScript 檔案備份失敗
-) else (
-    echo ✅ JavaScript 檔案備份成功
-)
-
-echo 正在備份批次檔...
-copy *.bat "%new_version%\" >nul 2>&1
-if errorlevel 1 (
-    echo ❌ 批次檔備份失敗
-) else (
-    echo ✅ 批次檔備份成功
-)
-
-echo 正在備份文字檔案...
-copy *.txt "%new_version%\" >nul 2>&1
-if errorlevel 1 (
-    echo ❌ 文字檔案備份失敗
-) else (
-    echo ✅ 文字檔案備份成功
-)
-
-echo 正在備份 Markdown 檔案...
-copy *.md "%new_version%\" >nul 2>&1
-if errorlevel 1 (
-    echo ❌ Markdown 檔案備份失敗
-) else (
-    echo ✅ Markdown 檔案備份成功
-)
-
-echo.
-echo 步驟3: 備份圖片資料夾到 %new_version% 資料夾...
+echo 步驟2: 備份圖片資料夾到 %new_version% 資料夾...
 echo ================================
 if exist "images" (
     echo 正在備份 images 資料夾...
@@ -898,7 +847,7 @@ if exist "images" (
 )
 
 echo.
-echo 步驟4: 備份其他重要資料夾到 %new_version% 資料夾...
+echo 步驟3: 備份其他重要資料夾到 %new_version% 資料夾...
 echo ================================
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr /v "^v" ^| findstr /v "images" ^| findstr /v "backup"') do (
     echo 正在備份資料夾：%%i
@@ -911,7 +860,7 @@ for /f "tokens=*" %%i in ('dir /b /ad ^| findstr /v "^v" ^| findstr /v "images" 
 )
 
 echo.
-echo 步驟5: 建立備份資訊檔案...
+echo 步驟4: 建立備份資訊檔案...
 echo ================================
 echo 正在建立備份資訊...
 (
