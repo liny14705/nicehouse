@@ -82,11 +82,34 @@
             background: #f8f9fa;
         }
         
-        .properties-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.2rem;
+        .properties-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
             margin-top: 2rem;
+        }
+        
+        .property-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .property-map {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 電腦版：物件卡片和地圖並排顯示 */
+        @media (min-width: 769px) {
+            .property-section {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.2rem;
+                align-items: start;
+            }
         }
         
         .property-card {
@@ -335,8 +358,17 @@
         }
         
         @media (max-width: 768px) {
-            .properties-grid {
-                grid-template-columns: 1fr;
+            .properties-container {
+                gap: 1rem;
+            }
+            
+            .property-section {
+                gap: 0.8rem;
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.6rem !important;
             }
             
             .header h1 {
@@ -1440,9 +1472,11 @@
                 <h2 style="font-size: 1.8rem; color: #2c3e50; padding: 0.4rem 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2); text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; display: inline-block; margin: 0;">濬瑒嚴選優質物件</h2>
             </div>
             
-            <div class="properties-grid">
-                <div class="property-card">
-                    <h3 class="property-title">新都悅｜2房2廳1衛｜車位</h3>
+            <div class="properties-container">
+                <!-- 第一個物件：新都悅 -->
+                <div class="property-section">
+                    <div class="property-card">
+                        <h3 class="property-title">新都悅｜2房2廳1衛｜車位</h3>
                     
                     <!-- 照片滾動區 -->
                     <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
@@ -1521,9 +1555,21 @@
                             🧮 貸款試算
                         </a>
                     </div>
+                    </div>
+                    
+                    <!-- 第一個物件地圖 -->
+                    <div class="property-map">
+                        <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 新都悅</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區梅獅路二段232巷28號10樓</p>
+                        <div style="border-radius: 10px; overflow: hidden;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!4v1758354889136!6m8!1m7!1sUkFwZyw6j3XcYDAVWZAdcg!2m2!1d24.90605587454584!2d121.1772851819323!3f210.84360449450813!4f22.43580706557097!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="property-card">
+                <!-- 第二個物件：世紀美妝雙開三房車 -->
+                <div class="property-section">
+                    <div class="property-card">
                     <h3 class="property-title">世紀美妝雙開三房車｜3房2廳2衛｜車位</h3>
                     
                     <!-- 照片滾動區 -->
@@ -1616,58 +1662,28 @@
                             🧮 貸款試算
                         </a>
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <section style="background: #f8f9fa; padding: 1.2rem; text-align: center;">
-            <h2 style="color: #2c3e50; margin-bottom: 1.2rem;">📍 物件位置</h2>
-            
-            <!-- 兩個物件的地圖並排顯示 -->
-            <div class="maps-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 800px; margin: 0 auto;">
-                <!-- 新都悅地圖 -->
-                <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                    <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 新都悅</h3>
-                    <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區梅獅路二段232巷28號10樓</p>
-                    <div style="border-radius: 10px; overflow: hidden;">
-                        <iframe src="https://www.google.com/maps/embed?pb=!4v1758354889136!6m8!1m7!1sUkFwZyw6j3XcYDAVWZAdcg!2m2!1d24.90605587454584!2d121.1772851819323!3f210.84360449450813!4f22.43580706557097!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                </div>
-                
-                <!-- 世紀美妝地圖 -->
-                <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                    <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 世紀美妝雙開三房車</h3>
-                    <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區金山街368巷20號14樓</p>
-                    <div style="border-radius: 10px; overflow: hidden;">
-                        <iframe src="https://www.google.com/maps/embed?pb=!4v1758360194948!6m8!1m7!1sqwetxttnYo9gbfTJYRoi4A!2m2!1d24.91241314155521!2d121.1628332443688!3f154.83489254955228!4f26.465228026732888!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 響應式設計：手機版單列顯示 -->
-            <style>
-                @media (max-width: 768px) {
-                    .maps-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 1rem !important;
-                    }
                     
-                    .contact-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 1rem !important;
-                    }
-                }
-            </style>
+                    <!-- 第二個物件地圖 -->
+                    <div class="property-map">
+                        <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 世紀美妝雙開三房車</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區金山街368巷20號14樓</p>
+                        <div style="border-radius: 10px; overflow: hidden;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!4v1758360194948!6m8!1m7!1sqwetxttnYo9gbfTJYRoi4A!2m2!1d24.91241314155521!2d121.1628332443688!3f154.83489254955228!4f26.465228026732888!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         
         <!-- 相關資料連結 -->
         <section style="background: #f8f9fa; padding: 1.2rem; margin: 1rem 0; text-align: center;">
             <h2 style="color: #2c3e50; margin-bottom: 0.8rem;">📎 相關資料連結</h2>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; max-width: 1000px; margin: 0 auto;">
-                <a href="https://realtor.houseprice.tw/agent/buy/0925666597/" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #2ecc71, #27ae60); color: white; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(46, 204, 113, 0.3); min-width: 180px; text-align: center; justify-content: center; font-size: 0.9rem;">🏠 更多物件資料</a>
-                <a href="https://www.tiktok.com/@aihouse168" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #000000, #333333); color: white; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3); min-width: 180px; text-align: center; justify-content: center; font-size: 0.9rem;">🎵 TikTok短影音</a>
-                <a href="https://reurl.cc/0Wbd1l" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #3498db, #2980b9); color: white; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(52, 152, 219, 0.3); min-width: 180px; text-align: center; justify-content: center; font-size: 0.9rem;">📊 社區報告</a>
-                <a href="https://reurl.cc/gYb6Db" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(231, 76, 60, 0.3); min-width: 180px; text-align: center; justify-content: center; font-size: 0.9rem;">🏠 楊梅房市概況</a>
+            <div class="links-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; max-width: 800px; margin: 0 auto;">
+                <a href="https://realtor.houseprice.tw/agent/buy/0925666597/" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #2ecc71, #27ae60); color: white; padding: 0.6rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(46, 204, 113, 0.3); text-align: center; font-size: 0.9rem;">🏠 更多物件資料</a>
+                <a href="https://www.tiktok.com/@aihouse168" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #000000, #333333); color: white; padding: 0.6rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3); text-align: center; font-size: 0.9rem;">🎵 TikTok短影音</a>
+                <a href="https://reurl.cc/0Wbd1l" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #3498db, #2980b9); color: white; padding: 0.6rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(52, 152, 219, 0.3); text-align: center; font-size: 0.9rem;">📊 社區報告</a>
+                <a href="https://reurl.cc/gYb6Db" class="contact-button" target="_blank" style="background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; padding: 0.6rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(231, 76, 60, 0.3); text-align: center; font-size: 0.9rem;">🏠 楊梅房市概況</a>
             </div>
         </section>
         
@@ -1752,14 +1768,14 @@
                     <div style="flex: 1;">
                         <p style="margin-bottom: 0.8rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
                             <i class="bi bi-person-fill" style="color: #667eea; font-size: 1.1rem;"></i>
-                            <span style="font-weight: 600;">劉子菲｜百萬經紀人員</span>
+                            <span style="font-weight: 600;">劉子菲</span>
                             <a href="tel:0925666597" style="color: #e74c3c; text-decoration: none; font-weight: bold; margin-left: auto; display: flex; align-items: center; gap: 0.25rem;">
                                 <i class="bi bi-phone-fill"></i> 0925-666-597
                             </a>
                         </p>
                         <p style="margin-bottom: 0.8rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
                             <i class="bi bi-person-fill" style="color: #667eea; font-size: 1.1rem;"></i>
-                            <span style="font-weight: 600;">蔡濬瑒｜百萬經紀人員</span>
+                            <span style="font-weight: 600;">蔡濬瑒</span>
                             <a href="tel:0928776755" style="color: #e74c3c; text-decoration: none; font-weight: bold; margin-left: auto; display: flex; align-items: center; gap: 0.25rem;">
                                 <i class="bi bi-phone-fill"></i> 0928-776-755
                             </a>

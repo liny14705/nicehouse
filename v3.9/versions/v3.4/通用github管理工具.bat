@@ -819,16 +819,14 @@ echo 步驟1: 備份最新5個版本到 %new_version% 資料夾...
 echo ================================
 set version_count=0
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
-    if not "%%i"=="%new_version%" (
-        set /a version_count+=1
-        if !version_count! leq 5 (
-            echo 正在備份版本：%%i
-            xcopy "%%i" "%new_version%\versions\%%i\" /e /i /q >nul 2>&1
-            if !errorlevel! equ 0 (
-                echo ✅ %%i 備份成功
-            ) else (
-                echo ❌ %%i 備份失敗
-            )
+    set /a version_count+=1
+    if !version_count! leq 5 (
+        echo 正在備份版本：%%i
+        xcopy "%%i" "%new_version%\versions\%%i\" /e /i /q >nul 2>&1
+        if !errorlevel! equ 0 (
+            echo ✅ %%i 備份成功
+        ) else (
+            echo ❌ %%i 備份失敗
         )
     )
 )
@@ -838,10 +836,6 @@ echo 步驟2: 備份圖片資料夾到 %new_version% 資料夾...
 echo ================================
 if exist "images" (
     echo 正在備份 images 資料夾...
-    if exist "%new_version%\images" (
-        echo 正在移除舊的 images 資料夾...
-        rmdir /s /q "%new_version%\images" 2>nul
-    )
     xcopy "images" "%new_version%\images\" /e /i /q >nul 2>&1
     if errorlevel 1 (
         echo ❌ images 資料夾備份失敗
@@ -856,15 +850,12 @@ echo.
 echo 步驟3: 備份其他重要資料夾到 %new_version% 資料夾...
 echo ================================
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr /v "^v" ^| findstr /v "images" ^| findstr /v "backup"') do (
-    set folder_name=%%i
-    if not "!folder_name:~0,1!"=="." (
-        echo 正在備份資料夾：%%i
-        xcopy "%%i" "%new_version%\%%i\" /e /i /q >nul 2>&1
-        if errorlevel 1 (
-            echo ❌ %%i 備份失敗
-        ) else (
-            echo ✅ %%i 備份成功
-        )
+    echo 正在備份資料夾：%%i
+    xcopy "%%i" "%new_version%\%%i\" /e /i /q >nul 2>&1
+    if errorlevel 1 (
+        echo ❌ %%i 備份失敗
+    ) else (
+        echo ✅ %%i 備份成功
     )
 )
 
@@ -879,13 +870,11 @@ echo 備份時間：%date% %time%
 echo 備份資料夾：%new_version%
 echo.
 echo 包含的版本：
-set info_version_count=0
+set version_count=0
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
-    if not "%%i"=="%new_version%" (
-        set /a info_version_count+=1
-        if !info_version_count! leq 5 (
-            echo - %%i
-        )
+    set /a version_count+=1
+    if !version_count! leq 5 (
+        echo - %%i
     )
 )
 echo.
