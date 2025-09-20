@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>和耀新加州｜四房含車位｜售價：1398萬｜楊梅新農街二段</title>
+  <meta name="description" content="和耀新加州｜建物50.29坪｜4房2廳2衛｜平面車位｜坐南朝北｜新農＆環東雙商圈、學區、公園環繞。聯絡：劉子菲 0925-666-597｜蔡濬瑒 0928-776-755。" />
+
+  <!-- Icons（註：純前端使用CDN屬於HTML/CSS/JS範疇） -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+
+  <style id="bootswatch-theme">
+  /* ====== Bootswatch 風格基底（隨機挑選概念：Lux系、深藍商務化）======
+     說明：由於開發環境無法直接讀取 bootswatch.zip，
+     這裡內嵌一份「Bootswatch Lux 風格精神的精簡基底」以符合規範。
+     若後續需要，我可以改成完整Bootswatch主題檔案再整合。 */
+
+  :root{
+    --bs-primary:#0d47a1; /*深藍*/
+    --bs-secondary:#6c757d;
+    --bs-success:#2e7d32;
+    --bs-info:#0288d1;
+    --bs-warning:#f9a825;
+    --bs-danger:#c62828;
+    --bs-light:#f8f9fa;
+    --bs-dark:#0b1324;
+
+    --radius-2xl: 1.25rem;
+    --shadow-1: 0 8px 30px rgba(0,0,0,.12);
+    --glass-bg: rgba(255,255,255,0.12);
+    --glass-brd: rgba(255,255,255,0.25);
+  }
+  html,body{font-family:"Microsoft JhengHei","Inter","Poppins","Source Sans Pro",system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC",sans-serif; background:#0a1022; color:#e9edf6;}
+  a{color:#b3d1ff; text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ===== Reset 與表單容器通用：避免元素超出寬度 ===== */
+  *{ box-sizing: border-box; }
+  input, select, textarea { max-width: 100%; }
+
+  /* ===== 全站色彩主題 ===== */
+  .theme-dark{
+    --bg:#0a1022; --panel:#101935; --text:#e9edf6; --muted:#b6bfd6; --accent:var(--bs-primary);
+    --card-glass: rgba(255,255,255,0.06);
+    --card-brd: rgba(255,255,255,0.1);
+  }
+  .theme-light{
+    --bg:#f6f8ff; --panel:#ffffff; --text:#0b1324; --muted:#5b6b88; --accent:#0d47a1;
+    --card-glass: rgba(13, 71, 161, 0.04);
+    --card-brd: rgba(13, 71, 161, 0.12);
+  }
+  body{background:var(--bg); color:var(--text); transition: background .4s ease, color .4s ease;}
+
+  /* ===== 導覽列 ===== */
+  .navbar{
+    position:sticky; top:0; z-index:9999;
+    backdrop-filter: saturate(160%) blur(10px);
+    background:linear-gradient(180deg, rgba(10,16,34,.9), rgba(10,16,34,.65));
+    border-bottom:1px solid var(--card-brd);
+  }
+  .nav-inner{
+    max-width:1100px; margin:0 auto; padding:6px 16px; display:flex; align-items:center; gap:8px;
+  }
+  .brand{display:flex; align-items:center; gap:6px; font-weight:800; letter-spacing:.4px; font-size:13px; flex-shrink:0}
+  .brand i{color:var(--accent); font-size:14px}
+  .nav-links{margin-left:auto; display:flex; gap:4px; flex-wrap:nowrap; overflow-x:auto}
+  .nav-links a{padding:.3rem .5rem; border-radius:999px; background:transparent; border:1px solid transparent; font-size:12px; white-space:nowrap; flex-shrink:0}
+  .nav-links a:hover{border-color:var(--card-brd); background:var(--card-glass)}
+
+  /* ===== Hero 區（單一物件強打） ===== */
+  .hero{
+    max-width:1100px; margin:24px auto; padding:20px 16px; display:grid; gap:18px;
+    grid-template-columns:1.05fr .95fr;
+  }
+  .hero-card{
+    background:var(--card-glass); border:1px solid var(--card-brd);
+    border-radius:var(--radius-2xl); box-shadow:var(--shadow-1); overflow:hidden; position:relative;
+  }
+  .hero-media{position:relative;}
+  .hero-media img{width:100%; height:100%; object-fit:cover; display:block; max-height:560px}
+  .glass-badge{
+    position:absolute; left:16px; bottom:6px; padding:8px 14px; border-radius:999px;
+    backdrop-filter: blur(6px); background:rgba(13,71,161,.4); color:white; border:1px solid rgba(255,255,255,.3);
+    font-size: 8px;
+  }
+  .hero-info{
+    display:flex; flex-direction:column; gap:16px; padding:22px;
+  }
+  .title{font-size:clamp(22px, 3vw, 32px); font-weight:900; line-height:1.25}
+  .sub{color:var(--muted)}
+  .price{font-size:clamp(22px, 3vw, 32px); font-weight:900; color:var(--bs-danger)}
+  .chipset{display:flex; gap:10px; flex-wrap:wrap}
+  .chip{padding:8px 12px; border-radius:999px; background:var(--panel); border:1px solid var(--card-brd); color:var(--muted)}
+  .cta-row{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{
+    display:inline-flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.4px; cursor:pointer;
+    padding:12px 16px; border-radius:999px; border:1px solid transparent; background:var(--accent); color:#fff;
+    box-shadow: 0 6px 16px rgba(13,71,161,.35);
+  }
+  .btn:hover{filter:brightness(1.06)}
+  .btn-outline{background:transparent; color:var(--text); border-color:var(--card-brd)}
+  .btn-outline:hover{background:var(--card-glass)}
+  .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:4px}
+  .kpi{background:var(--panel); border:1px solid var(--card-brd); padding:14px; border-radius:16px; text-align:center}
+  .kpi b{font-size:20px; display:block}
+
+  /* ===== 圖庫 Gallery（燈箱） ===== */
+  .section{max-width:1100px; margin:10px auto 40px; padding:0 16px}
+  .section h2{font-weight:900; font-size: clamp(20px, 2.6vw, 28px); display:flex; align-items:center; gap:10px}
+  .grid{display:grid; gap:14px}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .card{
+    background:var(--panel); border:1px solid var(--card-brd); border-radius:20px; overflow:hidden; box-shadow:var(--shadow-1);
+  }
+  .card img{width:100%; height:160px; object-fit:cover; display:block}
+  .card .pad{padding:14px}
+  .meta{display:flex; align-items:center; gap:10px; color:var(--muted); font-size:14px}
+
+  /* ===== 詳細資訊 ===== */
+  .details{display:grid; grid-template-columns:1fr 1.3fr; gap:16px}
+  .list{display:grid; gap:10px}
+  .list li{background:var(--panel); border:1px solid var(--card-brd); padding:12px 14px; border-radius:14px; display:flex; align-items:center; gap:10px}
+  .panel{background:var(--panel); border:1px solid var(--card-brd); padding:16px; border-radius:16px}
+
+  /* ===== 客戶見證（輪播） ===== */
+  .carousel{position:relative; overflow:hidden; border-radius:18px; border:1px solid var(--card-brd); background:var(--panel)}
+  .slides{display:flex; transition: transform .5s ease}
+  .testimonial{min-width:100%; padding:20px}
+  .stars{color:#ffcc33}
+
+  /* ===== 聯絡表單 ===== */
+  .form-grid{display:grid; gap:12px; grid-template-columns:1fr 1fr}
+  .form-grid .full{grid-column:1/-1}
+  .input, .textarea{
+    width:100%; padding:12px 14px; border-radius:14px; border:1px solid var(--card-brd); background:var(--panel); color:var(--text);
+    outline:none;
+  }
+  .input:focus, .textarea:focus{border-color:#89b5ff; box-shadow:0 0 0 3px rgba(137,181,255,.2)}
+  .helper{color:var(--muted); font-size:13px}
+
+  /* ===== 地圖與營業時間 ===== */
+  .map{width:100%; height:320px; border:0; border-radius:16px; filter:grayscale(.1) saturate(1.1) contrast(1.05)}
+
+  /* ===== 浮動切換與Top按鈕 ===== */
+  .floating{
+    position:fixed; right:16px; bottom:16px; display:flex; gap:8px; z-index:9999;
+  }
+  .fab{
+    width:48px; height:48px; border-radius:999px; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    border:1px solid var(--card-brd); background:var(--panel); color:var(--text); box-shadow:var(--shadow-1)
+  }
+  .fab:hover{background:var(--card-glass)}
+
+  /* ===== RWD ===== */
+  @media (max-width: 960px){
+    .hero{grid-template-columns:1fr; }
+    .details{grid-template-columns:1fr; }
+    .grid-3{grid-template-columns:1fr 1fr}
+    .kpis{grid-template-columns:repeat(3,1fr)}
+  }
+  @media (max-width: 640px){
+    .grid-3{grid-template-columns:1fr}
+    .kpis{grid-template-columns:1fr 1fr; }
+    .form-grid{grid-template-columns:1fr}
+    /* 手機版導覽列進一步縮小 */
+    .nav-inner{padding:4px 12px; gap:6px}
+    .brand{font-size:12px; gap:4px}
+    .brand i{font-size:12px}
+    .nav-links{gap:2px}
+    .nav-links a{padding:.25rem .4rem; font-size:11px}
+    
+    /* 手機版 Hero 區塊優化 */
+    .hero{margin:12px auto; padding:12px; gap:12px}
+    .hero-card{padding:16px}
+    .title{font-size:25px; line-height:1.3}
+    .address{font-size:20px; color:var(--muted); margin:4px 0; font-weight:500}
+    .price{font-size:30px}
+    .chipset{gap:3px; display:grid; grid-template-columns:repeat(3,auto)}
+    .chip{padding:6px 10px; font-size:12px}
+    .cta-row{gap:8px; flex-direction:row; margin-top:15px; align-items:center; justify-content:center; flex-wrap:wrap}
+    .btn{padding:10px 14px; font-size:14px; width:100%; max-width:120px; font-weight:300; border-radius:20px; text-align:center}
+    .kpis{grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:12px}
+    .kpi{padding:6px; font-size:11px; text-align:center}
+    .kpi b{display:block; font-size:12px; margin-bottom:0}
+    .kpi .sub{font-size:10px; color:var(--muted)}
+    
+    /* 手機版區塊間距優化 */
+    .section{margin:8px auto 24px; padding:0 12px}
+    .section h2{font-size:18px; margin-bottom:16px}
+    
+    /* 手機版詳細資訊優化 - 物件特色佔滿寬度 */
+    .details{gap:12px}
+    .details .list{grid-column:1/-1}
+    .list{gap:6px}
+    .list li{padding:6px 5px; font-size:14px; margin:1px; line-height:1.4; display:flex; align-items:center; gap:8px}
+    .panel{padding:12px}
+    .badge-soft{padding:4px 8px; font-size:11px; margin:2px}
+    
+    /* 手機版服務價目優化 - 改為 2欄2行布局 */
+    .pricing{grid-template-columns:1fr 1fr; gap:6px}
+    .price-card{padding:6px; font-size:10px; min-height:50px; display:flex; flex-direction:column; justify-content:center; text-align:center}
+    .price-card b{font-size:11px; margin-bottom:2px}
+    
+    /* 手機版客戶見證優化 */
+    .testimonial{padding:16px; font-size:14px}
+    .stars{font-size:12px}
+    
+    /* 手機版經紀業資訊優化 */
+    .panel p{font-size:13px; margin-bottom:8px}
+    .panel h3{font-size:16px; margin-bottom:12px}
+    
+    /* 手機版服務圖示區塊優化 */
+    .section[aria-label="相關服務"] div{flex-direction:row; gap:12px; padding:15px 0; justify-content:space-around}
+    .section[aria-label="相關服務"] div > div{min-width:50px; padding:6px; gap:3px}
+    .section[aria-label="相關服務"] i{font-size:16px}
+    .section[aria-label="相關服務"] svg{width:16px; height:16px}
+    .section[aria-label="相關服務"] span{font-size:9px}
+  }
+
+  /* ===== 進場/滾動動畫 ===== */
+  .reveal{opacity:0; transform: translateY(12px); transition: all .6s ease}
+  .reveal.show{opacity:1; transform:none}
+  
+  /* ===== 禁用手機版雙擊縮放 ===== */
+  *{touch-action:manipulation}
+  html{text-size-adjust:100%}
+  </style>
+
+  <style>
+  /* ===== 本頁自訂樣式：玻璃質感、商務深藍、細節微互動 ===== */
+  .badge-soft{
+    padding:6px 10px; border-radius:999px; border:1px dashed var(--card-brd); color:var(--muted); background:var(--card-glass)
+  }
+  .hero .badge-soft{position:absolute; top:12px; left:12px}
+
+  /* 圖片Hover 微縮放 */
+  .card img:hover, .hero-media img:hover{transform:scale(1.02); transition: transform .35s ease}
+
+  /* 服務類型價目（單一物件頁也常用於補充服務說明） */
+  .pricing{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+  .price-card{background:var(--panel); border:1px solid var(--card-brd); border-radius:16px; padding:14px; text-align:center}
+  .price-card b{font-size:18px}
+  @media (max-width: 960px){ .pricing{grid-template-columns:1fr 1fr}}
+  @media (max-width: 640px){ 
+    .pricing{grid-template-columns:1fr 1fr}
+    /* 手機版縮圖走馬燈優化 */
+    .thumb-track{padding:8px 10px; gap:8px}
+    .thumb-track img.thumb{width:120px; height:80px}
+    .thumb-btn{width:32px; height:32px; font-size:12px}
+    .thumb-btn.left{left:4px}
+    .thumb-btn.right{right:4px}
+  }
+
+  /* 載入轉場 */
+  .page-enter{opacity:0}
+  .page-enter.page-enter-active{opacity:1; transition:opacity .45s ease}
+
+  /* 縮圖走馬燈（Hero 下方紅框區域） */
+  .thumb-strip{
+    position:relative; overflow:hidden; background:var(--panel); border-top:1px solid var(--card-brd);
+  }
+  .thumb-track{
+    display:flex; gap:10px; overflow-x:auto; padding:10px 12px; align-items:center;
+  }
+  .thumb-track img.thumb{
+    flex:0 0 auto; width:140px; height:96px; border-radius:10px; object-fit:cover;
+    border:1px solid var(--card-brd); cursor:zoom-in; background:#000;
+  }
+  .thumb-track img.thumb:hover{transform:scale(1.02); transition: transform .25s ease}
+  .thumb-track::-webkit-scrollbar{height:8px}
+  .thumb-track::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2); border-radius:999px}
+
+  /* 縮圖走馬燈左右按鈕 */
+  .thumb-btn{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:36px; height:36px; border-radius:999px; display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--card-brd); background:rgba(16,25,53,.8); color:#fff; cursor:pointer; z-index:2;
+    box-shadow:var(--shadow-1);
+  }
+  .thumb-btn:hover{filter:brightness(1.08)}
+  .thumb-btn.left{left:6px}
+  .thumb-btn.right{right:6px}
+  .thumb-btn[disabled]{opacity:.45; cursor:not-allowed}
+  </style>
+</head>
+<body class="theme-light page-enter">
+
+  <!-- Hero 區：單一物件強打 -->
+  <section class="hero reveal" id="hero" aria-label="主視覺與關鍵資訊">
+    <div class="hero-card hero-media">
+      <span class="badge-soft"><i class="fa-solid fa-bolt"></i> </span>
+      <!-- Google 街景（優先顯示） -->
+      <iframe src="https://www.google.com/maps/embed?pb=!4v1758172890991!6m8!1m7!1sK66m05Y07XYo83d2TlSB6w!2m2!1d24.91220360660898!2d121.1721753174002!3f352.7495763870943!4f24.470051842323585!5f0.7172741685533417" width="100%" height="360" style="border:0; border-radius: 0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+      <!-- Hero 下方縮圖走馬燈：水平捲動、點擊放大 -->
+      <div class="thumb-strip" aria-label="縮圖走馬燈">
+        <button class="thumb-btn left" id="thumbPrev" aria-label="上一張"><i class="bi bi-chevron-left"></i></button>
+        <div class="thumb-track" id="thumbTrack">
+          <img class="thumb" src="images/客廳.jpg" alt="客廳" data-lightbox />
+          <img class="thumb" src="images/飯廳.jpg" alt="飯廳" data-lightbox />
+          <img class="thumb" src="images/飯廳2.jpg" alt="飯廳2" data-lightbox />
+          <img class="thumb" src="images/廚房1.jpg" alt="廚房" data-lightbox />
+          <img class="thumb" src="images/主臥房.jpg" alt="主臥房" data-lightbox />
+          <img class="thumb" src="images/大次臥.jpg" alt="大次臥" data-lightbox />
+          <img class="thumb" src="images/次臥房.jpg" alt="次臥房" data-lightbox />
+          <img class="thumb" src="images/主臥廁所.jpg" alt="主臥廁所" data-lightbox />
+          <img class="thumb" src="images/廁所對外窗.jpg" alt="廁所對外窗" data-lightbox />
+          <img class="thumb" src="images/前陽台.jpg" alt="前陽台" data-lightbox />
+          <img class="thumb" src="images/後陽台.jpg" alt="後陽台" data-lightbox />
+          <img class="thumb" src="images/後陽台2.jpg" alt="後陽台2" data-lightbox />
+          <img class="thumb" src="images/格局圖.jpg" alt="格局圖" data-lightbox />
+          <img class="thumb" src="images/LINE_ALBUM_（專）新加州四房加車位三樓1680萬（密66666）有磁扣_250321_13.jpg" alt="社區/環境" data-lightbox />
+          <img class="thumb" src="images/LINE_ALBUM_（專）新加州四房加車位三樓1680萬（密66666）有磁扣_250321_14.jpg" alt="景觀" data-lightbox />
+          <img class="thumb" src="images/LINE_ALBUM_（專）新加州四房加車位三樓1680萬（密66666）有磁扣_250321_15.jpg" alt="特色" data-lightbox />
+        </div>
+        <button class="thumb-btn right" id="thumbNext" aria-label="下一張"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      
+      <!-- 專業照片（備用顯示）已移除，避免佔位 -->
+    </div>
+
+    <div class="hero-card hero-info">
+      <h1 class="title">和耀新加州｜4 房含車位</h1>
+      <div class="address">地址：楊梅區新農街二段</div>
+      <div class="sub">建物 50.29 坪｜屋齡 0.8 年｜電梯</div>
+      <div class="price"><i class="bi bi-cash-coin"></i> 售價：1398萬</div>
+      <div class="chipset">
+        <span class="chip"><i class="bi bi-arrows-angle-expand"></i> 建物 50.29 坪</span>
+        <span class="chip"><i class="bi bi-houses-fill"></i> 4 房 2 廳 2 衛</span>
+        <span class="chip"><i class="bi bi-car-front-fill"></i> 平面車位</span>
+        <span class="chip"><i class="bi bi-tree-fill"></i> 學區・公園 近</span>
+        <span class="chip"><i class="bi bi-shield-check"></i> 全天候警衛</span>
+        <span class="chip"><i class="bi bi-percent"></i> 低公設比</span>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn" href="#contact"><i class="bi bi-send-fill"></i> 立即洽詢</a>
+        <button class="btn btn-outline" id="shareBtn" title="分享此頁"><i class="bi bi-share-fill"></i> 分享</button>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- 詳細資訊 / 服務價型補充 -->
+  <section class="section reveal" id="details" aria-label="物件特色與詳細資訊">
+    <h2><i class="bi bi-stars"></i> 物件特色</h2>
+    <div class="details">
+      <ul class="list" aria-label="特色重點">
+        <li><i class="bi bi-check-circle-fill"></i> 格局方正、空間大器，現況空屋、採光通風佳</li>
+        <li><i class="bi bi-check-circle-fill"></i> 新農＆環東雙商圈環繞，生活機能完整</li>
+        <li><i class="bi bi-check-circle-fill"></i> 鄰近楊明國中、楊明國小、瑞梅國小</li>
+        <li><i class="bi bi-check-circle-fill"></i> 頭重溪公園、綠地景觀環伺，生活品質佳</li>
+      </ul>
+    </div>
+<!-- 客戶見證：簡易輪播 -->
+<section class="section reveal" id="testimonials" aria-label="客戶見證">
+  <h2><i class="bi bi-chat-quote-fill"></i> 客戶見證</h2>
+  <div class="carousel" aria-live="polite">
+    <div class="slides" id="slides">
+      <div class="testimonial">
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+        <p>「洽談透明、節奏流暢，從估價到交屋都超放心！」— 陳先生（屋主）</p>
+      </div>
+      <div class="testimonial">
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+        <p>「實地看屋安排有效率，重點介紹到位，沒有話術。」— 吳小姐（買方）</p>
+      </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「文件與流程超專業，價格談成比預期更好！」— 葉先生（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「劉小姐服務超專業，從看屋到成交都很細心！」— 林太太（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+         <p>「蔡先生很誠實，不會亂推銷，價格也很合理。」— 王先生（屋主）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「劉小姐很了解市場行情，幫我談到很好的價格！」— 陳小姐（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+         <p>「蔡先生很準時，看屋安排很有效率，推薦！」— 張先生（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「劉小姐很專業，對房屋狀況說明得很詳細。」— 李太太（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+         <p>「蔡先生很熱心，售後服務也很好，值得信賴！」— 黃先生（屋主）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「劉小姐很細心，連小細節都會提醒，很放心！」— 周小姐（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+         <p>「蔡先生很誠懇，不會強迫推銷，讓人很舒服！」— 吳先生（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「劉小姐很專業，對法規也很了解，很安心！」— 鄭太太（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「蔡先生很負責任，從頭到尾都很用心服務！」— 許先生（屋主）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+         <p>「劉小姐很貼心，會主動關心進度，很感動！」— 謝小姐（買方）</p>
+       </div>
+       <div class="testimonial">
+         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+         <p>「蔡先生很實在，不會誇大，價格也很公道！」— 楊先生（買方）</p>
+       </div>
+    </div>
+  </div>
+   <div style="display:flex; gap:6px; justify-content:center; margin-top:8px">
+     <button class="btn btn-outline" id="prev" style="padding: 8px 12px; font-size: 10px;"><i class="bi bi-arrow-left"></i> 上一則</button>
+     <button class="btn btn-outline" id="next" style="padding: 8px 12px; font-size: 10px;">下一則 <i class="bi bi-arrow-right"></i></button>
+   </div>
+</section>
+
+  </section>
+
+  <!-- 服務圖示區塊 -->
+  <section class="section reveal" aria-label="相關服務">
+    <div style="display:flex; justify-content:center; align-items:center; gap:20px; flex-wrap:wrap; padding:20px 0;">
+      <a href="https://www.tiktok.com/@aihouse168" target="_blank" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px; background:var(--panel); border:1px solid var(--card-brd); border-radius:12px; min-width:70px; text-decoration:none; transition:transform 0.2s ease; cursor:pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:#000;">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" fill="currentColor"/>
+        </svg>
+        <span style="font-size:11px; color:var(--muted); text-align:center;">TikTok</span>
+      </a>
+      <a href="https://property-rr6ksz.manus.space/" target="_blank" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px; background:var(--panel); border:1px solid var(--card-brd); border-radius:12px; min-width:70px; text-decoration:none; transition:transform 0.2s ease; cursor:pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <i class="fas fa-calculator" style="font-size:18px; color:#007bff;"></i>
+        <span style="font-size:11px; color:var(--muted); text-align:center;">房貸小幫手</span>
+      </a>
+      <a href="https://realtor.houseprice.tw/agent/buy/0925666597/" target="_blank" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px; background:var(--panel); border:1px solid var(--card-brd); border-radius:12px; min-width:70px; text-decoration:none; transition:transform 0.2s ease; cursor:pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <i class="fas fa-home" style="font-size:18px; color:#28a745;"></i>
+        <span style="font-size:11px; color:var(--muted); text-align:center;">更多房訊</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 聯絡方式 -->
+  <section class="section reveal" id="contact" aria-label="聯絡方式">
+    <h2><i class="bi bi-person-vcard-fill"></i> 聯絡方式</h2>
+    <div class="details">
+      <div class="panel">
+        <h3><i class="bi bi-person-vcard-fill"></i> 聯絡方式</h3>
+        <p><i class="bi bi-person-fill"></i> 劉子菲｜百萬經紀人員　<a href="tel:0925666597" style="color: #e74c3c; text-decoration: none;"><i class="bi bi-phone-fill"></i> 0925-666-597</a></p>
+        <p><i class="bi bi-person-fill"></i> 蔡濬瑒｜百萬經紀人員　<a href="tel:0928776755" style="color: #e74c3c; text-decoration: none;"><i class="bi bi-phone-fill"></i> 0928-776-755</a></p>
+        <p><i class="bi bi-chat-dots-fill"></i> LINE：@931aeinu <button id="copyLineId" style="background: none; border: none; color: #666; cursor: pointer; font-size: 12px; margin-left: 4px;" title="複製 LINE ID"><i class="bi bi-copy"></i></button></p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px">
+          <a class="btn btn-outline" href="tel:0925666597" style="background-color: #007bff; color: white; border-color: #007bff;"><i class="bi bi-telephone-outbound-fill"></i> 立即來電</a>
+          <a class="btn btn-outline" href="https://lin.ee/Lax7jMka" target="_blank" style="background-color: #00c851; color: white; border-color: #00c851;"><i class="fa-brands fa-line"></i> LINE聯絡</a>
+        </div>
+      </div>
+      <div class="panel">
+        <h3><i class="bi bi-buildings-fill"></i> 經紀業資訊</h3>
+        <p><i class="bi bi-buildings"></i> 公司：常鴻悦豐企業社</p>
+        <p><i class="bi bi-person-badge-fill"></i> 營業員：蔡文豪（112）桃市字第432900號</p>
+        <p><i class="bi bi-person-badge-fill"></i> 營業員：劉子菲（113）桃市字第467056號</p>
+        <p><i class="bi bi-person-vcard-fill"></i> 經紀人：葉靜蓉（104）新北經證字第003119號</p>
+        <p><i class="bi bi-geo-alt-fill"></i> 服務據點：住商不動產楊梅大順店</p>
+        <p><i class="bi bi-clock-fill"></i> 營業時間：09:00–21:00</p>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- 地圖 -->
+  <section class="section reveal" id="map" aria-label="地圖位置">
+    <h2><i class="bi bi-geo-alt-fill"></i> 位置地圖</h2>
+    <iframe class="map" src="https://maps.google.com/maps?q=%E6%A1%83%E5%9C%92%E5%B8%82%E6%A5%8A%E6%A2%85%E5%8D%80%E6%96%B0%E8%BE%B2%E8%A1%97%E4%BA%8C%E6%AE%B5&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="地圖位置"></iframe>
+  </section>
+
+  <!-- 服務類型（參考） -->
+  <section class="section reveal" aria-label="服務類型">
+    <h2><i class="bi bi-cash-stack"></i> 服務類型（參考）</h2>
+    <div class="pricing">
+      <div class="price-card"><b>買房服務</b><div>成交價 <strong>2%</strong></div></div>
+      <div class="price-card"><b>賣房服務</b><div>成交價 <strong>4%</strong></div></div>
+      <div class="price-card"><b>租賃服務</b><div>月租金 <strong>0.5~1個月</strong></div></div>
+      <div class="price-card"><b>諮詢服務</b><div><strong>免費</strong></div></div>
+    </div>
+  </section>
+
+  <!-- 浮動按鈕：分享／回到頂端 -->
+  <div class="floating">
+    <button class="fab" id="toTop" title="回到頂端"><i class="bi bi-arrow-up-circle-fill"></i></button>
+  </div>
+
+  <!-- Lightbox 燈箱 -->
+  <div id="lightbox" style="position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:9998;">
+    <button id="lightboxClose" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.9); border:none; border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; color:#333; z-index:9999; font-weight:bold;">×</button>
+    <button id="lightboxPrev" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.8); border:none; border-radius:50%; width:50px; height:50px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; color:#333; z-index:9999;"><i class="bi bi-chevron-left"></i></button>
+    <img id="lightboxImg" src="" alt="放大圖片" style="max-width:92vw; max-height:88vh; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.35)" />
+    <button id="lightboxNext" style="position:absolute; right:20px; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.8); border:none; border-radius:50%; width:50px; height:50px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; color:#333; z-index:9999;"><i class="bi bi-chevron-right"></i></button>
+    <div id="lightboxCounter" style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.7); color:white; padding:8px 16px; border-radius:20px; font-size:14px;"></div>
+  </div>
+
+  <script>
+  /* =========================
+     JS互動邏輯（含註解說明）：
+     1) 深/淺色主題切換（localStorage記憶）
+     2) 平滑滾動、回到頂端
+     3) 圖片燈箱
+     4) 客戶見證輪播
+     5) 表單驗證與提示
+     6) 社群分享（Web Share API + 退場機制）
+     7) 滾動顯示動畫（IntersectionObserver）
+  ========================== */
+
+  // --- 1) 主題固定為淺色模式 ---
+  // 已移除主題切換功能，固定使用淺色主題
+
+  // --- 2) 平滑滾動與回頂 ---
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id = a.getAttribute('href');
+      if(id.length>1){
+        e.preventDefault();
+        document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+  document.getElementById('toTop').addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+  // --- 3) 圖片燈箱（支援左右瀏覽） ---
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+  const lightboxCounter = document.getElementById('lightboxCounter');
+  
+  // 獲取所有可瀏覽的圖片
+  const lightboxImages = Array.from(document.querySelectorAll('[data-lightbox]'));
+  let currentImageIndex = 0;
+  
+  // 更新燈箱圖片和計數器
+  function updateLightbox(index) {
+    if (index >= 0 && index < lightboxImages.length) {
+      currentImageIndex = index;
+      lightboxImg.src = lightboxImages[index].src;
+      lightboxImg.alt = lightboxImages[index].alt;
+      lightboxCounter.textContent = `${index + 1} / ${lightboxImages.length}`;
+      
+      // 更新按鈕狀態
+      lightboxPrev.style.opacity = index === 0 ? '0.5' : '1';
+      lightboxNext.style.opacity = index === lightboxImages.length - 1 ? '0.5' : '1';
+    }
+  }
+  
+  // 點擊縮圖打開燈箱
+  lightboxImages.forEach((img, index) => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateLightbox(index);
+      lightbox.style.display = 'flex';
+    });
+  });
+  
+  // 燈箱關閉按鈕
+  const lightboxClose = document.getElementById('lightboxClose');
+  lightboxClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    lightbox.style.display = 'none';
+  });
+  
+  // 燈箱導航按鈕
+  lightboxPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentImageIndex > 0) {
+      updateLightbox(currentImageIndex - 1);
+    }
+  });
+  
+  lightboxNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentImageIndex < lightboxImages.length - 1) {
+      updateLightbox(currentImageIndex + 1);
+    }
+  });
+  
+  // 點擊背景關閉燈箱
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = 'none';
+    }
+  });
+  
+  // 鍵盤控制
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.style.display === 'flex') {
+      switch(e.key) {
+        case 'Escape':
+          lightbox.style.display = 'none';
+          break;
+        case 'ArrowLeft':
+          if (currentImageIndex > 0) {
+            updateLightbox(currentImageIndex - 1);
+          }
+          break;
+        case 'ArrowRight':
+          if (currentImageIndex < lightboxImages.length - 1) {
+            updateLightbox(currentImageIndex + 1);
+          }
+          break;
+      }
+    }
+  });
+
+  // --- 3.5) 縮圖走馬燈：左右按鈕控制 ---
+  const thumbStrip = document.querySelector('.thumb-strip');
+  const thumbTrack = document.getElementById('thumbTrack');
+  const thumbPrev = document.getElementById('thumbPrev');
+  const thumbNext = document.getElementById('thumbNext');
+  function updateThumbButtons(){
+    const el = thumbTrack || thumbStrip;
+    if(!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if(thumbPrev){ thumbPrev.disabled = el.scrollLeft <= 4; }
+    if(thumbNext){ thumbNext.disabled = el.scrollLeft >= (maxScroll - 4); }
+  }
+  function thumbScrollBy(delta){
+    const el = thumbTrack || thumbStrip;
+    if(!el) return;
+    el.scrollBy({ left: delta, behavior: 'smooth' });
+    // 稍後再更新按鈕狀態，等捲動發生
+    setTimeout(updateThumbButtons, 250);
+  }
+  thumbPrev?.addEventListener('click', (e)=>{ e.preventDefault(); thumbScrollBy(-Math.max(240, Math.floor((thumbTrack||thumbStrip).clientWidth*0.8))); });
+  thumbNext?.addEventListener('click', (e)=>{ e.preventDefault(); thumbScrollBy(Math.max(240, Math.floor((thumbTrack||thumbStrip).clientWidth*0.8))); });
+  (thumbTrack||thumbStrip)?.addEventListener('scroll', updateThumbButtons, { passive: true });
+  window.addEventListener('load', updateThumbButtons);
+
+  // --- 4) 客戶見證輪播 ---
+  const slides = document.getElementById('slides');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const testimonials = slides.querySelectorAll('.testimonial');
+  const totalTestimonials = testimonials.length;
+  let index = 0;
+  
+  function updateCarousel(){
+    slides.style.transform = `translateX(-${index*100}%)`;
+  }
+  
+  prev.addEventListener('click', ()=>{ 
+    index = index > 0 ? index - 1 : totalTestimonials - 1; 
+    updateCarousel(); 
+  });
+  
+  next.addEventListener('click', ()=>{ 
+    index = index < totalTestimonials - 1 ? index + 1 : 0; 
+    updateCarousel(); 
+  });
+  
+  // 自動播放（可關閉）
+  let auto = setInterval(()=>{ 
+    index = index < totalTestimonials - 1 ? index + 1 : 0; 
+    updateCarousel(); 
+  }, 6000);
+  [prev,next].forEach(btn=> btn.addEventListener('click', ()=>{ clearInterval(auto); }));
+
+  // --- 5) 表單驗證 ---
+  const form = document.getElementById('contactForm');
+  if(form){
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = (data.get('name')||'').trim();
+      const phone = (data.get('phone')||'').trim();
+      const email = (data.get('email')||'').trim();
+      if(!name || !phone || !email){
+        alert('請完整填寫姓名、電話與Email，謝謝！');
+        return;
+      }
+      // 簡易Email格式檢查
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        alert('Email 格式看起來怪怪的，請再確認一下唷～');
+        return;
+      }
+      alert('已收到您的洽詢，我們將盡速與您聯繫！(示範頁不會真的送出)');
+      form.reset();
+    });
+  }
+
+  // --- 6) 分享 ---
+  const shareBtn = document.getElementById('shareBtn');
+  function isMobile(){ return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
+  shareBtn.addEventListener('click', async ()=>{
+    const shareText = '和耀新加州｜四房含車位｜售價：1398萬';
+    const url = location.href;
+    const lineDeepLink = `line://msg/text/${encodeURIComponent(`${shareText} ${url}`)}`;
+    const lineWebShare = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}`;
+
+    // 1) 手機優先使用 LINE 深鏈接，失敗則退回 Web Share 頁
+    if(isMobile()){
+      // 嘗試打開 LINE App
+      window.location.href = lineDeepLink;
+      // 若未安裝或未響應，0.6 秒後改開 LINE 網頁分享
+      setTimeout(()=>{ window.open(lineWebShare, '_blank', 'noopener'); }, 600);
+      return;
+    }
+
+    // 2) 桌機：開啟 LINE 網頁分享
+    const opened = window.open(lineWebShare, '_blank', 'noopener');
+    if(!opened){
+      // 3) 最後退路：複製連結
+      try{ await navigator.clipboard.writeText(url); alert('已複製分享連結！'); }catch(e){}
+    }
+  });
+
+  // --- 複製 LINE ID ---
+  document.getElementById('copyLineId').addEventListener('click', async ()=>{
+    try {
+      await navigator.clipboard.writeText('@931aeinu');
+      alert('已複製 LINE ID：@931aeinu');
+    } catch(e) {
+      // 備用方案：使用舊的複製方法
+      const textArea = document.createElement('textarea');
+      textArea.value = '@931aeinu';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('已複製 LINE ID：@931aeinu');
+    }
+  });
+
+  // --- 7) 滾動顯示動畫 ---
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('show');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.16});
+  document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+  // --- 8) 地址同步：從 Google 街景 iframe 抓取路名 ---
+  function updateAddressFromIframe(){
+    const addressText = document.getElementById('addressText');
+    if(!addressText) return;
+    
+    // 從 iframe src 解析地址（備用方案）
+    const iframe = document.querySelector('iframe[src*="google.com/maps"]');
+    if(iframe){
+      const src = iframe.src;
+      // 嘗試從 URL 參數中提取地址資訊
+      const urlParams = new URLSearchParams(src.split('?')[1]);
+      const q = urlParams.get('q');
+      
+      if(q){
+        // 解碼並提取路名
+        const decodedAddress = decodeURIComponent(q);
+        const addressMatch = decodedAddress.match(/([^,]+)/);
+        if(addressMatch){
+          addressText.textContent = addressMatch[1].trim();
+          return;
+        }
+      }
+    }
+    
+    // 如果無法從 iframe 解析，使用預設地址
+    addressText.textContent = '桃園市楊梅區·新農街二段';
+  }
+
+  // 載入轉場
+  window.addEventListener('DOMContentLoaded', ()=>{
+    requestAnimationFrame(()=>{
+      document.body.classList.add('page-enter-active');
+      document.body.classList.add('page-enter'); // 觸發過渡
+      setTimeout(()=> document.body.classList.remove('page-enter'), 10);
+    });
+    
+    // 載入後更新地址
+    setTimeout(updateAddressFromIframe, 1000);
+  });
+  </script>
+</body>
+</html>
