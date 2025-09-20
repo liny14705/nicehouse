@@ -341,9 +341,6 @@ echo.
 echo  步驟1: 備份當前檔案...
 if not exist "backup_current" mkdir backup_current
 copy index.html backup_current\ 2>nul
-copy index1.html backup_current\ 2>nul
-copy index2.html backup_current\ 2>nul
-copy 8961298.html backup_current\ 2>nul
 copy script.js backup_current\ 2>nul
 copy style.css backup_current\ 2>nul
 copy data.json backup_current\ 2>nul
@@ -362,9 +359,6 @@ echo  GitHub舊檔案已下架
 echo.
 echo  步驟3: 複製版本檔案...
 copy "%version%\index.html" . 2>nul
-copy "%version%\index1.html" . 2>nul
-copy "%version%\index2.html" . 2>nul
-copy "%version%\8961298.html" . 2>nul
 copy "%version%\script.js" . 2>nul
 copy "%version%\style.css" . 2>nul
 copy "%version%\data.json" . 2>nul
@@ -468,9 +462,6 @@ if /i "%restore%"=="y" (
     echo.
     echo 🔄 正在恢復檔案...
     copy backup_current\index.html . 2>nul
-    copy backup_current\index1.html . 2>nul
-    copy backup_current\index2.html . 2>nul
-    copy backup_current\8961298.html . 2>nul
     copy backup_current\script.js . 2>nul
     copy backup_current\style.css . 2>nul
     copy backup_current\data.json . 2>nul
@@ -516,9 +507,6 @@ echo.
 echo  步驟1: 備份當前檔案...
 if not exist "backup_before_cleanup" mkdir backup_before_cleanup
 copy index.html backup_before_cleanup\ 2>nul
-copy index1.html backup_before_cleanup\ 2>nul
-copy index2.html backup_before_cleanup\ 2>nul
-copy 8961298.html backup_before_cleanup\ 2>nul
 copy style.css backup_before_cleanup\ 2>nul
 copy script.js backup_before_cleanup\ 2>nul
 copy data.json backup_before_cleanup\ 2>nul
@@ -728,9 +716,6 @@ mkdir %version% 2>nul
 
 echo 正在複製檔案...
 copy index.html %version%\ 2>nul
-copy index1.html %version%\ 2>nul
-copy index2.html %version%\ 2>nul
-copy 8961298.html %version%\ 2>nul
 copy script.js %version%\ 2>nul
 copy style.css %version%\ 2>nul
 copy data.json %version%\ 2>nul
@@ -812,9 +797,6 @@ mkdir "%new_version%" 2>nul
 
 echo 正在複製檔案到備份資料夾...
 copy index.html "%new_version%\" >nul 2>&1
-copy index1.html "%new_version%\" >nul 2>&1
-copy index2.html "%new_version%\" >nul 2>&1
-copy 8961298.html "%new_version%\" >nul 2>&1
 copy *.css "%new_version%\" >nul 2>&1
 copy *.js "%new_version%\" >nul 2>&1
 copy *.bat "%new_version%\" >nul 2>&1
