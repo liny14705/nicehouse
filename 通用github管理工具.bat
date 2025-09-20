@@ -21,11 +21,13 @@ echo 9. 快速上傳檔案
 echo 10. 連接新專案 GitHub 倉庫
 echo 11. 修正 GitHub 認證權限
 echo 12. 檢查認證狀態 (推薦在操作 3,4 前使用)
-echo 13. 清理 Windows 憑證管理器 (解決認證衝突)
-echo 14. 退出
+echo 13. 🔄 重置所有認證 (清除並重新設定)
+echo 14. 🔐 強制重新綁定 GitHub 帳號
+echo 15. 🔗 解除綁定 (保留 .git 資料夾)
+echo 16. 退出
 echo.
 
-set /p choice=請輸入選項 (1-14): 
+set /p choice=請輸入選項 (1-16): 
 
 if "%choice%"=="1" goto fix_push
 if "%choice%"=="2" goto check_upload
@@ -39,8 +41,10 @@ if "%choice%"=="9" goto quick_upload
 if "%choice%"=="10" goto connect_new_project
 if "%choice%"=="11" goto fix_auth
 if "%choice%"=="12" goto check_auth_status
-if "%choice%"=="13" goto cleanup_windows_credentials
-if "%choice%"=="14" goto exit
+if "%choice%"=="13" goto reset_all_auth
+if "%choice%"=="14" goto force_rebind_auth
+if "%choice%"=="15" goto unbind_only
+if "%choice%"=="16" goto exit
 echo 無效選項
 pause
 goto start
@@ -1308,38 +1312,12 @@ echo ✅ 全域 Git 用戶資訊已設定
 echo.
 echo 正在清除現有的認證快取...
 git config --global --unset credential.helper 2>nul
-echo ✅ Git 認證快取已清除
+echo ✅ 認證快取已清除
 
 echo.
-echo 正在清除 Windows 憑證管理器中的舊認證...
-echo 步驟1: 刪除 Git GitHub 憑證...
-cmdkey /delete:LegacyGeneric:target=git:https://github.com 2>nul
-echo ✅ Git GitHub 憑證已清除
-
-echo.
-echo 步驟2: 檢查並清除其他 GitHub 憑證...
-for /f "tokens=2 delims=:" %%i in ('cmdkey /list 2^>nul ^| findstr "GitHub"') do (
-    echo 正在刪除憑證: %%i
-    cmdkey /delete:"%%i" 2>nul
-)
-echo ✅ 其他 GitHub 憑證已清除
-
-echo.
-echo 步驟3: 重新設定認證...
+echo 正在重新設定認證...
 git config --global credential.helper store
 echo ✅ 認證設定已更新
-
-echo.
-echo 步驟4: 修改遠端 URL 包含用戶名...
-for /f "tokens=*" %%i in ('git remote get-url origin 2^>nul') do set current_url=%%i
-if defined current_url (
-    echo 當前 URL: %current_url%
-    set new_url=https://%github_username%@github.com/%current_url:~19%
-    git remote set-url origin "%new_url%"
-    echo ✅ 遠端 URL 已更新為: %new_url%
-) else (
-    echo ❌ 無法取得當前遠端 URL
-)
 
 echo.
 echo 正在檢查當前遠端倉庫...
@@ -1355,42 +1333,17 @@ if errorlevel 1 (
     echo 可能的原因：
     echo 1. 用戶名或信箱錯誤
     echo 2. 沒有該倉庫的推送權限
-    echo 3. 需要 Personal Access Token 而不是密碼
-    echo 4. Windows 憑證管理器還有舊憑證
+    echo 3. 需要重新輸入密碼或 Personal Access Token
     echo.
     echo 建議操作：
     echo 1. 確認 GitHub 用戶名和信箱正確
     echo 2. 確認有該倉庫的推送權限
-    echo 3. 在 GitHub 設定中生成 Personal Access Token
-    echo 4. 手動刪除 Windows 憑證管理器中的舊憑證
-    echo.
-    echo 手動刪除憑證步驟：
-    echo 1. 按 Windows+R，輸入 control keymgr.dll
-    echo 2. 找到所有 GitHub 相關憑證並刪除
+    echo 3. 如果使用 Personal Access Token，請重新設定
     echo.
     pause
     goto start
 ) else (
     echo ✅ 認證測試成功！
-)
-
-echo.
-echo 正在測試推送權限...
-echo 嘗試推送測試...
-git push origin main
-if errorlevel 1 (
-    echo ⚠️ 推送測試失敗，但獲取成功
-    echo 這表示您需要 Personal Access Token
-    echo.
-    echo 如何設定 Personal Access Token：
-    echo 1. 登入 GitHub.com
-    echo 2. 進入 Settings ^> Developer settings ^> Personal access tokens
-    echo 3. 生成新的 token 並複製
-    echo 4. 下次推送時使用 token 作為密碼
-    echo.
-    echo 或者手動刪除 Windows 憑證管理器中的舊憑證
-) else (
-    echo ✅ 推送測試成功！認證完全正常
 )
 
 echo.
@@ -1401,10 +1354,6 @@ echo.
 echo 設定資訊：
 echo 用戶名：%github_username%
 echo 信箱：%github_email%
-echo.
-echo 如果推送仍有問題，請：
-echo 1. 手動刪除 Windows 憑證管理器中的舊憑證
-echo 2. 使用 Personal Access Token 代替密碼
 echo.
 echo 現在可以正常推送檔案了！
 echo 建議使用「快速上傳檔案」功能測試
@@ -1518,24 +1467,23 @@ echo.
 pause
 goto start
 
-:cleanup_windows_credentials
+:reset_all_auth
 echo.
 echo ================================
-echo 🧹 清理 Windows 憑證管理器
+echo 🔄 重置所有認證
 echo ================================
-echo.
-
-echo 這個功能會幫您清理 Windows 憑證管理器中的舊 GitHub 認證
-echo 解決不同 GitHub 帳號之間的認證衝突問題
 echo.
 
-echo 正在檢查當前的憑證...
-echo ================================
-cmdkey /list 2>nul | findstr "GitHub"
-echo ================================
-
+echo ⚠️  警告：這將清除所有 Git 認證信息！
 echo.
-set /p confirm=確定要清理所有 GitHub 相關憑證嗎？(y/n): 
+echo 重置後的效果：
+echo - 清除所有 Git 用戶設定
+echo - 清除所有認證快取
+echo - 清除所有遠端倉庫設定
+echo - 需要重新設定所有認證信息
+echo.
+
+set /p confirm=確定要重置所有認證嗎？(y/n): 
 
 if /i not "%confirm%"=="y" (
     echo 操作已取消
@@ -1544,60 +1492,341 @@ if /i not "%confirm%"=="y" (
 )
 
 echo.
-echo 正在清理 Windows 憑證管理器...
+echo 正在執行重置操作...
 echo.
 
-echo 步驟1: 刪除 Git GitHub 憑證...
-cmdkey /delete:LegacyGeneric:target=git:https://github.com 2>nul
-if errorlevel 1 (
-    echo ℹ️ Git GitHub 憑證不存在或已刪除
-) else (
-    echo ✅ Git GitHub 憑證已刪除
-)
+echo 步驟1: 清除所有 Git 用戶設定...
+git config --global --unset user.name 2>nul
+git config --global --unset user.email 2>nul
+git config --unset user.name 2>nul
+git config --unset user.email 2>nul
+echo ✅ 用戶設定已清除
 
 echo.
-echo 步驟2: 刪除所有 GitHub API 憑證...
-for /f "tokens=*" %%i in ('cmdkey /list 2^>nul ^| findstr "GitHub"') do (
-    for /f "tokens=2 delims=:" %%j in ("%%i") do (
-        echo 正在刪除憑證: %%j
-        cmdkey /delete:"%%j" 2>nul
-        if errorlevel 1 (
-            echo ❌ 刪除失敗: %%j
-        ) else (
-            echo ✅ 已刪除: %%j
-        )
-    )
-)
-
-echo.
-echo 步驟3: 重新檢查憑證狀態...
-echo ================================
-cmdkey /list 2>nul | findstr "GitHub"
-if errorlevel 1 (
-    echo ✅ 所有 GitHub 憑證已清理完成
-) else (
-    echo ⚠️ 仍有 GitHub 憑證存在，可能需要手動刪除
-)
-echo ================================
-
-echo.
-echo 步驟4: 重新設定 Git 認證...
+echo 步驟2: 清除所有認證快取...
 git config --global --unset credential.helper 2>nul
-git config --global credential.helper store
-echo ✅ Git 認證已重新設定
+git config --unset credential.helper 2>nul
+echo ✅ 認證快取已清除
+
+echo.
+echo 步驟3: 清除 Windows 認證管理器中的 Git 認證...
+cmdkey /list | findstr "git:" >nul 2>&1
+if not errorlevel 1 (
+    for /f "tokens=3" %%i in ('cmdkey /list ^| findstr "git:"') do (
+        cmdkey /delete:%%i >nul 2>&1
+    )
+    echo ✅ Windows 認證管理器中的 Git 認證已清除
+) else (
+    echo ℹ️  Windows 認證管理器中沒有找到 Git 認證
+)
+
+echo.
+echo 步驟4: 清除所有遠端倉庫設定...
+git remote remove origin 2>nul
+echo ✅ 遠端倉庫設定已清除
+
+echo.
+echo 步驟5: 清除本地 Git 倉庫 (可選)...
+set /p clear_repo=是否要清除本地 .git 資料夾？(y/n): 
+if /i "%clear_repo%"=="y" (
+    if exist ".git" (
+        rmdir /s /q ".git" 2>nul
+        echo ✅ 本地 Git 倉庫已清除
+    ) else (
+        echo ℹ️  本地沒有 Git 倉庫
+    )
+) else (
+    echo ℹ️  保留本地 Git 倉庫
+)
+
+echo.
+echo 步驟6: 清除 Git 全域設定...
+git config --global --unset-all 2>nul
+echo ✅ Git 全域設定已清除
+
+echo.
+echo 步驟7: 重新初始化 Git 設定...
+git config --global init.defaultBranch main
+git config --global core.autocrlf true
+git config --global core.safecrlf false
+echo ✅ Git 基本設定已重新初始化
 
 echo.
 echo ================================
-echo 🎉 Windows 憑證清理完成！
+echo 🎉 認證重置完成！
 echo ================================
 echo.
-echo 清理結果：
-echo - 已刪除所有 GitHub 相關憑證
-echo - 已重新設定 Git 認證系統
+echo 重置結果：
+echo - 所有 Git 用戶設定已清除
+echo - 所有認證快取已清除
+echo - 所有遠端倉庫設定已清除
+echo - Windows 認證管理器已清理
+echo - Git 基本設定已重新初始化
 echo.
 echo 下一步建議：
-echo 1. 使用「修正 GitHub 認證權限」功能設定新帳號
-echo 2. 或直接嘗試推送，系統會要求輸入新的認證資訊
+echo 1. 使用「強制重新綁定 GitHub 帳號」設定新認證
+echo 2. 或使用「初始化 Git 倉庫」重新開始
+echo.
+
+pause
+goto start
+
+:force_rebind_auth
+echo.
+echo ================================
+echo 🔐 強制重新綁定 GitHub 帳號
+echo ================================
+echo.
+
+echo 這個功能會完全清除現有認證並重新綁定新的 GitHub 帳號
+echo 適用於切換到不同的 GitHub 帳號或解決認證問題
+echo.
+
+echo 請輸入新的 GitHub 帳號資訊：
+echo.
+set /p new_github_username=新的 GitHub 用戶名: 
+set /p new_github_email=新的 GitHub 信箱: 
+set /p new_repo_url=新的 GitHub 倉庫連結 (可選): 
+
+if "%new_github_username%"=="" (
+    echo ❌ 用戶名不能為空！
+    pause
+    goto start
+)
+
+if "%new_github_email%"=="" (
+    echo ❌ 信箱不能為空！
+    pause
+    goto start
+)
+
+echo.
+echo 正在執行強制重新綁定...
+echo.
+
+echo 步驟1: 清除所有現有認證...
+git config --global --unset user.name 2>nul
+git config --global --unset user.email 2>nul
+git config --unset user.name 2>nul
+git config --unset user.email 2>nul
+git config --global --unset credential.helper 2>nul
+git config --unset credential.helper 2>nul
+echo ✅ 現有認證已清除
+
+echo.
+echo 步驟2: 清除 Windows 認證管理器...
+cmdkey /list | findstr "git:" >nul 2>&1
+if not errorlevel 1 (
+    for /f "tokens=3" %%i in ('cmdkey /list ^| findstr "git:"') do (
+        cmdkey /delete:%%i >nul 2>&1
+    )
+    echo ✅ Windows 認證管理器已清除
+)
+
+echo.
+echo 步驟3: 設定新的 Git 用戶資訊...
+git config --global user.name "%new_github_username%"
+git config --global user.email "%new_github_email%"
+git config user.name "%new_github_username%"
+git config user.email "%new_github_email%"
+echo ✅ 新的用戶資訊已設定
+
+echo.
+echo 步驟4: 重新設定認證快取...
+git config --global credential.helper store
+git config credential.helper store
+echo ✅ 認證快取已重新設定
+
+echo.
+echo 步驟5: 處理遠端倉庫...
+if not "%new_repo_url%"=="" (
+    echo 正在設定新的遠端倉庫...
+    git remote remove origin 2>nul
+    git remote add origin "%new_repo_url%"
+    echo ✅ 新的遠端倉庫已設定
+) else (
+    echo ℹ️  未提供新的倉庫連結，保持現有設定
+    echo 當前遠端倉庫：
+    git remote -v
+)
+
+echo.
+echo 步驟6: 測試新認證...
+echo 正在測試 GitHub 連接...
+git ls-remote origin >nul 2>&1
+if errorlevel 1 (
+    echo ❌ 認證測試失敗
+    echo.
+    echo 可能的原因：
+    echo 1. 需要 Personal Access Token
+    echo 2. 倉庫連結錯誤
+    echo 3. 網路連接問題
+    echo.
+    echo 建議操作：
+    echo 1. 確認倉庫連結正確
+    echo 2. 設定 Personal Access Token
+    echo 3. 檢查網路連接
+) else (
+    echo ✅ 認證測試成功！
+)
+
+echo.
+echo 步驟7: 初始化本地倉庫 (如果需要)...
+if not exist ".git" (
+    echo 正在初始化 Git 倉庫...
+    git init
+    git branch -M main
+    echo ✅ Git 倉庫已初始化
+) else (
+    echo ℹ️  Git 倉庫已存在
+)
+
+echo.
+echo 步驟8: 添加並提交檔案...
+git add .
+git commit -m "重新綁定 GitHub 帳號 - %date% %time%" 2>nul
+echo ✅ 檔案已提交
+
+echo.
+echo 步驟9: 推送到 GitHub...
+git push -u origin main 2>nul
+if errorlevel 1 (
+    echo ❌ 推送失敗，嘗試強制推送...
+    git push -f origin main 2>nul
+    if errorlevel 1 (
+        echo ❌ 強制推送也失敗
+        echo 請檢查認證設定或使用 Personal Access Token
+    ) else (
+        echo ✅ 強制推送成功
+    )
+) else (
+    echo ✅ 推送成功
+)
+
+echo.
+echo ================================
+echo 🎉 強制重新綁定完成！
+echo ================================
+echo.
+echo 新帳號資訊：
+echo 用戶名：%new_github_username%
+echo 信箱：%new_github_email%
+if not "%new_repo_url%"=="" (
+    echo 倉庫：%new_repo_url%
+)
+echo.
+echo 如果這是 GitHub Pages 倉庫，您的網站地址可能是：
+if not "%new_repo_url%"=="" (
+    echo %new_repo_url:~0,-4%.github.io/%new_repo_url:~19%
+) else (
+    for /f "tokens=*" %%i in ('git remote get-url origin 2^>nul') do set current_repo=%%i
+    if defined current_repo (
+        echo %current_repo:~0,-4%.github.io/%current_repo:~19%
+    ) else (
+        echo 無法取得倉庫資訊
+    )
+)
+echo.
+echo 現在可以使用其他管理功能了！
+
+echo.
+pause
+goto start
+
+:unbind_only
+echo.
+echo ================================
+echo 🔗 解除綁定 (保留 .git 資料夾)
+echo ================================
+echo.
+
+echo 這個功能只會解除與 GitHub 的綁定，但保留所有版本歷史
+echo 適用於：
+echo - 切換到不同的 GitHub 帳號
+echo - 解決認證問題但不想失去版本歷史
+echo - 暫時斷開與遠端倉庫的連接
+echo.
+
+echo 解除綁定後的效果：
+echo - 清除所有認證信息
+echo - 清除遠端倉庫設定
+echo - 保留本地 Git 歷史
+echo - 保留所有提交記錄
+echo - 保留分支資訊
+echo.
+
+set /p confirm=確定要解除綁定嗎？(y/n): 
+
+if /i not "%confirm%"=="y" (
+    echo 操作已取消
+    pause
+    goto start
+)
+
+echo.
+echo 正在執行解除綁定操作...
+echo.
+
+echo 步驟1: 清除所有認證信息...
+git config --global --unset user.name 2>nul
+git config --global --unset user.email 2>nul
+git config --unset user.name 2>nul
+git config --unset user.email 2>nul
+git config --global --unset credential.helper 2>nul
+git config --unset credential.helper 2>nul
+echo ✅ 認證信息已清除
+
+echo.
+echo 步驟2: 清除 Windows 認證管理器中的 Git 認證...
+cmdkey /list | findstr "git:" >nul 2>&1
+if not errorlevel 1 (
+    for /f "tokens=3" %%i in ('cmdkey /list ^| findstr "git:"') do (
+        cmdkey /delete:%%i >nul 2>&1
+    )
+    echo ✅ Windows 認證管理器已清除
+) else (
+    echo ℹ️  Windows 認證管理器中沒有找到 Git 認證
+)
+
+echo.
+echo 步驟3: 清除遠端倉庫設定...
+git remote remove origin 2>nul
+echo ✅ 遠端倉庫設定已清除
+
+echo.
+echo 步驟4: 檢查本地 Git 狀態...
+echo 本地分支：
+git branch
+echo.
+echo 本地提交記錄：
+git log --oneline -5
+echo.
+
+echo 步驟5: 重新設定基本 Git 配置...
+git config --global init.defaultBranch main
+git config --global core.autocrlf true
+git config --global core.safecrlf false
+echo ✅ Git 基本配置已重新設定
+
+echo.
+echo ================================
+echo 🎉 解除綁定完成！
+echo ================================
+echo.
+echo 解除綁定結果：
+echo - ✅ 所有認證信息已清除
+echo - ✅ 遠端倉庫設定已清除
+echo - ✅ Windows 認證管理器已清理
+echo - ✅ 本地 Git 歷史已保留
+echo - ✅ 所有提交記錄已保留
+echo - ✅ 分支資訊已保留
+echo.
+echo 下一步建議：
+echo 1. 使用「強制重新綁定 GitHub 帳號」連接新帳號
+echo 2. 使用「初始化 Git 倉庫」重新連接現有倉庫
+echo 3. 使用「修正 GitHub 認證權限」設定新認證
+echo.
+echo 您的本地檔案和版本歷史都完整保留！
 echo.
 
 pause

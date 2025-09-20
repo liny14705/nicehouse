@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房產費用智慧估算中心</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 自定義樣式 -->
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .tab-active {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.4);
+        }
+        .calculator-section {
+            display: none;
+        }
+        .calculator-section.active {
+            display: block;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+        }
+        .result-card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            transition: width 0.5s ease;
+        }
+        .tooltip {
+            position: relative;
+        }
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+        }
+        .dark-mode {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+        .dark-mode .bg-white {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+        .dark-mode .text-gray-600 {
+            color: #94a3b8;
+        }
+        .dark-mode .border-gray-300 {
+            border-color: #475569;
+        }
+        
+        /* 手機優化樣式 */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+        
+        /* 手機版導航收合樣式 */
+        .mobile-nav-collapsed {
+            max-height: 0 !important;
+            margin-bottom: 0 !important;
+            padding: 0 !important;
+            opacity: 0;
+        }
+        
+        .mobile-nav-expanded {
+            max-height: 200px;
+            opacity: 1;
+        }
+            
+            .text-6xl {
+                font-size: 2.5rem;
+            }
+            
+            .text-5xl {
+                font-size: 2rem;
+            }
+            
+            .text-4xl {
+                font-size: 1.75rem;
+            }
+            
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            
+            .text-2xl {
+                font-size: 1.25rem;
+            }
+            
+            .p-8 {
+                padding: 1.5rem;
+            }
+            
+            .p-6 {
+                padding: 1rem;
+            }
+            
+            .space-y-6 > * + * {
+                margin-top: 1rem;
+            }
+            
+            .grid-cols-2 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+            
+            .grid-cols-2 > * {
+                margin-bottom: 0.5rem;
+            }
+            
+            .grid-cols-2 > *:last-child {
+                margin-bottom: 0;
+            }
+        }
+        
+        /* 超小螢幕優化 */
+        @media (max-width: 480px) {
+            .text-6xl {
+                font-size: 2rem;
+            }
+            
+            .text-5xl {
+                font-size: 1.75rem;
+            }
+            
+            .text-4xl {
+                font-size: 1.5rem;
+            }
+            
+            .px-4 {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .py-8 {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+        }
+        
+        /* 紗窗報價手機版優化 */
+        @media (max-width: 768px) {
+            /* 表格優化 */
+            .screen-table-mobile {
+                font-size: 0.75rem;
+            }
+            
+            .screen-table-mobile th,
+            .screen-table-mobile td {
+                padding: 0.25rem;
+                white-space: nowrap;
+            }
+            
+            .screen-table-mobile input,
+            .screen-table-mobile select {
+                font-size: 0.75rem;
+                padding: 0.25rem;
+            }
+            
+            /* 操作按鈕優化 */
+            .mobile-buttons {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .mobile-buttons button {
+                flex: 1;
+                min-width: calc(50% - 0.25rem);
+                font-size: 0.875rem;
+                padding: 0.5rem 0.75rem;
+            }
+            
+            /* 報價結果優化 */
+            .mobile-results {
+                font-size: 0.875rem;
+            }
+            
+            .mobile-results .text-lg {
+                font-size: 1rem;
+            }
+            
+            .mobile-results .text-sm {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
+    <!-- 導航欄 -->
+    <nav class="glass-effect shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <!-- 電腦版導航 -->
+            <div class="hidden md:flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center float-animation">
+                        <span class="text-white text-2xl">🏠</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold gradient-text">房產費用智慧估算中心</h1>
+                        <p class="text-sm text-gray-600">專業房地產計算工具</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex space-x-2">
+                        <button onclick="showCalculator('buyer')" class="px-4 py-2 rounded-lg hover:bg-emerald-100 transition-all duration-300 tab-btn tooltip" data-tab="buyer" data-tooltip="計算購屋總成本">
+                            <span class="mr-2">🧮</span>買方估算
+                        </button>
+                        <button onclick="showCalculator('seller')" class="px-4 py-2 rounded-lg hover:bg-blue-100 transition-all duration-300 tab-btn tooltip" data-tab="seller" data-tooltip="計算售屋稅賦">
+                            <span class="mr-2">📈</span>賣方估算
+                        </button>
+                        <button onclick="showCalculator('screen')" class="px-4 py-2 rounded-lg hover:bg-amber-100 transition-all duration-300 tab-btn tooltip" data-tab="screen" data-tooltip="專業紗窗報價">
+                            <span class="mr-2">✨</span>紗窗報價
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors tooltip" data-tooltip="切換深色模式">
+                            <span id="dark-mode-icon">🌙</span>
+                        </button>
+                        <button onclick="exportResults()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors tooltip" data-tooltip="導出結果">
+                            <span>📊</span>
+                        </button>
+                        <button onclick="showHelp()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors tooltip" data-tooltip="使用說明">
+                            <span>❓</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 手機版導航 -->
+            <div class="md:hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center float-animation">
+                            <span class="text-white text-xl">🏠</span>
+                        </div>
+                        <div>
+                            <h1 class="text-lg font-bold gradient-text">房產費用估算中心</h1>
+                            <p class="text-xs text-gray-600">專業計算工具</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                            <span id="dark-mode-icon-mobile">🌙</span>
+                        </button>
+                        <button onclick="showHelp()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                            <span>❓</span>
+                        </button>
+                        <button onclick="toggleMobileNav()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                            <span id="mobile-nav-toggle">📱</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 手機版功能按鈕 - 可收合 -->
+                <div id="mobile-nav-buttons" class="grid grid-cols-3 gap-2 transition-all duration-300 ease-in-out overflow-hidden mobile-nav-collapsed">
+                    <button onclick="showCalculator('buyer')" class="px-3 py-2 rounded-lg hover:bg-emerald-100 transition-all duration-300 tab-btn text-sm" data-tab="buyer">
+                        <span class="mr-1">🧮</span>買方
+                    </button>
+                    <button onclick="showCalculator('seller')" class="px-3 py-2 rounded-lg hover:bg-blue-100 transition-all duration-300 tab-btn text-sm" data-tab="seller">
+                        <span class="mr-1">📈</span>賣方
+                    </button>
+                    <button onclick="showCalculator('screen')" class="px-3 py-2 rounded-lg hover:bg-amber-100 transition-all duration-300 tab-btn text-sm" data-tab="screen">
+                        <span class="mr-1">✨</span>紗窗
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 歡迎頁面 -->
+    <div id="welcome-page" class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- 主要標題 -->
+            <div class="fade-in mb-12">
+                <div class="w-28 h-28 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6 pulse-animation">
+                    <span class="text-white text-5xl">🏠</span>
+                </div>
+                <h1 class="text-6xl font-bold gradient-text mb-4">房產費用智慧估算中心</h1>
+                <p class="text-xl text-gray-600 mb-6">專業、準確、易用的房地產計算工具</p>
+                <div class="flex justify-center items-center space-x-4 text-sm text-gray-500">
+                    <div class="flex items-center">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2"></span>
+                        即時計算
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                        圖表分析
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-2 h-2 bg-amber-500 rounded-full mr-2"></span>
+                        專業報價
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg cursor-pointer" onclick="showCalculator('buyer')">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-5xl">🧮</div>
+                        <div class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            熱門
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-800 mb-3">買方估算</h3>
+                    <p class="text-gray-600 mb-4">計算購屋總成本，包含貸款、雜費等所有費用</p>
+                    <div class="bg-emerald-50 rounded-lg p-4 mb-4">
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-emerald-700">房價計算</span>
+                                <div class="w-16 bg-emerald-200 rounded-full h-2">
+                                    <div class="bg-emerald-500 h-2 rounded-full w-4/5"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-emerald-700">貸款分析</span>
+                                <div class="w-16 bg-emerald-200 rounded-full h-2">
+                                    <div class="bg-emerald-500 h-2 rounded-full w-3/4"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-emerald-700">雜費統計</span>
+                                <div class="w-16 bg-emerald-200 rounded-full h-2">
+                                    <div class="bg-emerald-500 h-2 rounded-full w-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-emerald-600 font-semibold">點擊開始計算 →</span>
+                    </div>
+                </div>
+
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg cursor-pointer" onclick="showCalculator('seller')">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-5xl">📈</div>
+                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            專業
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-blue-800 mb-3">賣方估算</h3>
+                    <p class="text-gray-600 mb-4">計算售屋稅賦，包含房地合一稅、手續費等扣除項目</p>
+                    <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-blue-700">售價分析</span>
+                                <div class="w-16 bg-blue-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full w-5/6"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-blue-700">稅費計算</span>
+                                <div class="w-16 bg-blue-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full w-4/5"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-blue-700">淨收入評估</span>
+                                <div class="w-16 bg-blue-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full w-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-blue-600 font-semibold">點擊開始計算 →</span>
+                    </div>
+                </div>
+
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg cursor-pointer" onclick="showCalculator('screen')">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-5xl">✨</div>
+                        <div class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            特色
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-amber-800 mb-3">紗網報價</h3>
+                    <p class="text-gray-600 mb-4">專業紗網報價工具，支援平紗、捲紗計算</p>
+                    <div class="bg-amber-50 rounded-lg p-4 mb-4">
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-amber-700">才數計算</span>
+                                <div class="w-16 bg-amber-200 rounded-full h-2">
+                                    <div class="bg-amber-500 h-2 rounded-full w-4/5"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-amber-700">平紗/捲紗</span>
+                                <div class="w-16 bg-amber-200 rounded-full h-2">
+                                    <div class="bg-amber-500 h-2 rounded-full w-3/4"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-amber-700">報價單生成</span>
+                                <div class="w-16 bg-amber-200 rounded-full h-2">
+                                    <div class="bg-amber-500 h-2 rounded-full w-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-amber-600 font-semibold">點擊開始計算 →</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 統計面板 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-center">📈 使用統計</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-emerald-600 mb-2" id="totalCalculations">1,247</div>
+                        <p class="text-sm text-gray-600">總計算次數</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600 mb-2" id="totalUsers">892</div>
+                        <p class="text-sm text-gray-600">活躍用戶</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-amber-600 mb-2" id="avgSavings">15.6%</div>
+                        <p class="text-sm text-gray-600">平均節省</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600 mb-2" id="satisfaction">98.5%</div>
+                        <p class="text-sm text-gray-600">滿意度</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 特色說明 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h2 class="text-2xl font-bold mb-6 text-center">✨ 產品特色</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center p-4 rounded-lg bg-gradient-to-br from-emerald-50 to-emerald-100">
+                        <div class="text-4xl mb-3">🤖</div>
+                        <h3 class="font-semibold mb-2 text-emerald-800">智能計算</h3>
+                        <p class="text-sm text-gray-600">自動計算各種費用，提供準確的估算結果</p>
+                        <div class="mt-3 text-xs text-emerald-600">
+                            ✓ 即時更新 ✓ 精確計算 ✓ 智能建議
+                        </div>
+                    </div>
+                    <div class="text-center p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100">
+                        <div class="text-4xl mb-3">📊</div>
+                        <h3 class="font-semibold mb-2 text-blue-800">圖表分析</h3>
+                        <p class="text-sm text-gray-600">視覺化呈現數據，讓複雜資訊一目了然</p>
+                        <div class="mt-3 text-xs text-blue-600">
+                            ✓ 圓餅圖 ✓ 長條圖 ✓ 趨勢分析
+                        </div>
+                    </div>
+                    <div class="text-center p-4 rounded-lg bg-gradient-to-br from-amber-50 to-amber-100">
+                        <div class="text-4xl mb-3">💾</div>
+                        <h3 class="font-semibold mb-2 text-amber-800">資料保存</h3>
+                        <p class="text-sm text-gray-600">自動保存計算結果，方便後續查看</p>
+                        <div class="mt-3 text-xs text-amber-600">
+                            ✓ 本地儲存 ✓ 導出功能 ✓ 歷史記錄
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- 買方估算頁面 -->
+    <div id="buyer-calculator" class="calculator-section container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-4 md:p-8 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 md:mb-8 flex items-center">
+                    <span class="text-3xl md:text-4xl mr-3">🧮</span>
+                    <span class="hidden sm:inline">買方費用估算</span>
+                    <span class="sm:hidden">買方估算</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                    <!-- 輸入區域 -->
+                    <div class="space-y-4 lg:space-y-6">
+                        <div class="bg-emerald-50 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4">基本資訊</h3>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">房屋總價 (萬元)</label>
+                                <input type="number" id="housePrice" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 input-focus" placeholder="例如：1500" value="1500">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">貸款成數 (%)</label>
+                                <input type="range" id="loanRatio" min="0" max="100" value="80" class="w-full">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>0%</span>
+                                    <span id="loanRatioValue">80%</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">貸款年限 (年)</label>
+                                <input type="range" id="loanYears" min="1" max="30" value="20" class="w-full">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>1年</span>
+                                    <span id="loanYearsValue">20年</span>
+                                    <span>30年</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">貸款利率 (%)</label>
+                                <input type="range" id="interestRate" min="0.5" max="5" step="0.1" value="2.1" class="w-full">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>0.5%</span>
+                                    <span id="interestRateValue">2.1%</span>
+                                    <span>5%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4">雜項費用</h3>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">代書費 (元)</label>
+                                    <input type="number" id="serviceFee" class="w-full px-3 py-2 border border-gray-300 rounded-lg input-focus" placeholder="15000" value="15000">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">公證費 (元)</label>
+                                    <input type="number" id="notaryFee" class="w-full px-3 py-2 border border-gray-300 rounded-lg input-focus" placeholder="8000" value="8000">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">仲介費 (元)</label>
+                                    <input type="number" id="agentFee" class="w-full px-3 py-2 border border-gray-300 rounded-lg input-focus" placeholder="30000" value="30000">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">契稅 (元)</label>
+                                    <input type="number" id="contractTax" class="w-full px-3 py-2 border border-gray-300 rounded-lg input-focus" placeholder="45000" value="45000">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="calculateBuyer()" class="w-full bg-gradient-to-r from-emerald-500 to-blue-500 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all pulse-animation">
+                            🧮 計算總費用
+                        </button>
+                    </div>
+                    
+                    <!-- 結果區域 -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4">計算結果</h3>
+                        <div id="buyer-results" class="space-y-4">
+                            <div class="text-center text-gray-500 py-8">
+                                <div class="text-4xl mb-2">📊</div>
+                                <p>請輸入房屋價格開始計算</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 賣方估算頁面 -->
+    <div id="seller-calculator" class="calculator-section container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-4 md:p-8 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-blue-800 mb-6 md:mb-8 flex items-center">
+                    <span class="text-3xl md:text-4xl mr-3">📈</span>
+                    <span class="hidden sm:inline">賣方淨收入估算</span>
+                    <span class="sm:hidden">賣方估算</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                    <!-- 輸入區域 -->
+                    <div class="space-y-6">
+                        <div class="bg-blue-50 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4">基本資訊</h3>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">售價 (萬元)</label>
+                                <input type="number" id="salePrice" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 input-focus" placeholder="例如：2000" value="2000">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">購入價格 (萬元)</label>
+                                <input type="number" id="purchasePrice" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-focus" placeholder="例如：1500" value="1500">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">購入日期</label>
+                                <input type="date" id="purchaseDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-focus">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">出售日期</label>
+                                <input type="date" id="saleDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-focus">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">持有期間 (自動計算)</label>
+                                <input type="text" id="holdYears" readonly class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100" placeholder="將自動計算">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">貸款餘額 (萬元)</label>
+                                <input type="number" id="loanBalance" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-focus" placeholder="例如：800" value="800">
+                                <p class="text-xs text-gray-500 mt-1">賣房時需先償還的貸款金額</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="isSelfUsed" class="rounded border-gray-300">
+                                    <span class="text-sm font-medium text-gray-700">自住滿6年（享400萬免稅額）</span>
+                                </label>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="hasRegistered" class="rounded border-gray-300">
+                                    <span class="text-sm font-medium text-gray-700">已設籍（自住證明）</span>
+                                </label>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="hasRented" class="rounded border-gray-300">
+                                    <span class="text-sm font-medium text-gray-700">有出租/營業使用</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-amber-50 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4">費用項目（可扣除）</h3>
+                            <p class="text-xs text-amber-700 mb-4">※ 以下費用可從房地合一稅中扣除</p>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">仲介費率 (%)</label>
+                                    <input type="range" id="agentRate" min="0" max="5" step="0.1" value="2" class="w-full">
+                                    <span id="agentRateValue" class="text-sm text-gray-600">2%</span>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">公證費 (元)</label>
+                                    <input type="number" id="sellerNotaryFee" class="w-full px-3 py-2 border border-gray-300 rounded-lg input-focus" placeholder="15000" value="15000">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">代書費 (元)</label>
+                                    <input type="number" id="sellerServiceFee" class="w-full px-3 py-2 border border-gray-300 rounded-lg input-focus" placeholder="12000" value="12000">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">其他費用 (元)</label>
+                                    <input type="number" id="otherFees" class="w-full px-3 py-2 border border-gray-300 rounded-lg input-focus" placeholder="5000" value="5000">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="calculateSeller()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all">
+                            📊 開始計算稅賦
+                        </button>
+                    </div>
+                    
+                    <!-- 結果區域 -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4">計算結果</h3>
+                        <div id="seller-results" class="space-y-4">
+                            <div class="text-center text-gray-500 py-8">
+                                <div class="text-4xl mb-2">📈</div>
+                                <p>請輸入售價和購入價格開始計算</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 紗窗報價頁面 -->
+    <div id="screen-calculator" class="calculator-section container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-4 md:p-8 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-amber-800 mb-6 md:mb-8 flex items-center">
+                    <span class="text-3xl md:text-4xl mr-3">✨</span>
+                    <span class="hidden sm:inline">紗窗專業報價</span>
+                    <span class="sm:hidden">紗窗報價</span>
+                </h2>
+                
+                <!-- 客戶資訊區域 -->
+                <div class="bg-white rounded-xl p-6 mb-6 shadow-sm border">
+                    <h3 class="text-lg font-semibold mb-4 text-amber-800 flex items-center">
+                        <span class="text-xl mr-2">👤</span>
+                        客戶資訊
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">客戶姓名</label>
+                            <input type="text" id="customerName" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="請輸入客戶姓名">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">聯絡電話</label>
+                            <input type="tel" id="customerPhone" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="請輸入聯絡電話">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">地址</label>
+                            <input type="text" id="customerAddress" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="請輸入安裝地址">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 紗窗項目區域 -->
+                <div class="bg-white rounded-xl p-6 mb-6 shadow-sm border">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-base font-semibold text-amber-800">
+                            紗窗項目
+                        </h3>
+                        <div class="flex space-x-2">
+                            <button onclick="loadExample()" class="px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center text-sm">
+                                <span class="mr-1">📄</span>載入範例
+                            </button>
+                            <button onclick="addScreenItem()" class="px-3 py-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center text-sm">
+                                <span class="mr-1">+</span>新增項目
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 項目表格 -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full screen-table-mobile">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="px-2 py-1 text-left text-xs font-medium text-gray-700 w-24">類型</th>
+                                    <th class="px-2 py-1 text-left text-xs font-medium text-gray-700 w-20">長度(cm)<br><span class="text-xs text-gray-500">原尺寸</span></th>
+                                    <th class="px-2 py-1 text-left text-xs font-medium text-gray-700 w-20">寬度(cm)<br><span class="text-xs text-gray-500">原尺寸</span></th>
+                                    <th class="px-2 py-1 text-left text-xs font-medium text-gray-700 w-16">數量</th>
+                                    <th class="px-2 py-1 text-left text-xs font-medium text-gray-700 w-20">位置</th>
+                                    <th class="px-2 py-1 text-left text-xs font-medium text-gray-700 w-12">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="screenItemsTable">
+                                <tr class="border-b">
+                                    <td class="px-2 py-1">
+                                        <select class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-type">
+                                            <option value="flat">平紗</option>
+                                            <option value="roller">捲紗</option>
+                                        </select>
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <input type="number" class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-length" placeholder="120" value="120">
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <input type="number" class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-width" placeholder="120" value="120">
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <select class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-quantity">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                        </select>
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <input type="text" class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-location" placeholder="客廳" value="客廳">
+                                    </td>
+                                    <td class="px-2 py-1 text-center">
+                                        <button onclick="removeScreenItem(this)" class="text-red-500 hover:text-red-700">
+                                            <span class="text-sm">🗑️</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 備註區域 -->
+                <div class="bg-white rounded-xl p-6 mb-6 shadow-sm border">
+                    <h3 class="text-lg font-semibold mb-4 text-amber-800 flex items-center">
+                        <span class="text-xl mr-2">📝</span>
+                        備註
+                    </h3>
+                    <textarea id="remarks" class="w-full px-3 py-2 border border-gray-300 rounded-lg h-20" placeholder="特殊需求或備註事項"></textarea>
+                </div>
+
+                <!-- 操作按鈕 -->
+                <div class="flex justify-center space-x-2 mb-6">
+                    <button onclick="resetForm()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center text-sm font-medium">
+                        <span class="mr-1">🔄</span>重置
+                    </button>
+                    <button onclick="copyQuotation()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center text-sm font-medium">
+                        <span class="mr-1">📄</span>複製
+                    </button>
+                    <button onclick="saveQuotation()" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center text-sm font-medium">
+                        <span class="mr-1">💾</span>儲存
+                    </button>
+                    <button onclick="shareQuotation()" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center text-sm font-medium">
+                        <span class="mr-1">📤</span>分享
+                    </button>
+                </div>
+                
+                <!-- 結果區域 -->
+                <div id="screen-results" class="space-y-4">
+                    <div class="text-center text-gray-500 py-12 bg-gray-50 rounded-xl">
+                        <div class="text-6xl mb-4">✨</div>
+                        <h3 class="text-xl font-semibold mb-2">紗網報價計算器</h3>
+                        <p class="text-gray-600">請輸入紗網規格並點擊「生成報價單」開始計算</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部快捷按鈕區域 -->
+    <footer class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <!-- 電腦版橫幅 -->
+            <div class="hidden md:block mb-6">
+                <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-xl p-4 text-center">
+                    <div class="flex items-center justify-center space-x-3 mb-3">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-2xl">🏠</span>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold">住商楊梅大順店</h3>
+                            <p class="text-sm opacity-90">子菲、濬瑒官方帳號</p>
+                            <p class="text-xs opacity-75">專業房屋貸款諮詢服務</p>
+                        </div>
+                    </div>
+                    <a href="https://line.me/R/ti/p/@931aeinu" target="_blank" 
+                       class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105">
+                        <span class="text-lg mr-2">💬</span>
+                        歡迎加入 LINE 洽詢
+                        <span class="ml-1">→</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 手機版官方帳號 -->
+            <div class="md:hidden mb-4">
+                <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-lg p-3 text-center">
+                    <div class="flex items-center justify-center space-x-2 mb-2">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-lg">🏠</span>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-base font-bold">住商楊梅大順店</h3>
+                            <p class="text-xs opacity-90">子菲、濬瑒官方帳號</p>
+                        </div>
+                    </div>
+                    <a href="https://line.me/R/ti/p/@931aeinu" target="_blank" 
+                       class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-4 py-1.5 rounded-full font-semibold transition-all duration-300 text-sm">
+                        <span class="text-sm mr-1">💬</span>
+                        LINE 官方帳號
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 其他服務按鈕 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <!-- TIKTOK 短影音 -->
+                <a href="https://www.tiktok.com/@aihouse168" target="_blank" 
+                   class="bg-gradient-to-br from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 rounded-lg p-3 text-center transition-all duration-300 hover:scale-105 hover:shadow-xl group">
+                    <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">🎵</div>
+                    <h4 class="text-sm font-bold mb-1">子菲 TIKTOK</h4>
+                    <p class="text-xs opacity-90 mb-1">短影音分享</p>
+                    <div class="bg-white/20 rounded px-2 py-0.5 text-xs">
+                        點擊觀看
+                    </div>
+                </a>
+                
+                <!-- 行銷快手 -->
+                <a href="https://aicoinmaker.com/?REFCODE=Y89RCI" target="_blank" 
+                   class="bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg p-3 text-center transition-all duration-300 hover:scale-105 hover:shadow-xl group">
+                    <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">⚡</div>
+                    <h4 class="text-sm font-bold mb-1">行銷快手</h4>
+                    <p class="text-xs opacity-90 mb-1">自動臉書發文</p>
+                    <div class="bg-white/20 rounded px-2 py-0.5 text-xs">
+                        提升曝光
+                    </div>
+                </a>
+                
+                <!-- FADOUBLE 數位行銷名片 -->
+                <a href="https://liff.line.me/1656637679-emAoB1GK/invite/U99c3cb27739fa3d50ac9e3ccd6ac7e7b" target="_blank" 
+                   class="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 rounded-lg p-3 text-center transition-all duration-300 hover:scale-105 hover:shadow-xl group">
+                    <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">📇</div>
+                    <h4 class="text-sm font-bold mb-1">FADOUBLE</h4>
+                    <p class="text-xs opacity-90 mb-1">數位名片</p>
+                    <div class="bg-white/20 rounded px-2 py-0.5 text-xs">
+                        專業形象
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 版權信息 -->
+            <div class="mt-6 pt-4 border-t border-gray-700 text-center text-xs text-gray-400">
+                <p>© 2025 房產費用智慧估算中心 - 住商楊梅大順店專業服務</p>
+                <p class="mt-1">專業房屋貸款諮詢 | 房地產投資分析 | 數位行銷解決方案</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script>
+        // 頁面切換功能
+        function showWelcome() {
+            document.getElementById('welcome-page').style.display = 'block';
+            document.getElementById('buyer-calculator').classList.remove('active');
+            document.getElementById('seller-calculator').classList.remove('active');
+            document.getElementById('screen-calculator').classList.remove('active');
+            
+            // 重置按鈕狀態
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+            });
+        }
+        
+        function showCalculator(type) {
+            document.getElementById('welcome-page').style.display = 'none';
+            document.getElementById('buyer-calculator').classList.remove('active');
+            document.getElementById('seller-calculator').classList.remove('active');
+            document.getElementById('screen-calculator').classList.remove('active');
+            
+            document.getElementById(type + '-calculator').classList.add('active');
+            
+            // 更新按鈕狀態
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+            });
+            document.querySelector(`[data-tab="${type}"]`).classList.add('tab-active');
+        }
+        
+        // 滑桿值更新
+        document.getElementById('loanRatio').addEventListener('input', function() {
+            document.getElementById('loanRatioValue').textContent = this.value + '%';
+        });
+        
+        document.getElementById('loanYears').addEventListener('input', function() {
+            document.getElementById('loanYearsValue').textContent = this.value + '年';
+        });
+        
+        document.getElementById('interestRate').addEventListener('input', function() {
+            document.getElementById('interestRateValue').textContent = this.value + '%';
+        });
+        
+        document.getElementById('agentRate').addEventListener('input', function() {
+            document.getElementById('agentRateValue').textContent = this.value + '%';
+        });
+        
+        // 買方計算功能
+        function calculateBuyer() {
+            const housePrice = parseFloat(document.getElementById('housePrice').value) * 10000;
+            const loanRatio = parseFloat(document.getElementById('loanRatio').value) / 100;
+            const loanYears = parseInt(document.getElementById('loanYears').value);
+            const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+            const serviceFee = parseFloat(document.getElementById('serviceFee').value) || 0;
+            const notaryFee = parseFloat(document.getElementById('notaryFee').value) || 0;
+            const agentFee = parseFloat(document.getElementById('agentFee').value) || 0;
+            const contractTax = parseFloat(document.getElementById('contractTax').value) || 0;
+            
+            if (!housePrice || housePrice <= 0) {
+                alert('請輸入有效的房屋價格');
+                return;
+            }
+            
+            // 基本計算
+            const loanAmount = housePrice * loanRatio;
+            const downPayment = housePrice - loanAmount;
+            
+            // 貸款計算（月利率）
+            const monthlyRate = interestRate / 12;
+            const totalMonths = loanYears * 12;
+            
+            // 計算月付金額
+            let monthlyPayment = 0;
+            if (loanAmount > 0 && monthlyRate > 0) {
+                monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+            } else if (loanAmount > 0) {
+                // 無利息情況
+                monthlyPayment = loanAmount / totalMonths;
+            }
+            
+            // 總利息計算
+            const totalInterest = (monthlyPayment * totalMonths) - loanAmount;
+            
+            // 雜項費用計算
+            const totalFees = serviceFee + notaryFee + agentFee + contractTax;
+            
+            // 總成本計算（包含自備款和雜費）
+            const totalCost = downPayment + totalFees;
+            
+            const results = `
+                <div class="space-y-4">
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-emerald-500">
+                        <h4 class="font-semibold text-emerald-800 mb-2">💰 房屋基本資訊</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div>房屋總價：</div>
+                            <div class="font-semibold text-lg">${(housePrice / 10000).toFixed(1)} 萬元</div>
+                            <div>貸款成數：</div>
+                            <div class="font-semibold">${(loanRatio * 100).toFixed(0)}%</div>
+                            <div>貸款金額：</div>
+                            <div class="font-semibold text-blue-600">${(loanAmount / 10000).toFixed(1)} 萬元</div>
+                            <div>自備款：</div>
+                            <div class="font-semibold text-red-600">${(downPayment / 10000).toFixed(1)} 萬元</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+                        <h4 class="font-semibold text-blue-800 mb-2">🏦 貸款詳細資訊</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div>貸款年限：</div>
+                            <div class="font-semibold">${loanYears} 年</div>
+                            <div>年利率：</div>
+                            <div class="font-semibold">${(interestRate * 100).toFixed(2)}%</div>
+                            <div>月付金額：</div>
+                            <div class="font-semibold text-lg text-blue-600">${Math.round(monthlyPayment).toLocaleString()} 元</div>
+                            <div>總利息：</div>
+                            <div class="font-semibold text-orange-600">${(totalInterest / 10000).toFixed(1)} 萬元</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-amber-500">
+                        <h4 class="font-semibold text-amber-800 mb-2">📋 購屋雜項費用</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div>代書費：</div>
+                            <div class="font-semibold">${serviceFee.toLocaleString()} 元</div>
+                            <div>公證費：</div>
+                            <div class="font-semibold">${notaryFee.toLocaleString()} 元</div>
+                            <div>仲介費：</div>
+                            <div class="font-semibold">${agentFee.toLocaleString()} 元</div>
+                            <div>契稅：</div>
+                            <div class="font-semibold">${contractTax.toLocaleString()} 元</div>
+                            <div class="font-bold text-lg">雜費總計：</div>
+                            <div class="font-bold text-lg text-red-600">${totalFees.toLocaleString()} 元</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2">🎯 購屋資金需求</h3>
+                        <div class="text-3xl font-bold">${(totalCost / 10000).toFixed(1)} 萬元</div>
+                        <p class="text-sm opacity-90 mt-2">自備款 + 雜項費用（不含每月房貸）</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2">💳 每月負擔</h3>
+                        <div class="text-3xl font-bold">${Math.round(monthlyPayment).toLocaleString()} 元</div>
+                        <p class="text-sm opacity-90 mt-2">房貸月付金額</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('buyer-results').innerHTML = results;
+        }
+        
+        // 賣方計算功能
+        function calculateSeller() {
+            const salePrice = parseFloat(document.getElementById('salePrice').value) * 10000;
+            const purchasePrice = parseFloat(document.getElementById('purchasePrice').value) * 10000;
+            
+            // 從自動計算的持有期間中提取數字
+            const holdYearsText = document.getElementById('holdYears').value;
+            const holdYears = parseFloat(holdYearsText.replace(' 年', '')) || 0;
+            const loanBalance = parseFloat(document.getElementById('loanBalance').value) * 10000 || 0;
+            const isSelfUsed = document.getElementById('isSelfUsed').checked;
+            const hasRegistered = document.getElementById('hasRegistered').checked;
+            const hasRented = document.getElementById('hasRented').checked;
+            const agentRate = parseFloat(document.getElementById('agentRate').value) / 100;
+            const notaryFee = parseFloat(document.getElementById('sellerNotaryFee').value) || 0;
+            const serviceFee = parseFloat(document.getElementById('sellerServiceFee').value) || 0;
+            const otherFees = parseFloat(document.getElementById('otherFees').value) || 0;
+            
+            if (!salePrice || !purchasePrice || salePrice <= 0 || purchasePrice <= 0) {
+                alert('請輸入有效的售價和購入價格');
+                return;
+            }
+            
+            if (holdYears <= 0) {
+                alert('請選擇購入日期和出售日期，系統將自動計算持有期間');
+                return;
+            }
+            
+            // 基本計算
+            const profit = salePrice - purchasePrice;
+            const agentFee = salePrice * agentRate;
+            const totalFees = agentFee + notaryFee + serviceFee + otherFees;
+            
+            // 計算實際可用資金（扣除貸款餘額）
+            const availableFunds = salePrice - loanBalance;
+            
+            // 房地合一稅計算（2024年最新稅制 + 自住免稅額）
+            let capitalGainsTax = 0;
+            let taxRate = 0;
+            let taxInfo = '';
+            let taxExemption = 0;
+            
+            if (profit <= 0) {
+                // 虧損不課稅
+                capitalGainsTax = 0;
+                taxRate = 0;
+                taxInfo = '虧損不課稅';
+            } else {
+                // 計算持有期間（精確到月）
+                const holdMonths = holdYears * 12;
+                
+                // 自住滿6年免稅額（房地合一稅2.0）
+                // 條件：自住滿6年 + 已設籍 + 無出租營業
+                if (isSelfUsed && holdYears >= 6 && hasRegistered && !hasRented) {
+                    taxExemption = 4000000; // 400萬免稅額
+                    if (profit <= taxExemption) {
+                        // 獲利在免稅額內
+                        taxRate = 0; // 免稅
+                        capitalGainsTax = 0;
+                        taxInfo = '自住滿6年+設籍+無出租，獲利在免稅額內';
+                    } else {
+                        // 超過免稅額部分課稅
+                        const taxableProfit = profit - taxExemption;
+                        taxRate = 0.10; // 自住滿6年超過免稅額部分：10%
+                        taxInfo = '自住滿6年+設籍+無出租，超過免稅額部分';
+                        capitalGainsTax = taxableProfit * taxRate;
+                    }
+                } else if (isSelfUsed && holdYears >= 6 && hasRegistered && hasRented) {
+                    // 自住滿6年但有出租，稅率提高
+                    if (holdMonths < 24) {
+                        taxRate = 0.45;
+                        taxInfo = '自住滿6年但有出租，未滿2年';
+                    } else if (holdMonths < 60) {
+                        taxRate = 0.35;
+                        taxInfo = '自住滿6年但有出租，2-5年';
+                    } else if (holdMonths < 120) {
+                        taxRate = 0.20;
+                        taxInfo = '自住滿6年但有出租，5-10年';
+                    } else {
+                        taxRate = 0.15;
+                        taxInfo = '自住滿6年但有出租，10年以上';
+                    }
+                    capitalGainsTax = profit * taxRate;
+                } else {
+                    // 一般情況的稅率
+                    if (holdMonths < 24) {
+                        // 2年內：45%
+                        taxRate = 0.45;
+                        taxInfo = '持有未滿2年';
+                    } else if (holdMonths < 60) {
+                        // 2-5年：35%
+                        taxRate = 0.35;
+                        taxInfo = '持有2-5年';
+                    } else if (holdMonths < 120) {
+                        // 5-10年：20%
+                        taxRate = 0.20;
+                        taxInfo = '持有5-10年';
+                    } else {
+                        // 10年以上：15%
+                        taxRate = 0.15;
+                        taxInfo = '持有10年以上';
+                    }
+                    capitalGainsTax = profit * taxRate;
+                }
+            }
+            
+            // 計算實際淨收入（扣除貸款餘額、費用、稅費）
+            const netIncome = availableFunds - totalFees - capitalGainsTax;
+            
+            // 計算報酬率
+            const totalReturn = ((salePrice - purchasePrice) / purchasePrice) * 100;
+            const annualReturn = holdYears > 0 ? (Math.pow(salePrice / purchasePrice, 1 / holdYears) - 1) * 100 : 0;
+            
+            const results = `
+                <div class="space-y-4">
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+                        <h4 class="font-semibold text-blue-800 mb-2">💰 房屋交易資訊</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div>售價：</div>
+                            <div class="font-semibold text-lg">${(salePrice / 10000).toFixed(1)} 萬元</div>
+                            <div>購入價：</div>
+                            <div class="font-semibold text-lg">${(purchasePrice / 10000).toFixed(1)} 萬元</div>
+                            <div>貸款餘額：</div>
+                            <div class="font-semibold text-red-600">${(loanBalance / 10000).toFixed(1)} 萬元</div>
+                            <div>可用資金：</div>
+                            <div class="font-semibold text-blue-600">${(availableFunds / 10000).toFixed(1)} 萬元</div>
+                            <div>持有期間：</div>
+                            <div class="font-semibold">${holdYears} 年</div>
+                            <div>價差獲利：</div>
+                            <div class="font-semibold ${profit > 0 ? 'text-green-600' : 'text-red-600'}">${(profit / 10000).toFixed(1)} 萬元</div>
+                            <div>總報酬率：</div>
+                            <div class="font-semibold ${totalReturn > 0 ? 'text-green-600' : 'text-red-600'}">${totalReturn.toFixed(1)}%</div>
+                            <div>年化報酬：</div>
+                            <div class="font-semibold ${annualReturn > 0 ? 'text-green-600' : 'text-red-600'}">${annualReturn.toFixed(1)}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-red-500">
+                        <h4 class="font-semibold text-red-800 mb-2">🏛️ 房地合一稅計算</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm mb-3">
+                            <div>持有期間：</div>
+                            <div class="font-semibold">${taxInfo}</div>
+                            <div>適用稅率：</div>
+                            <div class="font-semibold text-red-600">${(taxRate * 100).toFixed(0)}%</div>
+                            <div>應稅所得：</div>
+                            <div class="font-semibold">${(profit / 10000).toFixed(1)} 萬元</div>
+                            ${taxExemption > 0 ? `
+                            <div>免稅額：</div>
+                            <div class="font-semibold text-green-600">${(taxExemption / 10000).toFixed(0)} 萬元</div>
+                            ` : ''}
+                            <div>房地合一稅：</div>
+                            <div class="font-semibold text-red-600 text-lg">${Math.round(capitalGainsTax).toLocaleString()} 元</div>
+                        </div>
+                        <div class="bg-red-50 p-3 rounded-lg text-xs">
+                            <p class="font-semibold text-red-800 mb-1">📋 房地合一稅2.0說明：</p>
+                            <p>• 未滿2年：45% | 2-5年：35% | 5-10年：20% | 10年以上：15%</p>
+                            <p>• 自住滿6年+設籍+無出租：400萬免稅額，超過部分10%</p>
+                            <p>• 自住滿6年但有出租：按一般稅率計算，無免稅額</p>
+                            <p>• 虧損不課稅 | 需先償還貸款餘額</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-amber-500">
+                        <h4 class="font-semibold text-amber-800 mb-2">📋 交易費用明細</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div>仲介費 (${(agentRate * 100).toFixed(1)}%)：</div>
+                            <div class="font-semibold">${Math.round(agentFee).toLocaleString()} 元</div>
+                            <div>公證費：</div>
+                            <div class="font-semibold">${notaryFee.toLocaleString()} 元</div>
+                            <div>代書費：</div>
+                            <div class="font-semibold">${serviceFee.toLocaleString()} 元</div>
+                            <div>其他費用：</div>
+                            <div class="font-semibold">${otherFees.toLocaleString()} 元</div>
+                            <div class="font-bold text-lg">費用總計：</div>
+                            <div class="font-bold text-lg text-red-600">${Math.round(totalFees).toLocaleString()} 元</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2">🎯 售屋後取回金額</h3>
+                        <div class="text-3xl font-bold">${(netIncome / 10000).toFixed(1)} 萬元</div>
+                        <p class="text-sm opacity-90 mt-2">扣除稅費後的實際收入</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2">💹 投資效益分析</h3>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <div class="text-2xl font-bold">${totalReturn.toFixed(1)}%</div>
+                                <p class="opacity-90">總報酬率</p>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold">${annualReturn.toFixed(1)}%</div>
+                                <p class="opacity-90">年化報酬</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('seller-results').innerHTML = results;
+        }
+        
+        // 紗網計算功能 - 支援多項目
+        function calculateScreen() {
+            const items = getScreenItems();
+            if (items.length === 0) {
+                document.getElementById('screen-results').innerHTML = `
+                    <div class="text-center text-gray-500 py-12 bg-gray-50 rounded-xl">
+                        <div class="text-6xl mb-4">✨</div>
+                        <h3 class="text-xl font-semibold mb-2">紗網報價計算器</h3>
+                        <p class="text-gray-600">請輸入紗網規格，結果將即時顯示</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let totalMaterialCost = 0;
+            let totalConstructionCost = 0;
+            let totalTalent = 0;
+            let itemDetails = [];
+            
+            // 計算每個項目
+            items.forEach((item, index) => {
+                if (!item.length || !item.width) return;
+                
+                // 才數公式：(長度 + 20) × (寬度 + 20) ÷ 900
+                const talent = ((item.length + 20) * (item.width + 20)) / 900;
+                const roundedTalent = Math.round(talent * 100) / 100;
+                // 不足8才的以8才計算
+                const finalTalent = roundedTalent < 8 ? 8 : roundedTalent;
+                const itemTotalTalent = finalTalent * item.quantity;
+                totalTalent += itemTotalTalent;
+                
+                let materialCost = 0;
+                let typeName = '';
+                
+                if (item.type === 'flat') {
+                    typeName = '平紗';
+                    materialCost = Math.floor(itemTotalTalent * 405);
+                } else {
+                    typeName = '捲紗';
+                    materialCost = Math.floor(itemTotalTalent * 1205);
+                }
+                
+                totalMaterialCost += materialCost;
+                
+                itemDetails.push({
+                    type: typeName,
+                    length: item.length,
+                    width: item.width,
+                    quantity: item.quantity,
+                    location: item.location,
+                    talent: finalTalent,
+                    totalTalent: itemTotalTalent,
+                    materialCost: materialCost,
+                    unitPrice: item.type === 'flat' ? 405 : 1205
+                });
+            });
+            
+            // 計算施工費（總才數）
+            totalConstructionCost = totalTalent < 50 ? 4500 : Math.floor(totalTalent * 90);
+            
+            // 營業稅 = (材料費 + 施工費) × 5%
+            const tax = Math.round((totalMaterialCost + totalConstructionCost) * 0.05);
+            const totalAmount = totalMaterialCost + totalConstructionCost + tax;
+            
+            // 生成報價單
+            const currentDate = new Date().toLocaleDateString('zh-TW', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+            });
+            
+            const customerName = document.getElementById('customerName').value || '客戶';
+            const customerPhone = document.getElementById('customerPhone').value || '';
+            const customerAddress = document.getElementById('customerAddress').value || '';
+            const remarks = document.getElementById('remarks').value || '';
+            
+            let quotation = `普特絲紗窗報價單
+日期：${currentDate}
+
+客戶：${customerName}${customerPhone ? ' | ' + customerPhone : ''}
+地址：${customerAddress}
+
+📌 紗窗項目：`;
+            
+            itemDetails.forEach(item => {
+                const originalTalent = ((item.length + 20) * (item.width + 20)) / 900;
+                const minTalentNote = item.talent === 8 && originalTalent < 8 ? ' (最低8才)' : '';
+                quotation += `\n${item.location} ${item.type} ${item.length + 20}×${item.width + 20}cm ${item.quantity}個 ${item.talent.toFixed(2)}才${minTalentNote}`;
+            });
+            
+            quotation += `\n\n📊 總計：
+總才數：${totalTalent.toFixed(2)} 才
+
+💰 費用明細：
+材料費：${totalMaterialCost.toLocaleString()} 元
+施工費：${totalConstructionCost.toLocaleString()} 元
+營業稅：${tax.toLocaleString()} 元
+━━━━━━━━━━━━
+總金額(含稅及施工)：${totalAmount.toLocaleString()} 元
+
+📌 備註：
+• 此報價已含材料、稅金與施工費
+• 平紗計算已含耗材20公分
+• 實際金額將依現場丈量調整
+• 報價有效期：30天`;
+
+            if (remarks) {
+                quotation += `\n\n特殊需求：${remarks}`;
+            }
+            
+            // 生成結果顯示
+            const results = `
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border mobile-results">
+                    <div class="flex justify-between items-center mb-4 md:mb-6">
+                        <h3 class="text-lg md:text-xl font-semibold text-amber-800 flex items-center">
+                            <span class="text-xl md:text-2xl mr-2">📊</span>
+                            報價結果
+                        </h3>
+                    </div>
+                    
+                    <!-- 項目明細 -->
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-4 text-gray-800">項目明細</h4>
+                        <div class="space-y-3">
+                            ${itemDetails.map((item, index) => `
+                                <div class="bg-gray-50 border rounded-lg p-4">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div class="font-semibold text-lg text-amber-600">NT$ ${item.materialCost.toLocaleString()}</div>
+                                        <div class="text-sm text-gray-600">${item.location} ${item.type}</div>
+                                    </div>
+                                    <div class="text-sm text-gray-600 mb-1">
+                                        尺寸: ${item.length + 20} × ${item.width + 20} cm × ${item.quantity} 個
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        才數: ${item.totalTalent.toFixed(2)} 才 @ NT$ ${item.unitPrice}/才
+                                        ${item.talent === 8 && ((item.length + 20) * (item.width + 20)) / 900 < 8 ? 
+                                            '<span class="text-xs text-amber-600 ml-1">(最低8才)</span>' : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <!-- 費用明細 -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h4 class="font-semibold mb-4 text-gray-800">費用明細</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">材料費：</span>
+                                <span class="font-semibold">NT$ ${totalMaterialCost.toLocaleString()}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">施工費：</span>
+                                <span class="font-semibold">NT$ ${totalConstructionCost.toLocaleString()}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">營業稅：</span>
+                                <span class="font-semibold">NT$ ${tax.toLocaleString()}</span>
+                            </div>
+                            <div class="flex justify-between text-lg font-bold border-t pt-3 mt-3">
+                                <span class="text-gray-800">總金額：</span>
+                                <span class="text-red-600">NT$ ${totalAmount.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 報價單預覽 -->
+                    <div class="bg-gray-100 rounded-lg p-4">
+                        <h4 class="font-semibold mb-3 text-gray-800">報價單預覽</h4>
+                        <div class="bg-white p-4 rounded border text-sm font-mono whitespace-pre-line max-h-96 overflow-y-auto">${quotation}</div>
+                        <button onclick="copyQuotation()" class="mt-3 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold transition-all">
+                            📋 複製報價單
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // 儲存報價單到全域變數供複製使用
+            window.currentQuotation = quotation;
+            
+            document.getElementById('screen-results').innerHTML = results;
+        }
+        
+        // 獲取紗窗項目數據
+        function getScreenItems() {
+            const rows = document.querySelectorAll('#screenItemsTable tr');
+            const items = [];
+            
+            rows.forEach(row => {
+                const type = row.querySelector('.screen-type')?.value;
+                const length = parseFloat(row.querySelector('.screen-length')?.value);
+                const width = parseFloat(row.querySelector('.screen-width')?.value);
+                const quantity = parseInt(row.querySelector('.screen-quantity')?.value) || 1;
+                const location = row.querySelector('.screen-location')?.value || '未指定位置';
+                
+                if (type && length && width) {
+                    items.push({ type, length, width, quantity, location });
+                }
+            });
+            
+            return items;
+        }
+        
+        // 新增紗窗項目
+        function addScreenItem() {
+            const table = document.getElementById('screenItemsTable');
+            const newRow = document.createElement('tr');
+            newRow.className = 'border-b';
+            newRow.innerHTML = `
+                <td class="px-2 py-1">
+                    <select class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-type">
+                        <option value="flat">平紗</option>
+                        <option value="roller">捲紗</option>
+                    </select>
+                </td>
+                <td class="px-2 py-1">
+                    <input type="number" class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-length" placeholder="120">
+                </td>
+                <td class="px-2 py-1">
+                    <input type="number" class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-width" placeholder="120">
+                </td>
+                <td class="px-2 py-1">
+                    <select class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </td>
+                <td class="px-2 py-1">
+                    <input type="text" class="w-full px-2 py-1 border border-gray-300 rounded text-xs screen-location" placeholder="位置">
+                </td>
+                <td class="px-2 py-1 text-center">
+                    <button onclick="removeScreenItem(this)" class="text-red-500 hover:text-red-700">
+                        <span class="text-sm">🗑️</span>
+                    </button>
+                </td>
+            `;
+            table.appendChild(newRow);
+            
+            // 為新添加的輸入框綁定即時計算
+            const newInputs = newRow.querySelectorAll('input, select');
+            newInputs.forEach(input => {
+                input.addEventListener('input', debounce(calculateScreen, 500));
+                input.addEventListener('change', debounce(calculateScreen, 500));
+            });
+        }
+        
+        // 移除紗窗項目
+        function removeScreenItem(button) {
+            const row = button.closest('tr');
+            const table = document.getElementById('screenItemsTable');
+            if (table.children.length > 1) {
+                row.remove();
+            } else {
+                alert('至少需要保留一個項目');
+            }
+        }
+        
+        // 載入範例
+        function loadExample() {
+            const table = document.getElementById('screenItemsTable');
+            table.innerHTML = `
+                <tr class="border-b">
+                    <td class="px-1 py-1">
+                        <select class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-type">
+                            <option value="roller">捲紗</option>
+                            <option value="flat">平紗</option>
+                        </select>
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="number" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-length" placeholder="120" value="120">
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="number" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-width" placeholder="120" value="120">
+                    </td>
+                    <td class="px-1 py-1">
+                        <select class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-quantity">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="text" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-location" placeholder="客廳" value="客廳">
+                    </td>
+                    <td class="px-1 py-1 text-center">
+                        <button onclick="removeScreenItem(this)" class="text-red-500 hover:text-red-700">
+                            <span class="text-sm">🗑️</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr class="border-b">
+                    <td class="px-1 py-1">
+                        <select class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-type">
+                            <option value="flat">平紗</option>
+                            <option value="roller">捲紗</option>
+                        </select>
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="number" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-length" placeholder="120" value="120">
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="number" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-width" placeholder="120" value="120">
+                    </td>
+                    <td class="px-1 py-1">
+                        <select class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-quantity">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="text" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-location" placeholder="房間" value="房間">
+                    </td>
+                    <td class="px-1 py-1 text-center">
+                        <button onclick="removeScreenItem(this)" class="text-red-500 hover:text-red-700">
+                            <span class="text-sm">🗑️</span>
+                        </button>
+                    </td>
+                </tr>
+            `;
+            
+            // 為載入的範例綁定即時計算
+            const inputs = table.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', debounce(calculateScreen, 500));
+                input.addEventListener('change', debounce(calculateScreen, 500));
+            });
+            
+            // 載入範例後立即計算
+            setTimeout(calculateScreen, 100);
+        }
+        
+        // 重置表單
+        function resetForm() {
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('customerAddress').value = '';
+            document.getElementById('remarks').value = '';
+            
+            const table = document.getElementById('screenItemsTable');
+            table.innerHTML = `
+                <tr class="border-b">
+                    <td class="px-1 py-1">
+                        <select class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-type">
+                            <option value="flat">平紗</option>
+                            <option value="roller">捲紗</option>
+                        </select>
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="number" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-length" placeholder="120">
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="number" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-width" placeholder="120">
+                    </td>
+                    <td class="px-1 py-1">
+                        <select class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-quantity">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </td>
+                    <td class="px-1 py-1">
+                        <input type="text" class="w-full px-1 py-1 border border-gray-300 rounded text-xs screen-location" placeholder="位置">
+                    </td>
+                    <td class="px-1 py-1 text-center">
+                        <button onclick="removeScreenItem(this)" class="text-red-500 hover:text-red-700">
+                            <span class="text-sm">🗑️</span>
+                        </button>
+                    </td>
+                </tr>
+            `;
+            
+            // 為重置後的輸入框綁定即時計算
+            const inputs = table.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', debounce(calculateScreen, 500));
+                input.addEventListener('change', debounce(calculateScreen, 500));
+            });
+            
+            document.getElementById('screen-results').innerHTML = `
+                <div class="text-center text-gray-500 py-12 bg-gray-50 rounded-xl">
+                    <div class="text-6xl mb-4">✨</div>
+                    <h3 class="text-xl font-semibold mb-2">紗網報價計算器</h3>
+                    <p class="text-gray-600">請輸入紗網規格，結果將即時顯示</p>
+                </div>
+            `;
+        }
+        
+        // 儲存報價
+        function saveQuotation() {
+            if (window.currentQuotation) {
+                const blob = new Blob([window.currentQuotation], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `紗窗報價單_${new Date().toISOString().slice(0, 10)}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+            } else {
+                alert('請先生成報價單');
+            }
+        }
+        
+        // 分享報價
+        function shareQuotation() {
+            if (window.currentQuotation) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: '紗窗報價單',
+                        text: window.currentQuotation
+                    });
+                } else {
+                    copyQuotation();
+                }
+            } else {
+                alert('請先生成報價單');
+            }
+        }
+        
+        // 複製報價單功能
+        function copyQuotation() {
+            if (window.currentQuotation) {
+                navigator.clipboard.writeText(window.currentQuotation).then(function() {
+                    alert('報價單已複製到剪貼簿！');
+                }).catch(function(err) {
+                    // 如果 clipboard API 不可用，使用傳統方法
+                    const textArea = document.createElement('textarea');
+                    textArea.value = window.currentQuotation;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert('報價單已複製到剪貼簿！');
+                });
+            } else {
+                alert('請先生成報價單');
+            }
+        }
+        
+        // 手機版導航收合功能
+        function toggleMobileNav() {
+            const navButtons = document.getElementById('mobile-nav-buttons');
+            const toggleIcon = document.getElementById('mobile-nav-toggle');
+            
+            if (navButtons.classList.contains('mobile-nav-collapsed')) {
+                navButtons.classList.remove('mobile-nav-collapsed');
+                navButtons.classList.add('mobile-nav-expanded');
+                toggleIcon.textContent = '📱';
+            } else {
+                navButtons.classList.remove('mobile-nav-expanded');
+                navButtons.classList.add('mobile-nav-collapsed');
+                toggleIcon.textContent = '📋';
+            }
+        }
+        
+        // 深色模式功能
+        function toggleDarkMode() {
+            const body = document.body;
+            const icon = document.getElementById('dark-mode-icon');
+            const mobileIcon = document.getElementById('dark-mode-icon-mobile');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                icon.textContent = '🌙';
+                if (mobileIcon) mobileIcon.textContent = '🌙';
+                localStorage.setItem('darkMode', 'false');
+            } else {
+                body.classList.add('dark-mode');
+                icon.textContent = '☀️';
+                if (mobileIcon) mobileIcon.textContent = '☀️';
+                localStorage.setItem('darkMode', 'true');
+            }
+        }
+        
+        // 導出結果功能
+        function exportResults() {
+            const results = document.querySelector('.calculator-section.active #buyer-results, .calculator-section.active #seller-results, .calculator-section.active #screen-results');
+            if (results && results.innerHTML.includes('總')) {
+                const content = results.innerText;
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = '房產計算結果.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+            } else {
+                alert('請先完成計算以導出結果');
+            }
+        }
+        
+        // 顯示說明
+        function showHelp() {
+            alert(`🏠 房產費用智慧估算中心 - 使用說明
+
+🧮 買方估算：
+• 輸入房屋總價
+• 調整貸款成數、年限、利率
+• 填寫雜項費用
+• 獲得總購屋成本
+
+📈 賣方估算：
+• 輸入售價和購入價格
+• 設定持有期間
+• 計算房地合一稅
+• 獲得淨收入
+
+✨ 紗網報價：
+• 選擇平紗或捲紗
+• 輸入長度和寬度
+• 設定數量和位置
+• 生成專業報價單
+
+💡 小技巧：
+• 使用滑桿調整數值
+• 結果會即時更新
+• 支援導出計算結果
+• 可切換深色模式`);
+        }
+        
+        // 創建圖表
+        function createChart(type, data, containerId) {
+            const ctx = document.getElementById(containerId);
+            if (!ctx) return;
+            
+            new Chart(ctx, {
+                type: type,
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '費用分析圖表'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 優化的買方計算功能（添加圖表）
+        function calculateBuyerWithChart() {
+            calculateBuyer();
+            
+            // 添加圖表
+            setTimeout(() => {
+                const resultsContainer = document.getElementById('buyer-results');
+                const chartContainer = document.createElement('div');
+                chartContainer.innerHTML = `
+                    <div class="mt-6">
+                        <h4 class="font-semibold mb-3">📊 費用分析圖表</h4>
+                        <canvas id="buyerChart" width="400" height="200"></canvas>
+                    </div>
+                `;
+                resultsContainer.appendChild(chartContainer);
+                
+                // 獲取數據
+                const housePrice = parseFloat(document.getElementById('housePrice').value) * 10000;
+                const totalFees = parseFloat(document.getElementById('serviceFee').value || 0) + 
+                                parseFloat(document.getElementById('notaryFee').value || 0) + 
+                                parseFloat(document.getElementById('agentFee').value || 0) + 
+                                parseFloat(document.getElementById('contractTax').value || 0);
+                
+                if (housePrice > 0) {
+                    const chartData = {
+                        labels: ['房屋價格', '雜項費用'],
+                        datasets: [{
+                            data: [housePrice, totalFees],
+                            backgroundColor: ['#10b981', '#3b82f6'],
+                            borderWidth: 2
+                        }]
+                    };
+                    createChart('pie', chartData, 'buyerChart');
+                }
+            }, 100);
+        }
+        
+        // 綁定日期變更事件
+        function bindDateEvents() {
+            const purchaseDateInput = document.getElementById('purchaseDate');
+            const saleDateInput = document.getElementById('saleDate');
+            
+            function calculateHoldYears() {
+                const purchaseDate = purchaseDateInput.value;
+                const saleDate = saleDateInput.value;
+                
+                if (purchaseDate && saleDate) {
+                    const purchase = new Date(purchaseDate);
+                    const sale = new Date(saleDate);
+                    
+                    if (sale > purchase) {
+                        const diffTime = sale - purchase;
+                        const diffYears = diffTime / (1000 * 60 * 60 * 24 * 365.25);
+                        document.getElementById('holdYears').value = diffYears.toFixed(2) + ' 年';
+                    } else {
+                        document.getElementById('holdYears').value = '出售日期必須晚於購入日期';
+                    }
+                } else {
+                    document.getElementById('holdYears').value = '請選擇購入和出售日期';
+                }
+            }
+            
+            purchaseDateInput.addEventListener('change', calculateHoldYears);
+            saleDateInput.addEventListener('change', calculateHoldYears);
+        }
+        
+        // 即時計算功能
+        function setupRealTimeCalculation() {
+            // 為所有紗窗相關輸入框添加即時計算
+            const inputs = document.querySelectorAll('#screenItemsTable input, #screenItemsTable select, #customerName, #customerPhone, #customerAddress, #remarks');
+            inputs.forEach(input => {
+                input.addEventListener('input', debounce(calculateScreen, 500));
+                input.addEventListener('change', debounce(calculateScreen, 500));
+            });
+        }
+        
+        // 防抖動函數
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // 頁面載入完成後的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 預設顯示歡迎頁面
+            showWelcome();
+            
+            // 載入深色模式設定
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('dark-mode-icon').textContent = '☀️';
+                const mobileIcon = document.getElementById('dark-mode-icon-mobile');
+                if (mobileIcon) mobileIcon.textContent = '☀️';
+            }
+            
+            // 綁定日期變更事件
+            bindDateEvents();
+            
+            // 添加輸入框聚焦效果
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.classList.add('input-focus');
+                });
+                input.addEventListener('blur', function() {
+                    this.classList.remove('input-focus');
+                });
+            });
+            
+            // 設置即時計算
+            setupRealTimeCalculation();
+            
+            // 添加鍵盤快捷鍵
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey) {
+                    switch(e.key) {
+                        case '1':
+                            e.preventDefault();
+                            showCalculator('buyer');
+                            break;
+                        case '2':
+                            e.preventDefault();
+                            showCalculator('seller');
+                            break;
+                        case '3':
+                            e.preventDefault();
+                            showCalculator('screen');
+                            break;
+                        case 'h':
+                            e.preventDefault();
+                            showHelp();
+                            break;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

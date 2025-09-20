@@ -777,13 +777,6 @@
                 grid-template-columns: 1fr !important;
                 gap: 0.6rem !important;
             }
-            
-            /* 平板版內聯樣式的多欄布局改為單欄 */
-            div[style*="display: grid; grid-template-columns: 1fr 1fr"] {
-                display: grid !important;
-                grid-template-columns: 1fr !important;
-                gap: 0.6rem !important;
-            }
         }
         
         @media (max-width: 480px) {
@@ -884,13 +877,6 @@
             
             /* 手機版結果區域改為單欄 */
             .loan-result-section div[style*="grid-template-columns: 1fr 1fr"] {
-                display: grid !important;
-                grid-template-columns: 1fr !important;
-                gap: 0.4rem !important;
-            }
-            
-            /* 手機版內聯樣式的多欄布局改為單欄 */
-            div[style*="display: grid; grid-template-columns: 1fr 1fr"] {
                 display: grid !important;
                 grid-template-columns: 1fr !important;
                 gap: 0.4rem !important;
