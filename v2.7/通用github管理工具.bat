@@ -14,37 +14,39 @@ echo 2. 檢查檔案上傳問題
 echo 3. 部署指定版本 (上架)
 echo 4. 下架所有檔案
 echo 5. 建立版本備份
-echo 6. 查看版本資訊
-echo 7. 初始化 Git 倉庫 (需要手動輸入倉庫連結)
-echo 8. 修復 Git 同步問題
-echo 9. 快速上傳檔案
-echo 10. 連接新專案 GitHub 倉庫
-echo 11. 修正 GitHub 認證權限
-echo 12. 檢查認證狀態 (推薦在操作 3,4 前使用)
-echo 13. 🔄 重置所有認證 (清除並重新設定)
-echo 14. 🔐 強制重新綁定 GitHub 帳號
-echo 15. 🔗 解除綁定 (保留 .git 資料夾)
-echo 16. 退出
+echo 6. 🚀 快速完整備份 (最新5版本+全部檔案)
+echo 7. 查看版本資訊
+echo 8. 初始化 Git 倉庫 (需要手動輸入倉庫連結)
+echo 9. 修復 Git 同步問題
+echo 10. 快速上傳檔案
+echo 11. 連接新專案 GitHub 倉庫
+echo 12. 修正 GitHub 認證權限
+echo 13. 檢查認證狀態 (推薦在操作 3,4 前使用)
+echo 14. 🔄 重置所有認證 (清除並重新設定)
+echo 15. 🔐 強制重新綁定 GitHub 帳號
+echo 16. 🔗 解除綁定 (保留 .git 資料夾)
+echo 17. 退出
 echo.
 
-set /p choice=請輸入選項 (1-16): 
+set /p choice=請輸入選項 (1-17): 
 
 if "%choice%"=="1" goto fix_push
 if "%choice%"=="2" goto check_upload
 if "%choice%"=="3" goto deploy_version
 if "%choice%"=="4" goto cleanup_github
 if "%choice%"=="5" goto create_backup
-if "%choice%"=="6" goto show_versions
-if "%choice%"=="7" goto auto_init_git
-if "%choice%"=="8" goto fix_git_sync
-if "%choice%"=="9" goto quick_upload
-if "%choice%"=="10" goto connect_new_project
-if "%choice%"=="11" goto fix_auth
-if "%choice%"=="12" goto check_auth_status
-if "%choice%"=="13" goto reset_all_auth
-if "%choice%"=="14" goto force_rebind_auth
-if "%choice%"=="15" goto unbind_only
-if "%choice%"=="16" goto exit
+if "%choice%"=="6" goto quick_full_backup
+if "%choice%"=="7" goto show_versions
+if "%choice%"=="8" goto auto_init_git
+if "%choice%"=="9" goto fix_git_sync
+if "%choice%"=="10" goto quick_upload
+if "%choice%"=="11" goto connect_new_project
+if "%choice%"=="12" goto fix_auth
+if "%choice%"=="13" goto check_auth_status
+if "%choice%"=="14" goto reset_all_auth
+if "%choice%"=="15" goto force_rebind_auth
+if "%choice%"=="16" goto unbind_only
+if "%choice%"=="17" goto exit
 echo 無效選項
 pause
 goto start
@@ -605,12 +607,12 @@ echo.
 
 echo 請選擇備份類型：
 echo 1. 建立單一版本備份
-echo 2. 🚀 快速完整備份 (自動生成v數字版本+最新5版本+全部檔案)
+echo 2. 建立完整備份 (最新5個版本 + 所有檔案)
 echo.
 set /p backup_type=請選擇 (1-2): 
 
 if "%backup_type%"=="1" goto single_version_backup
-if "%backup_type%"=="2" goto quick_full_backup
+if "%backup_type%"=="2" goto full_backup
 echo 無效選項
 pause
 goto start
@@ -690,13 +692,7 @@ if "%latest_version%"=="" (
 ) else (
     echo 找到最新版本：%latest_version%
     set /a next_minor=!latest_minor!+1
-    if !next_minor! gtr 9 (
-        set /a next_major=!latest_major!+1
-        set version=v!next_major!.0
-        echo 小版本號超過9，自動升級主版本號
-    ) else (
-        set version=v!latest_major!.!next_minor!
-    )
+    set version=v!latest_major!.!next_minor!
     echo 自動生成下一個版本：%version%
 )
 
@@ -740,10 +736,10 @@ echo.
 pause
 goto start
 
-:quick_full_backup
+:full_backup
 echo.
 echo ================================
-echo 🚀 快速完整備份 (自動生成v數字版本+最新5版本+全部檔案)
+echo 💾 建立完整備份 (最新5個版本 + 所有檔案)
 echo ================================
 echo.
 
@@ -781,21 +777,15 @@ if "%latest_version%"=="" (
 ) else (
     echo 找到最新版本：%latest_version%
     set /a next_minor=!latest_minor!+1
-    if !next_minor! gtr 9 (
-        set /a next_major=!latest_major!+1
-        set new_version=v!next_major!.0
-        echo 小版本號超過9，自動升級主版本號
-    ) else (
-        set new_version=v!latest_major!.!next_minor!
-    )
+    set new_version=v!latest_major!.!next_minor!
     echo 自動生成新版本：%new_version%
 )
 
 echo.
-echo 正在建立備份資料夾：%new_version%
+echo 正在建立版本資料夾：%new_version%
 mkdir "%new_version%" 2>nul
 
-echo 正在複製檔案到備份資料夾...
+echo 正在複製檔案到新版本...
 copy index.html "%new_version%\" >nul 2>&1
 copy *.css "%new_version%\" >nul 2>&1
 copy *.js "%new_version%\" >nul 2>&1
@@ -807,22 +797,24 @@ if exist "images" (
     xcopy "images" "%new_version%\images\" /e /i /q >nul 2>&1
 )
 
-echo ✅ 新版本 %new_version% 已建立並包含所有檔案
+echo ✅ 新版本 %new_version% 已建立
 echo.
 
-echo 正在執行快速完整備份...
-echo 這將自動備份最新的5個版本到同一個資料夾
-echo.
+set backup_folder=完整備份_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%%time:~6,2%
+set backup_folder=%backup_folder: =0%
+
+echo 正在建立完整備份資料夾：%backup_folder%
+mkdir "%backup_folder%" 2>nul
 
 echo.
-echo 步驟1: 備份最新5個版本到 %new_version% 資料夾...
+echo 步驟1: 備份最新5個版本資料夾（包括剛建立的新版本）...
 echo ================================
 set version_count=0
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
     set /a version_count+=1
     if !version_count! leq 5 (
         echo 正在備份版本：%%i
-        xcopy "%%i" "%new_version%\versions\%%i\" /e /i /q >nul 2>&1
+        xcopy "%%i" "%backup_folder%\versions\%%i\" /e /i /q >nul 2>&1
         if !errorlevel! equ 0 (
             echo ✅ %%i 備份成功
         ) else (
@@ -832,10 +824,10 @@ for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
 )
 
 echo.
-echo 步驟2: 備份所有主要檔案到 %new_version% 資料夾...
+echo 步驟2: 備份當前所有檔案到備份資料夾...
 echo ================================
 echo 正在備份 HTML 檔案...
-copy *.html "%new_version%\" >nul 2>&1
+copy *.html "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ HTML 檔案備份失敗
 ) else (
@@ -843,7 +835,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份 CSS 檔案...
-copy *.css "%new_version%\" >nul 2>&1
+copy *.css "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ CSS 檔案備份失敗
 ) else (
@@ -851,7 +843,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份 JavaScript 檔案...
-copy *.js "%new_version%\" >nul 2>&1
+copy *.js "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ JavaScript 檔案備份失敗
 ) else (
@@ -859,7 +851,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份批次檔...
-copy *.bat "%new_version%\" >nul 2>&1
+copy *.bat "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ 批次檔備份失敗
 ) else (
@@ -867,7 +859,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份文字檔案...
-copy *.txt "%new_version%\" >nul 2>&1
+copy *.txt "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ 文字檔案備份失敗
 ) else (
@@ -875,7 +867,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份 Markdown 檔案...
-copy *.md "%new_version%\" >nul 2>&1
+copy *.md "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ Markdown 檔案備份失敗
 ) else (
@@ -883,11 +875,11 @@ if errorlevel 1 (
 )
 
 echo.
-echo 步驟3: 備份圖片資料夾到 %new_version% 資料夾...
+echo 步驟3: 備份圖片資料夾...
 echo ================================
 if exist "images" (
     echo 正在備份 images 資料夾...
-    xcopy "images" "%new_version%\images\" /e /i /q >nul 2>&1
+    xcopy "images" "%backup_folder%\images\" /e /i /q >nul 2>&1
     if errorlevel 1 (
         echo ❌ images 資料夾備份失敗
     ) else (
@@ -898,11 +890,11 @@ if exist "images" (
 )
 
 echo.
-echo 步驟4: 備份其他重要資料夾到 %new_version% 資料夾...
+echo 步驟4: 備份其他重要資料夾...
 echo ================================
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr /v "^v" ^| findstr /v "images" ^| findstr /v "backup"') do (
     echo 正在備份資料夾：%%i
-    xcopy "%%i" "%new_version%\%%i\" /e /i /q >nul 2>&1
+    xcopy "%%i" "%backup_folder%\%%i\" /e /i /q >nul 2>&1
     if errorlevel 1 (
         echo ❌ %%i 備份失敗
     ) else (
@@ -915,10 +907,10 @@ echo 步驟5: 建立備份資訊檔案...
 echo ================================
 echo 正在建立備份資訊...
 (
-echo 快速完整備份資訊
+echo 完整備份資訊
 echo ================================
 echo 備份時間：%date% %time%
-echo 備份資料夾：%new_version%
+echo 備份資料夾：%backup_folder%
 echo.
 echo 包含的版本：
 set version_count=0
@@ -940,7 +932,181 @@ echo - 圖片資料夾 (images)
 echo - 其他資料夾
 echo.
 echo 備份完成時間：%date% %time%
-) > "%new_version%\備份資訊.txt"
+) > "%backup_folder%\備份資訊.txt"
+
+echo ✅ 備份資訊檔案已建立
+
+echo.
+echo ================================
+echo 🎉 完整備份完成！
+echo ================================
+echo.
+echo 備份資訊：
+echo 資料夾：%backup_folder%
+echo 時間：%date% %time%
+echo 包含：最新5個版本 + 所有檔案
+echo.
+echo 備份內容：
+echo - 版本資料夾：%backup_folder%\versions\
+echo - 主要檔案：%backup_folder%\*.html, *.css, *.js, *.bat, *.txt, *.md
+echo - 圖片資料夾：%backup_folder%\images\
+echo - 其他資料夾：%backup_folder%\其他資料夾\
+echo - 備份資訊：%backup_folder%\備份資訊.txt
+echo.
+
+set /p open_folder=是否開啟備份資料夾？(y/n): 
+if /i "%open_folder%"=="y" (
+    explorer "%backup_folder%"
+)
+
+echo.
+pause
+goto start
+
+:quick_full_backup
+echo.
+echo ================================
+echo 🚀 快速完整備份 (最新5版本+全部檔案)
+echo ================================
+echo.
+
+echo 正在執行快速完整備份...
+echo 這將自動備份最新的5個版本和所有檔案
+echo.
+
+set backup_folder=快速備份_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%%time:~6,2%
+set backup_folder=%backup_folder: =0%
+
+echo 正在建立備份資料夾：%backup_folder%
+mkdir "%backup_folder%" 2>nul
+
+echo.
+echo 步驟1: 備份最新5個版本...
+echo ================================
+set version_count=0
+for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
+    set /a version_count+=1
+    if !version_count! leq 5 (
+        echo 正在備份版本：%%i
+        xcopy "%%i" "%backup_folder%\versions\%%i\" /e /i /q >nul 2>&1
+        if !errorlevel! equ 0 (
+            echo ✅ %%i 備份成功
+        ) else (
+            echo ❌ %%i 備份失敗
+        )
+    )
+)
+
+echo.
+echo 步驟2: 備份所有主要檔案...
+echo ================================
+echo 正在備份 HTML 檔案...
+copy *.html "%backup_folder%\" >nul 2>&1
+if errorlevel 1 (
+    echo ❌ HTML 檔案備份失敗
+) else (
+    echo ✅ HTML 檔案備份成功
+)
+
+echo 正在備份 CSS 檔案...
+copy *.css "%backup_folder%\" >nul 2>&1
+if errorlevel 1 (
+    echo ❌ CSS 檔案備份失敗
+) else (
+    echo ✅ CSS 檔案備份成功
+)
+
+echo 正在備份 JavaScript 檔案...
+copy *.js "%backup_folder%\" >nul 2>&1
+if errorlevel 1 (
+    echo ❌ JavaScript 檔案備份失敗
+) else (
+    echo ✅ JavaScript 檔案備份成功
+)
+
+echo 正在備份批次檔...
+copy *.bat "%backup_folder%\" >nul 2>&1
+if errorlevel 1 (
+    echo ❌ 批次檔備份失敗
+) else (
+    echo ✅ 批次檔備份成功
+)
+
+echo 正在備份文字檔案...
+copy *.txt "%backup_folder%\" >nul 2>&1
+if errorlevel 1 (
+    echo ❌ 文字檔案備份失敗
+) else (
+    echo ✅ 文字檔案備份成功
+)
+
+echo 正在備份 Markdown 檔案...
+copy *.md "%backup_folder%\" >nul 2>&1
+if errorlevel 1 (
+    echo ❌ Markdown 檔案備份失敗
+) else (
+    echo ✅ Markdown 檔案備份成功
+)
+
+echo.
+echo 步驟3: 備份圖片資料夾...
+echo ================================
+if exist "images" (
+    echo 正在備份 images 資料夾...
+    xcopy "images" "%backup_folder%\images\" /e /i /q >nul 2>&1
+    if errorlevel 1 (
+        echo ❌ images 資料夾備份失敗
+    ) else (
+        echo ✅ images 資料夾備份成功
+    )
+) else (
+    echo ℹ️  images 資料夾不存在
+)
+
+echo.
+echo 步驟4: 備份其他重要資料夾...
+echo ================================
+for /f "tokens=*" %%i in ('dir /b /ad ^| findstr /v "^v" ^| findstr /v "images" ^| findstr /v "backup"') do (
+    echo 正在備份資料夾：%%i
+    xcopy "%%i" "%backup_folder%\%%i\" /e /i /q >nul 2>&1
+    if errorlevel 1 (
+        echo ❌ %%i 備份失敗
+    ) else (
+        echo ✅ %%i 備份成功
+    )
+)
+
+echo.
+echo 步驟5: 建立備份資訊檔案...
+echo ================================
+echo 正在建立備份資訊...
+(
+echo 快速完整備份資訊
+echo ================================
+echo 備份時間：%date% %time%
+echo 備份資料夾：%backup_folder%
+echo.
+echo 包含的版本：
+set version_count=0
+for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
+    set /a version_count+=1
+    if !version_count! leq 5 (
+        echo - %%i
+    )
+)
+echo.
+echo 包含的檔案類型：
+echo - HTML 檔案 (*.html)
+echo - CSS 檔案 (*.css)
+echo - JavaScript 檔案 (*.js)
+echo - 批次檔 (*.bat)
+echo - 文字檔案 (*.txt)
+echo - Markdown 檔案 (*.md)
+echo - 圖片資料夾 (images)
+echo - 其他資料夾
+echo.
+echo 備份完成時間：%date% %time%
+) > "%backup_folder%\備份資訊.txt"
 
 echo ✅ 備份資訊檔案已建立
 
@@ -950,21 +1116,21 @@ echo 🎉 快速完整備份完成！
 echo ================================
 echo.
 echo 備份資訊：
-echo 資料夾：%new_version%
+echo 資料夾：%backup_folder%
 echo 時間：%date% %time%
 echo 包含：最新5個版本 + 所有檔案
 echo.
 echo 備份內容：
-echo - 版本資料夾：%new_version%\versions\
-echo - 主要檔案：%new_version%\*.html, *.css, *.js, *.bat, *.txt, *.md
-echo - 圖片資料夾：%new_version%\images\
-echo - 其他資料夾：%new_version%\其他資料夾\
-echo - 備份資訊：%new_version%\備份資訊.txt
+echo - 版本資料夾：%backup_folder%\versions\
+echo - 主要檔案：%backup_folder%\*.html, *.css, *.js, *.bat, *.txt, *.md
+echo - 圖片資料夾：%backup_folder%\images\
+echo - 其他資料夾：%backup_folder%\其他資料夾\
+echo - 備份資訊：%backup_folder%\備份資訊.txt
 echo.
 
 set /p open_folder=是否開啟備份資料夾？(y/n): 
 if /i "%open_folder%"=="y" (
-    explorer "%new_version%"
+    explorer "%backup_folder%"
 )
 
 echo.

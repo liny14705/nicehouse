@@ -690,13 +690,7 @@ if "%latest_version%"=="" (
 ) else (
     echo 找到最新版本：%latest_version%
     set /a next_minor=!latest_minor!+1
-    if !next_minor! gtr 9 (
-        set /a next_major=!latest_major!+1
-        set version=v!next_major!.0
-        echo 小版本號超過9，自動升級主版本號
-    ) else (
-        set version=v!latest_major!.!next_minor!
-    )
+    set version=v!latest_major!.!next_minor!
     echo 自動生成下一個版本：%version%
 )
 
@@ -781,21 +775,15 @@ if "%latest_version%"=="" (
 ) else (
     echo 找到最新版本：%latest_version%
     set /a next_minor=!latest_minor!+1
-    if !next_minor! gtr 9 (
-        set /a next_major=!latest_major!+1
-        set new_version=v!next_major!.0
-        echo 小版本號超過9，自動升級主版本號
-    ) else (
-        set new_version=v!latest_major!.!next_minor!
-    )
+    set new_version=v!latest_major!.!next_minor!
     echo 自動生成新版本：%new_version%
 )
 
 echo.
-echo 正在建立備份資料夾：%new_version%
+echo 正在建立版本資料夾：%new_version%
 mkdir "%new_version%" 2>nul
 
-echo 正在複製檔案到備份資料夾...
+echo 正在複製檔案到新版本...
 copy index.html "%new_version%\" >nul 2>&1
 copy *.css "%new_version%\" >nul 2>&1
 copy *.js "%new_version%\" >nul 2>&1
@@ -807,22 +795,28 @@ if exist "images" (
     xcopy "images" "%new_version%\images\" /e /i /q >nul 2>&1
 )
 
-echo ✅ 新版本 %new_version% 已建立並包含所有檔案
+echo ✅ 新版本 %new_version% 已建立
 echo.
 
 echo 正在執行快速完整備份...
-echo 這將自動備份最新的5個版本到同一個資料夾
+echo 這將自動備份最新的5個版本和所有檔案
 echo.
 
+set backup_folder=快速備份_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%%time:~6,2%
+set backup_folder=%backup_folder: =0%
+
+echo 正在建立備份資料夾：%backup_folder%
+mkdir "%backup_folder%" 2>nul
+
 echo.
-echo 步驟1: 備份最新5個版本到 %new_version% 資料夾...
+echo 步驟1: 備份最新5個版本...
 echo ================================
 set version_count=0
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
     set /a version_count+=1
     if !version_count! leq 5 (
         echo 正在備份版本：%%i
-        xcopy "%%i" "%new_version%\versions\%%i\" /e /i /q >nul 2>&1
+        xcopy "%%i" "%backup_folder%\versions\%%i\" /e /i /q >nul 2>&1
         if !errorlevel! equ 0 (
             echo ✅ %%i 備份成功
         ) else (
@@ -832,10 +826,10 @@ for /f "tokens=*" %%i in ('dir /b /ad ^| findstr "^v" ^| sort /r') do (
 )
 
 echo.
-echo 步驟2: 備份所有主要檔案到 %new_version% 資料夾...
+echo 步驟2: 備份所有主要檔案...
 echo ================================
 echo 正在備份 HTML 檔案...
-copy *.html "%new_version%\" >nul 2>&1
+copy *.html "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ HTML 檔案備份失敗
 ) else (
@@ -843,7 +837,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份 CSS 檔案...
-copy *.css "%new_version%\" >nul 2>&1
+copy *.css "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ CSS 檔案備份失敗
 ) else (
@@ -851,7 +845,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份 JavaScript 檔案...
-copy *.js "%new_version%\" >nul 2>&1
+copy *.js "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ JavaScript 檔案備份失敗
 ) else (
@@ -859,7 +853,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份批次檔...
-copy *.bat "%new_version%\" >nul 2>&1
+copy *.bat "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ 批次檔備份失敗
 ) else (
@@ -867,7 +861,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份文字檔案...
-copy *.txt "%new_version%\" >nul 2>&1
+copy *.txt "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ 文字檔案備份失敗
 ) else (
@@ -875,7 +869,7 @@ if errorlevel 1 (
 )
 
 echo 正在備份 Markdown 檔案...
-copy *.md "%new_version%\" >nul 2>&1
+copy *.md "%backup_folder%\" >nul 2>&1
 if errorlevel 1 (
     echo ❌ Markdown 檔案備份失敗
 ) else (
@@ -883,11 +877,11 @@ if errorlevel 1 (
 )
 
 echo.
-echo 步驟3: 備份圖片資料夾到 %new_version% 資料夾...
+echo 步驟3: 備份圖片資料夾...
 echo ================================
 if exist "images" (
     echo 正在備份 images 資料夾...
-    xcopy "images" "%new_version%\images\" /e /i /q >nul 2>&1
+    xcopy "images" "%backup_folder%\images\" /e /i /q >nul 2>&1
     if errorlevel 1 (
         echo ❌ images 資料夾備份失敗
     ) else (
@@ -898,11 +892,11 @@ if exist "images" (
 )
 
 echo.
-echo 步驟4: 備份其他重要資料夾到 %new_version% 資料夾...
+echo 步驟4: 備份其他重要資料夾...
 echo ================================
 for /f "tokens=*" %%i in ('dir /b /ad ^| findstr /v "^v" ^| findstr /v "images" ^| findstr /v "backup"') do (
     echo 正在備份資料夾：%%i
-    xcopy "%%i" "%new_version%\%%i\" /e /i /q >nul 2>&1
+    xcopy "%%i" "%backup_folder%\%%i\" /e /i /q >nul 2>&1
     if errorlevel 1 (
         echo ❌ %%i 備份失敗
     ) else (
@@ -918,7 +912,7 @@ echo 正在建立備份資訊...
 echo 快速完整備份資訊
 echo ================================
 echo 備份時間：%date% %time%
-echo 備份資料夾：%new_version%
+echo 備份資料夾：%backup_folder%
 echo.
 echo 包含的版本：
 set version_count=0
@@ -940,7 +934,7 @@ echo - 圖片資料夾 (images)
 echo - 其他資料夾
 echo.
 echo 備份完成時間：%date% %time%
-) > "%new_version%\備份資訊.txt"
+) > "%backup_folder%\備份資訊.txt"
 
 echo ✅ 備份資訊檔案已建立
 
@@ -950,21 +944,21 @@ echo 🎉 快速完整備份完成！
 echo ================================
 echo.
 echo 備份資訊：
-echo 資料夾：%new_version%
+echo 資料夾：%backup_folder%
 echo 時間：%date% %time%
 echo 包含：最新5個版本 + 所有檔案
 echo.
 echo 備份內容：
-echo - 版本資料夾：%new_version%\versions\
-echo - 主要檔案：%new_version%\*.html, *.css, *.js, *.bat, *.txt, *.md
-echo - 圖片資料夾：%new_version%\images\
-echo - 其他資料夾：%new_version%\其他資料夾\
-echo - 備份資訊：%new_version%\備份資訊.txt
+echo - 版本資料夾：%backup_folder%\versions\
+echo - 主要檔案：%backup_folder%\*.html, *.css, *.js, *.bat, *.txt, *.md
+echo - 圖片資料夾：%backup_folder%\images\
+echo - 其他資料夾：%backup_folder%\其他資料夾\
+echo - 備份資訊：%backup_folder%\備份資訊.txt
 echo.
 
 set /p open_folder=是否開啟備份資料夾？(y/n): 
 if /i "%open_folder%"=="y" (
-    explorer "%new_version%"
+    explorer "%backup_folder%"
 )
 
 echo.
