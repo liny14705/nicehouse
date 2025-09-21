@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>楊梅耀新加洲社區 - 急售物件 | 住商不動產</title>
+    <title>和耀新加州社區 - 急售物件 | 住商不動產</title>
     <style>
         * {
             margin: 0;
@@ -79,45 +79,95 @@
         
         .properties-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.2rem;
             margin-top: 2rem;
         }
         
         .property-card {
-            background: white;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
             border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 3px solid transparent;
+            padding: 1.2rem;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.12),
+                0 4px 12px rgba(0,0,0,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(52, 152, 219, 0.2);
             background-clip: padding-box;
+            height: fit-content;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .property-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2980b9, #3498db);
+            border-radius: 15px 15px 0 0;
         }
         
         .property-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            border-color: #3498db;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.18),
+                0 8px 20px rgba(52, 152, 219, 0.15),
+                inset 0 1px 0 rgba(255,255,255,0.9);
+            border-color: rgba(52, 152, 219, 0.4);
         }
         
         .property-title {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: #2c3e50;
-            margin-bottom: 1rem;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
+            margin-top: 0.2rem;
+            border-bottom: 3px solid transparent;
+            background: linear-gradient(90deg, #3498db, #2980b9) bottom/100% 3px no-repeat;
+            padding-bottom: 0.4rem;
+            line-height: 1.3;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .property-title::before {
+            content: '🏠 ';
         }
         
         .price-highlight {
-            font-size: 2rem;
+            font-size: 1.3rem;
             color: #e74c3c;
             font-weight: bold;
-            margin: 1rem 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin: 0.8rem 0;
+            text-align: center;
+            background: linear-gradient(145deg, #fff5f5 0%, #ffe8e8 100%);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            box-shadow: 
+                0 4px 12px rgba(239, 68, 68, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .price-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ef4444, #dc2626, #ef4444);
+            border-radius: 12px 12px 0 0;
         }
         
         .price-highlight span {
-            font-size: 2rem;
+            font-size: 1.3rem;
         }
         
         .original-price {
@@ -128,14 +178,18 @@
         
         .features-list {
             list-style: none;
-            margin: 1rem 0;
+            margin: 0.8rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.3rem;
         }
         
         .features-list li {
-            padding: 0.5rem 0;
+            padding: 0.3rem 0;
             border-bottom: 1px solid #ecf0f1;
             position: relative;
-            padding-left: 2rem;
+            padding-left: 1.5rem;
+            font-size: 0.85rem;
         }
         
         .features-list li::before {
@@ -148,12 +202,29 @@
         }
         
         .loan-info {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            background: linear-gradient(145deg, #27ae60 0%, #2ecc71 100%);
             color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin: -0.2rem 0;
             text-align: center;
+            box-shadow: 
+                0 6px 20px rgba(39, 174, 96, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .loan-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #2ecc71, #27ae60, #2ecc71);
+            border-radius: 6px 6px 0 0;
         }
         
         .commission-section {
@@ -295,216 +366,6 @@
             color: white;
         }
         
-        /* 貸款計算器彈跳視窗樣式 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            margin: auto;
-            padding: 0;
-            border: none;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            transform: scale(0.8);
-            animation: modalSlideIn 0.4s ease forwards;
-        }
-        
-        .modal-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        
-        .close {
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        
-        .close:hover {
-            transform: scale(1.1);
-        }
-        
-        .modal-body {
-            padding: 2rem;
-        }
-        
-        .calculator-form {
-            display: grid;
-            gap: 1.5rem;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group label {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-        
-        .form-group input,
-        .form-group select {
-            padding: 0.8rem;
-            border: 2px solid #ecf0f1;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        
-        .calculator-button {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 1rem 0;
-        }
-        
-        .calculator-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
-        }
-        
-        .results-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            border-left: 5px solid #27ae60;
-        }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .result-item {
-            background: white;
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .result-value {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 0.5rem;
-            word-break: break-all;
-            line-height: 1.2;
-        }
-        
-        .result-label {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-        }
-        
-        .loan-calc-button {
-            background: linear-gradient(45deg, #3498db, #2980b9);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0.5rem 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .loan-calc-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes modalSlideIn {
-            to {
-                transform: scale(1);
-            }
-        }
-        
-        /* 新青安收合樣式 */
-        #newGreenHeader:hover {
-            background: rgba(39, 174, 96, 0.1);
-        }
-        
-        #newGreenContent {
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        
-        #newGreenToggle {
-            transition: all 0.3s ease;
-        }
-        
         @media (max-width: 768px) {
             .properties-grid {
                 grid-template-columns: 1fr;
@@ -534,6 +395,10 @@
                 line-height: 1.3;
             }
             
+            .property-title::before {
+                content: '';
+            }
+            
             .price-highlight {
                 font-size: 1.1rem;
                 line-height: 1.3;
@@ -550,8 +415,15 @@
             }
             
             .loan-info {
-                font-size: 0.9rem;
-                padding: 0.8rem;
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+                margin: -0.1rem 0;
+            }
+            
+            .loan-info .contact-button {
+                font-size: 0.8rem !important;
+                padding: 0.3rem 0.6rem !important;
+                margin-top: 0.15rem !important;
             }
             
             .info-grid {
@@ -651,63 +523,842 @@
                 width: 100%;
                 max-width: 500px;
             }
-            
-            .modal-content {
-                width: 95%;
-                margin: 1rem;
-            }
-            
-            .modal-header {
-                padding: 1rem 1.5rem;
-            }
-            
-            .modal-header h2 {
-                font-size: 1.3rem;
-            }
-            
-            .modal-body {
-                padding: 1.5rem;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
-            }
-            
-            .results-grid {
+        }
+        
+        /* 電腦版物件卡片進一步優化 */
+        @media (min-width: 1024px) {
+            .properties-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 0.8rem;
+                gap: 1rem;
+                max-width: 800px;
+                margin: 2rem auto 0;
             }
             
-            .result-item {
-                min-height: 70px;
-                padding: 0.8rem;
+            .property-card {
+                padding: 1rem;
             }
             
-            .result-value {
-                font-size: 1.1rem;
+            .features-list {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.2rem;
             }
             
-            .result-label {
+            .features-list li {
                 font-size: 0.8rem;
+                padding: 0.25rem 0;
+                padding-left: 1.3rem;
+            }
+        }
+        
+        /* 手機版特色列表改為單欄 */
+        @media (max-width: 768px) {
+            .features-list {
+                grid-template-columns: 1fr;
             }
             
-            #newGreenHeader {
+            /* 照片滾動區手機版優化 */
+            .photo-item {
+                width: 70px !important;
+                height: 52px !important;
+            }
+            
+            .photo-scroll {
+                gap: 0.4rem !important;
+            }
+            
+            .photo-scroll-container {
+                padding: 0.3rem 0 !important;
+            }
+            
+        }
+        
+        /* 平板版照片滾動區優化 */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .photo-item {
+                width: 75px !important;
+                height: 56px !important;
+            }
+            
+            .loan-info {
+                padding: 0.45rem 0.9rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* 電腦版照片滾動區優化 */
+        @media (min-width: 1025px) {
+            .photo-item {
+                width: 80px !important;
+                height: 60px !important;
+            }
+        }
+        
+        /* 照片項目懸停效果 */
+        .photo-item:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+        }
+        
+        .photo-item img:hover {
+            cursor: pointer;
+            filter: brightness(1.05);
+        }
+        
+        /* 橫向滾動條樣式 */
+        .photo-scroll-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .photo-scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 2px;
+        }
+        
+        .photo-scroll-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 2px;
+        }
+        
+        .photo-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* 手機版滾動條優化 */
+        @media (max-width: 768px) {
+            .photo-scroll-container::-webkit-scrollbar {
+                height: 3px;
+            }
+        }
+        
+        /* 照片燈箱樣式 */
+        .photo-lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+        }
+        
+        .lightbox-content {
+            position: relative;
+            margin: 2% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .lightbox-main-image {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            z-index: 10;
+        }
+        
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,1);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .lightbox-prev {
+            left: 20px;
+        }
+        
+        .lightbox-next {
+            right: 20px;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            z-index: 10;
+        }
+        
+        .lightbox-close:hover {
+            background: rgba(255,255,255,1);
+            transform: scale(1.1);
+        }
+        
+        .lightbox-thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            max-width: 100%;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.3) transparent;
+        }
+        
+        .lightbox-thumbnails::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .lightbox-thumbnails::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .lightbox-thumbnails::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+        
+        .lightbox-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .lightbox-thumbnail:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .lightbox-thumbnail.active {
+            opacity: 1;
+            border-color: #fff;
+            transform: scale(1.1);
+        }
+        
+        .lightbox-info {
+            text-align: center;
+            color: white;
+            margin-top: 1rem;
+        }
+        
+        .lightbox-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+        
+        .lightbox-info p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        /* 手機版燈箱優化 */
+        @media (max-width: 768px) {
+            .lightbox-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+            
+            .lightbox-main-image {
+                max-height: 60vh;
+            }
+            
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .lightbox-prev {
+                left: 10px;
+            }
+            
+            .lightbox-next {
+                right: 10px;
+            }
+            
+            .lightbox-close {
+                top: 10px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+            
+            .lightbox-thumbnails {
+                gap: 0.3rem;
+                padding: 0.5rem;
+            }
+            
+            .lightbox-thumbnail {
+                width: 60px;
+                height: 45px;
+            }
+        }
+        
+        /* 貸款試算彈窗樣式 */
+        .loan-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .loan-modal-content {
+            background-color: #fefefe;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 950px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            animation: modalSlideIn 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .loan-modal-header {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .loan-modal-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .loan-modal-close {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            line-height: 1;
+            padding: 0.2rem;
+        }
+        
+        .loan-modal-close:hover {
+            transform: scale(1.1);
+        }
+        
+        .loan-modal-body {
+            padding: 1rem;
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(90vh - 100px);
+            scrollbar-width: thin;
+            scrollbar-color: #10b981 #f1f5f9;
+        }
+        
+        .loan-modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .loan-modal-body::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+        
+        .loan-modal-body::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 3px;
+        }
+        
+        .loan-modal-body::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+        
+        .loan-modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        
+        .loan-input-section {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 1rem;
+        }
+        
+        .loan-result-section {
+            background: #ffffff;
+            border-radius: 6px;
+            padding: 0.6rem;
+        }
+        
+        .loan-input-group {
+            margin-bottom: 0.6rem;
+        }
+        
+        .loan-input-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: #374151;
+            font-size: 0.8rem;
+        }
+        
+        .loan-input {
+            width: 100%;
+            padding: 0.4rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .loan-input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        select.loan-input {
+            background-color: white;
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.7em center;
+            background-size: 0.65em auto;
+            padding-right: 2.5em;
+            cursor: pointer;
+        }
+        
+        .loan-slider {
+            width: 100%;
+            margin: 0.4rem 0;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e7eb;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .loan-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #10b981;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        
+        .loan-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #10b981;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        
+        .loan-slider-value {
+            text-align: center;
+            font-weight: bold;
+            color: #10b981;
+            font-size: 0.8rem;
+            margin-top: 0.1rem;
+        }
+        
+        
+        .loan-result-card {
+            background: white;
+            border-radius: 6px;
+            padding: 0.8rem;
+            margin-bottom: 0.6rem;
+            border-left: 3px solid #10b981;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .loan-result-title {
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+        }
+        
+        .loan-result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+        }
+        
+        .loan-result-highlight {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: white;
+            border-radius: 6px;
+            padding: 0.8rem;
+            text-align: center;
+            margin-top: 0.6rem;
+        }
+        
+        .loan-result-highlight h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .loan-result-highlight .amount {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        /* 手機版優化 */
+        @media (max-width: 768px) {
+            .loan-modal-content {
+                margin: 3% auto;
+                width: 95%;
+                max-width: 750px;
+                max-height: 90vh;
+            }
+            
+            .loan-modal-header {
                 padding: 0.8rem 1rem;
             }
             
-            #newGreenHeader h4 {
-                font-size: 1rem;
+            .loan-modal-title {
+                font-size: 1.1rem;
             }
             
-            #newGreenContent {
-                padding: 0 1rem 1rem;
+            .loan-modal-body {
+                padding: 1rem;
+                max-height: calc(90vh - 80px);
+                overflow-y: auto;
             }
             
-            #newGreenContent div {
+            .loan-modal-grid {
                 grid-template-columns: 1fr;
-                gap: 0.8rem;
-                font-size: 0.85rem;
+                gap: 1rem;
+            }
+            
+            .loan-input-section {
+                padding: 1rem;
+            }
+            
+            .loan-result-section {
+                padding: 0.8rem;
+            }
+            
+            .loan-input-group {
+                margin-bottom: 0.8rem;
+            }
+            
+            .loan-result-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.2rem;
+            }
+            
+            /* 平板版多欄布局改為單欄 */
+            .loan-input-section div[style*="grid-template-columns: 1fr 1fr"] {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 0.8rem !important;
+            }
+            
+            /* 平板版結果區域改為單欄 */
+            .loan-result-section div[style*="grid-template-columns: 1fr 1fr"] {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 0.6rem !important;
+            }
+            
+            /* 平板版內聯樣式的多欄布局改為單欄 */
+            div[style*="display: grid; grid-template-columns: 1fr 1fr"] {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 0.6rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .loan-modal-content {
+                margin: 1% auto;
+                width: 98%;
+                max-height: 98vh;
+                border-radius: 8px;
+            }
+            
+            .loan-modal-header {
+                padding: 0.5rem 0.8rem;
+            }
+            
+            .loan-modal-title {
+                font-size: 0.9rem;
+            }
+            
+            .loan-modal-close {
+                font-size: 1.5rem;
+                padding: 0.1rem;
+            }
+            
+            .loan-modal-body {
+                padding: 0.6rem;
+                max-height: calc(98vh - 60px);
+                overflow-y: auto;
+            }
+            
+            .loan-modal-grid {
+                gap: 0.6rem;
+            }
+            
+            .loan-input-section,
+            .loan-result-section {
+                padding: 0.6rem;
+            }
+            
+            .loan-input-group {
+                margin-bottom: 0.4rem;
+            }
+            
+            .loan-input-label {
+                font-size: 0.75rem;
+                margin-bottom: 0.15rem;
+            }
+            
+            .loan-input {
+                padding: 0.3rem;
+                font-size: 0.75rem;
+            }
+            
+            .loan-slider {
+                margin: 0.2rem 0;
+                height: 4px;
+            }
+            
+            .loan-slider-value {
+                font-size: 0.7rem;
+                margin-top: 0.05rem;
+            }
+            
+            .loan-result-title {
+                font-size: 0.8rem;
+                margin-bottom: 0.4rem;
+            }
+            
+            .loan-result-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.15rem;
+                font-size: 0.7rem;
+            }
+            
+            .loan-result-highlight {
+                padding: 0.5rem;
+                margin-top: 0.4rem;
+            }
+            
+            .loan-result-highlight h3 {
+                font-size: 0.8rem;
+                margin-bottom: 0.2rem;
+            }
+            
+            .loan-result-highlight .amount {
+                font-size: 1.1rem;
+            }
+            
+            .loan-result-highlight p {
+                font-size: 0.7rem;
+                margin-top: 0.2rem;
+            }
+            
+            /* 手機版多欄布局改為單欄 */
+            .loan-input-section div[style*="grid-template-columns: 1fr 1fr"] {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 0.6rem !important;
+            }
+            
+            /* 手機版結果區域改為單欄 */
+            .loan-result-section div[style*="grid-template-columns: 1fr 1fr"] {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 0.4rem !important;
+            }
+            
+            /* 手機版內聯樣式的多欄布局改為單欄 */
+            div[style*="display: grid; grid-template-columns: 1fr 1fr"] {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 0.4rem !important;
+            }
+            
+            .loan-result-highlight .amount {
+                font-size: 1.3rem;
+            }
+            
+            .loan-result-card {
+                padding: 0.8rem;
+            }
+        }
+        
+        /* 客戶見證和聯絡方式響應式設計 */
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .contact-section {
+                padding: 1rem;
+            }
+            
+            .contact-section > div {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            /* 客戶見證按鈕手機版優化 */
+            #testimonialPrev, #testimonialNext {
+                font-size: 0.8rem !important;
+                padding: 0.4rem 0.8rem !important;
+                margin: 0.2rem !important;
+            }
+            
+            /* 聯絡方式文字手機版優化 */
+            .contact-section p {
+                font-size: 0.9rem !important;
+                padding: 0.5rem !important;
+            }
+            
+            .contact-section span {
+                font-size: 0.9rem !important;
+            }
+        }
+        
+        @media (max-width: 1024px) and (min-width: 769px) {
+            /* 平板版聯絡方式優化 */
+            .contact-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            /* 客戶見證緊湊化 */
+            .testimonial-section {
+                padding: 1.5rem 1rem !important;
+                margin: 0.5rem 0 !important;
+            }
+            
+            .testimonial-section h2 {
+                font-size: 1.6rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .testimonial-slide {
+                padding: 1.8rem !important;
+            }
+            
+            .testimonial-slide p {
+                font-size: 1.1rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            .testimonial-slide div:first-child {
+                font-size: 1.5rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            .testimonial-slide div:last-child {
+                font-size: 1rem !important;
+            }
+            
+            /* 聯絡方式緊湊化 */
+            .contact-section {
+                padding: 1.5rem 1rem !important;
+                margin: 0.5rem 0 !important;
+            }
+            
+            .contact-section h2 {
+                font-size: 1.6rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .contact-section > div {
+                max-width: 1000px;
+                gap: 1.5rem;
+            }
+            
+            .contact-section > div > div {
+                padding: 1.5rem !important;
+            }
+            
+            .contact-section h3 {
+                font-size: 1.2rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .contact-section p {
+                font-size: 0.9rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            
+            .contact-section .contact-button {
+                font-size: 0.85rem !important;
+                padding: 0.6rem 1rem !important;
             }
         }
     </style>
@@ -715,12 +1366,12 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>🏠 楊梅耀新加洲社區</h1>
+            <h1>🏠 和耀新加州社區</h1>
             <p>專任急售 | 同業合作歡迎 | 火力全開</p>
         </header>
         
         <div class="urgent-banner">
-            ⚡ 急售僅2天 | 全區最低價 | 斡旋優先 ⚡
+            ⚡ <span id="urgentCountdown">急售僅2天</span> | 全區最低價 | 斡旋優先 ⚡
         </div>
         
         <section class="properties-section">
@@ -728,34 +1379,80 @@
             
             <div class="properties-grid">
                 <div class="property-card">
-                    <h3 class="property-title">🏠 和耀新加州｜4房2廳2衛｜單車位</h3>
-                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin: 1rem 0; font-size: 0.9rem;">
-                        <strong>📍 地址：</strong>楊梅區新農街一段233號<br>
+                    <h3 class="property-title">和耀新加州｜4房2廳2衛｜單車位</h3>
+                    
+                    <!-- 照片滾動區 -->
+                    <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
+                        <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
+                            <div class="photo-item" onclick="openLightbox(0, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(1, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(2, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/主臥房視角.jpg" alt="主臥房視角" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(3, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/主臥房視角2.jpg" alt="主臥房視角2" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(4, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/次臥房.jpg" alt="次臥房" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(5, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/次臥房3.jpg" alt="次臥房3" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(6, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/次臥房4.jpg" alt="次臥房4" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(7, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/衛浴.jpg" alt="衛浴" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(8, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/前陽台.jpg" alt="前陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(9, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/前陽台景觀.jpg" alt="前陽台景觀" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(10, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/後陽台.jpg" alt="後陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(11, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/陽台景觀.jpg" alt="陽台景觀" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(12, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property1/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.8rem;">
+                        <strong>📍 地址：</strong>楊梅區新農街二段233號3樓<br>
                         <strong>🏢 社區：</strong>全新落成正四房+車位 (和耀新加州)
                     </div>
                     <div class="price-highlight">
-                        售價：1,398萬<br>
-                        <span style="color: #27ae60;">底價：1,340萬 (含4%)</span>
+                        絕版價：1,398萬
                     </div>
                     <ul class="features-list">
                         <li>4房2廳2衛格局</li>
                         <li>衛浴雙開窗設計</li>
                         <li>平面單車位</li>
                         <li>總坪數50.29坪 (建物24.91坪 / 土地持分7.89坪)</li>
-                        <li>樓層待確認 / 總樓層12樓</li>
+                        <li>3樓 / 總樓層12樓</li>
                         <li>屋齡不到1年 (2024.12.19完工)</li>
                         <li>大廈管理</li>
                         <li>座南朝北 / 有電梯</li>
                     </ul>
                     <div class="loan-info">
                         💰 可貸款額度：1,150萬 - 1,210萬
+                        <div style="font-size: 0.6rem; color: #e74c3c; margin-top: 0.05rem; font-weight: bold;">以上為銀行初估實際依個人條件為主</div>
+                        <a href="javascript:void(0)" onclick="openLoanModal()" class="contact-button" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; margin-top: 0.2rem; display: inline-block;">
+                            🧮 貸款試算
+                        </a>
                     </div>
-                    <button class="loan-calc-button" onclick="openLoanCalculator(1398, '單車位')">
-                        💰 貸款試算
-                    </button>
-                    <div style="background: #e8f5e8; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
-                        <h4 style="color: #27ae60; margin-bottom: 0.5rem;">🌟 生活機能</h4>
-                        <p style="font-size: 0.9rem; margin: 0;">
+                    <div style="background: #e8f5e8; padding: 0.6rem; border-radius: 6px; margin-top: 0.6rem;">
+                        <h4 style="color: #27ae60; margin-bottom: 0.3rem; font-size: 0.85rem;">🌟 生活機能</h4>
+                        <p style="font-size: 0.75rem; margin: 0;">
                             <strong>學校：</strong>楊明國中、楊明國小、楊梅國小<br>
                             <strong>交通：</strong>台1線、楊梅交流道、五楊交流道、楊梅區免費公車、楊梅火車站<br>
                             <strong>公園：</strong>楊梅市場、頭重溪公園
@@ -764,20 +1461,68 @@
                 </div>
                 
                 <div class="property-card">
-                    <h3 class="property-title">🏠 和耀新加州｜4房2廳2衛｜雙車位</h3>
-                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin: 1rem 0; font-size: 0.9rem;">
-                        <strong>📍 地址：</strong>楊梅區新農街一段233號3樓<br>
+                    <h3 class="property-title">和耀新加州｜4房2廳2衛｜雙車位</h3>
+                    
+                    <!-- 照片滾動區 -->
+                    <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
+                        <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
+                            <div class="photo-item" onclick="openLightbox(0, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/客廳全景.jpg" alt="客廳全景" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(1, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/客廳細節.jpg" alt="客廳細節" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(2, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/客廳角度二.jpg" alt="客廳角度二" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(3, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(4, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/主臥室.jpg" alt="主臥室" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(5, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/次臥室.jpg" alt="次臥室" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(6, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/次臥房3.jpg" alt="次臥房3" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(7, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/次臥房4.jpg" alt="次臥房4" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(8, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/臥室細節.jpg" alt="臥室細節" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(9, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/衛浴開窗.jpg" alt="衛浴開窗" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(10, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/主臥衛浴開窗.jpg" alt="主臥衛浴開窗" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(11, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/後陽台.jpg" alt="後陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(12, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/陽台景觀.jpg" alt="陽台景觀" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="photo-item" onclick="openLightbox(13, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <img src="images/property2/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.8rem;">
+                        <strong>📍 地址：</strong>楊梅區新農街二段231號3樓<br>
                         <strong>🏢 社區：</strong>全新落成正四房+車位 (和耀新加州)
                     </div>
                     <div class="price-highlight">
-                        售價：1,568萬<br>
-                        <span style="color: #27ae60;">底價：1,480萬 (含4%)</span>
+                        絕版價：1,568萬
                     </div>
                     <ul class="features-list">
                         <li>4房2廳2衛格局</li>
                         <li>衛浴雙開窗設計</li>
                         <li>平面雙車位</li>
-                        <li>總坪數50.29坪 (建物24.91坪 / 土地持分7.89坪)</li>
+                        <li>總坪數58.13坪 (建物24.91坪 / 土地持分7.89坪)</li>
                         <li>3樓 / 總樓層12樓</li>
                         <li>屋齡不到1年 (2024.12.19完工)</li>
                         <li>大廈管理</li>
@@ -785,13 +1530,14 @@
                     </ul>
                     <div class="loan-info">
                         💰 可貸款額度：1,184萬 - 1,258萬
+                        <div style="font-size: 0.6rem; color: #e74c3c; margin-top: 0.05rem; font-weight: bold;">以上為銀行初估實際依個人條件為主</div>
+                        <a href="javascript:void(0)" onclick="openLoanModal1568()" class="contact-button" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; margin-top: 0.2rem; display: inline-block;">
+                            🧮 貸款試算
+                        </a>
                     </div>
-                    <button class="loan-calc-button" onclick="openLoanCalculator(1568, '雙車位')">
-                        💰 貸款試算
-                    </button>
-                    <div style="background: #e8f5e8; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
-                        <h4 style="color: #27ae60; margin-bottom: 0.5rem;">🌟 生活機能</h4>
-                        <p style="font-size: 0.9rem; margin: 0;">
+                    <div style="background: #e8f5e8; padding: 0.6rem; border-radius: 6px; margin-top: 0.6rem;">
+                        <h4 style="color: #27ae60; margin-bottom: 0.3rem; font-size: 0.85rem;">🌟 生活機能</h4>
+                        <p style="font-size: 0.75rem; margin: 0;">
                             <strong>學校：</strong>楊明國中、楊明國小、楊梅國小<br>
                             <strong>交通：</strong>台1線、楊梅交流道、五楊交流道、楊梅區免費公車、楊梅火車站<br>
                             <strong>公園：</strong>楊梅市場、頭重溪公園
@@ -801,32 +1547,25 @@
             </div>
         </section>
         
+        
         <section style="background: #f8f9fa; padding: 2rem; text-align: center;">
             <h2 style="color: #2c3e50; margin-bottom: 1rem;">📍 物件位置</h2>
-            <p style="color: #7f8c8d; margin-bottom: 1.5rem;">楊梅區新農街一段233號 - 和耀新加州社區</p>
+            <p style="color: #7f8c8d; margin-bottom: 1.5rem;">楊梅區新農街二段233號 - 和耀新加州社區</p>
             <div style="display: flex; justify-content: center; margin: 2rem 0;">
                 <iframe src="https://www.google.com/maps/embed?pb=!4v1758340007781!6m8!1m7!1s7w1_fK5tL3RYWBpCpBwAwg!2m2!1d24.91222143626028!2d121.1724532961861!3f327.007695552005!4f17.133051009828563!5f0.7820865974627469" width="600" height="450" style="border:0; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </section>
         
-        <section class="commission-section">
-            <h2>💼 佣金分配方案</h2>
-            <div class="commission-grid">
-                <div class="commission-card">
-                    <h3>同區域介紹</h3>
-                    <p>4/1/5 分配</p>
-                    <small>銷售5 | 介紹1 | 原開發4</small>
-                </div>
-                <div class="commission-card">
-                    <h3>介紹兼銷售</h3>
-                    <p>6/4 分配</p>
-                    <small>更優惠的分配比例</small>
-                </div>
-                <div class="commission-card">
-                    <h3>外線市區外</h3>
-                    <p>4/2/4 分配</p>
-                    <small>外地同業合作方案</small>
-                </div>
+        <!-- 相關資料連結 -->
+        <section style="background: #ffffff; padding: 2rem; text-align: center;">
+            <h3>📎 相關資料連結</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin: 0.5rem 0;">
+                <a href="https://reurl.cc/Y35qeD" class="contact-button" target="_blank" style="min-width: 140px; text-align: center;">實價登錄(1398萬)</a>
+                <a href="https://reurl.cc/yAbv7D" class="contact-button" target="_blank" style="min-width: 140px; text-align: center;">實價登錄(1568萬)</a>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin: 0.5rem 0;">
+                <a href="https://reurl.cc/0Wbd1l" class="contact-button" target="_blank" style="min-width: 140px; text-align: center;">社區報告</a>
+                <a href="https://reurl.cc/gYb6Db" class="contact-button" target="_blank" style="min-width: 140px; text-align: center;">楊梅房市概況</a>
             </div>
         </section>
         
@@ -834,14 +1573,6 @@
             <h2 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">📋 重要資訊</h2>
             
             <div class="info-grid">
-                <div class="info-card">
-                    <h3>🔑 看屋資訊</h3>
-                    <p><strong>鑰匙地點：</strong>住商楊梅大順店<br>
-                    楊梅區梅獅路二段36號<br>
-                    <strong>電子鎖：</strong>166666#<br>
-                    <strong>停車：</strong>地下室可直接停車<br>
-                    <strong>注意：</strong>17:00後請著便服看屋</p>
-                </div>
                 
                 <div class="info-card">
                     <h3>⏰ 屋主簽約時間</h3>
@@ -859,236 +1590,302 @@
                 <div class="info-card">
                     <h3>💡 出售原因 & 重要提醒</h3>
                     <p><strong>出售原因：</strong><br>
-                    建商交期延遲，屋主已另購他處定居，現釋出兩間物件。因資金需求，以不虧損為底線急售。</p>
+                    當初購買自住，因建商交期延遲，屋主已另購置他處定居了，現釋出兩間物件。因資金需求出售。目前自住處己有買方想購買，不想搬家為由，才低價出售楊梅。若無售出，就搬回楊梅。</p>
                     
                     <p style="margin-top: 1rem;"><strong>⚠️ 重要提醒：</strong><br>
                     • 斡旋為優先順位<br>
-                    • 請審核買方自備條件<br>
+                    • 需確認自備足夠<br>
                     • 不壓保貸<br>
                     • 賠錢就不賣，有自住買方</p>
                 </div>
             </div>
         </section>
         
-        <section class="contact-section">
-            <h2>📞 立即聯絡</h2>
-            <p style="font-size: 1.2rem; margin: 1rem 0;">有錢大家一起賺！火力廣發，搶先成交！</p>
             
-            <a href="tel:0928776755" class="contact-button">
-                📱 0928-776-755 蔡先生
-            </a>
             
-            <a href="tel:0925666597" class="contact-button">
-                📱 0925-666-597 劉小姐
-            </a>
-            
-            <div style="margin-top: 2rem;">
-                <h3>📎 相關資料連結</h3>
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin: 0.5rem 0;">
-                    <a href="https://reurl.cc/bmbY9v" class="contact-button" target="_blank">物件照片資料</a>
-                    <a href="https://reurl.cc/0Wbd1l" class="contact-button" target="_blank">社區報告</a>
-                </div>
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin: 0.5rem 0;">
-                    <a href="https://reurl.cc/Y35qeD" class="contact-button" target="_blank">實價登錄(1398萬)</a>
-                    <a href="https://reurl.cc/yAbv7D" class="contact-button" target="_blank">實價登錄(1568萬)</a>
-                </div>
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin: 0.5rem 0;">
-                    <a href="https://reurl.cc/gYb6Db" class="contact-button" target="_blank">楊梅房市概況</a>
-                </div>
-            </div>
-            
-            <div style="margin-top: 2rem; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px;">
-                <h3 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.3rem;">📋 配案流程</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: center;">
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; backdrop-filter: blur(5px);">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">1️⃣</div>
-                        <strong>填寫配案單</strong><br>
-                        <small>兩間地址+名片</small>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; backdrop-filter: blur(5px);">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">2️⃣</div>
-                        <strong>回傳確認</strong><br>
-                        <small>等待審核通過</small>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; backdrop-filter: blur(5px);">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">3️⃣</div>
-                        <strong>登記借取鑰匙</strong><br>
-                        <small>住商楊梅大順店</small>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; backdrop-filter: blur(5px);">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">4️⃣</div>
-                        <strong>帶看成交</strong><br>
-                        <small>火力全開搶先成交</small>
-                    </div>
-                </div>
-            </div>
         </section>
     </div>
     
-    <!-- 貸款計算器彈跳視窗 -->
-    <div id="loanModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>💰 貸款試算工具</h2>
-                <span class="close" onclick="closeLoanCalculator()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form class="calculator-form" onsubmit="calculateLoan(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="propertyPrice">房屋總價 (萬元)</label>
-                            <input type="number" id="propertyPrice" name="propertyPrice" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="loanRate">貸款成數 (%)</label>
-                            <select id="loanRate" name="loanRate" required>
-                                <option value="75">75% (一般首購)</option>
-                                <option value="80">80% (一般住宅)</option>
-                                <option value="85">85% (優質客戶)</option>
-                                <option value="80">80% (新青安最高)</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="interestRate">年利率 (%)</label>
-                            <select id="interestRate" name="interestRate" required>
-                                <option value="1.775">1.775% (新青安一段式)</option>
-                                <option value="1.565">1.565% (新青安二段式前2年)</option>
-                                <option value="1.745">1.745% (新青安混合式第1年)</option>
-                                <option value="1.95">1.95% (優質客戶)</option>
-                                <option value="2.06">2.06% (一般優惠利率)</option>
-                                <option value="2.15">2.15% (一般利率)</option>
-                                <option value="2.25">2.25% (較高利率)</option>
-                                <option value="2.35">2.35% (高風險利率)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="loanYears">貸款年期</label>
-                            <select id="loanYears" name="loanYears" required>
-                                <option value="20">20年</option>
-                                <option value="25">25年</option>
-                                <option value="30">30年</option>
-                                <option value="40">40年 (新青安)</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="gracePeriod">寬限期 (年)</label>
-                            <select id="gracePeriod" name="gracePeriod" required>
-                                <option value="0">無寬限期</option>
-                                <option value="1">1年</option>
-                                <option value="2">2年</option>
-                                <option value="3">3年</option>
-                                <option value="5">5年 (新青安)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="repaymentType">還款方式</label>
-                            <select id="repaymentType" name="repaymentType" required>
-                                <option value="principal_interest">本息攤還</option>
-                                <option value="principal_only">本金攤還</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="downPayment">自備款 (萬元)</label>
-                            <input type="number" id="downPayment" name="downPayment" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="loanAmount">貸款金額 (萬元)</label>
-                            <input type="number" id="loanAmount" name="loanAmount" readonly>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="calculator-button">
-                        🧮 開始計算
-                    </button>
-                </form>
-                
-                <!-- 新青安貸款說明 -->
-                <div style="background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%); border-radius: 15px; margin: 1.5rem 0; border-left: 5px solid #27ae60; overflow: hidden;">
-                    <div id="newGreenHeader" style="padding: 1rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleNewGreenInfo()">
-                        <h4 style="color: #27ae60; margin: 0; font-size: 1.1rem;">🌱 新青安貸款優惠方案</h4>
-                        <span id="newGreenToggle" style="color: #27ae60; font-size: 1.2rem; transition: transform 0.3s ease;">▼</span>
-                    </div>
-                    <div id="newGreenContent" style="padding: 0 1.5rem 1.5rem; display: none;">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; font-size: 0.9rem;">
-                            <div>
-                                <strong>📋 申請條件：</strong><br>
-                                • 申請日前6個月起購買住宅<br>
-                                • 年齡18歲以上且未滿40歲<br>
-                                • 本人、配偶及未成年子女名下無自有住宅<br>
-                                • 家庭年收入低於120萬元
-                            </div>
-                            <div>
-                                <strong>💰 優惠內容：</strong><br>
-                                • 最高貸款額度：1,000萬元<br>
-                                • 最高貸款成數：8成<br>
-                                • 最長貸款年限：40年<br>
-                                • 最長寬限期：5年<br>
-                                • 超低利率：1.775%起
-                            </div>
-                        </div>
-                    </div>
+    <!-- 客戶見證 -->
+    <section style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.2rem 1rem; margin: 0.8rem 0; position: relative; overflow: hidden;">
+        <!-- 背景裝飾 -->
+        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;><circle cx=&quot;20&quot; cy=&quot;20&quot; r=&quot;2&quot; fill=&quot;rgba(255,255,255,0.1)&quot;/><circle cx=&quot;80&quot; cy=&quot;80&quot; r=&quot;1&quot; fill=&quot;rgba(255,255,255,0.1)&quot;/><circle cx=&quot;60&quot; cy=&quot;30&quot; r=&quot;1.5&quot; fill=&quot;rgba(255,255,255,0.1)&quot;/></svg>') repeat; animation: float 20s infinite linear;"></div>
+        
+        <h2 style="text-align: center; margin-bottom: 1.2rem; color: white; font-size: 1.4rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative; z-index: 2;">💬 客戶見證</h2>
+        
+        <div style="max-width: 800px; margin: 0 auto; position: relative; z-index: 2;">
+            <div id="testimonialSlides" style="display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);">
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「洽談透明、節奏流暢，從估價到交屋都超放心！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 陳先生（屋主）</p>
                 </div>
-
-                <div id="resultsSection" class="results-section" style="display: none;">
-                    <h3 style="color: #27ae60; margin-bottom: 1rem;">📊 計算結果</h3>
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <div class="result-value" id="monthlyPayment">--</div>
-                            <div class="result-label">每月還款金額</div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「實地看屋安排有效率，重點介紹到位，沒有話術。」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 吳小姐（買方）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「文件與流程超專業，價格談成比預期更好！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 葉先生（買方）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「劉小姐服務超專業，從看屋到成交都很細心！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 林太太（買方）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「蔡先生很誠實，不會亂推銷，價格也很合理。」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 王先生（屋主）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「服務態度很好，專業度也很高，推薦給需要買房的朋友！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 張小姐（買方）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「從看屋到簽約，整個流程都很順暢，非常滿意！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 李太太（買方）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「價格談得很合理，手續辦理也很快速，值得信賴！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 黃先生（買方）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「第一次買房很緊張，但經紀人很耐心解釋每個細節！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 陳小姐（首購族）</p>
+                </div>
+                <div class="testimonial-slide" style="min-width: 100%; padding: 1.4rem; text-align: center; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                    <div style="color: #ffd700; font-size: 1.3rem; margin-bottom: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 0.95rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">「賣房過程很順利，價格也達到預期，非常推薦！」</p>
+                    <p style="color: #7f8c8d; font-weight: 600; font-size: 0.85rem;">— 林先生（屋主）</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.2rem;">
+                <button id="testimonialPrev" style="background: linear-gradient(45deg, #ff6b6b, #ee5a52); color: white; border: none; padding: 0.5rem 1rem; border-radius: 18px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(255,107,107,0.3);">‹ 上一則</button>
+                <button id="testimonialNext" style="background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; border: none; padding: 0.5rem 1rem; border-radius: 18px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(78,205,196,0.3);">下一則 ›</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 聯絡方式 -->
+    <section style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 1.5rem 1.2rem; margin: 1rem 0; position: relative;">
+        <h2 style="text-align: center; margin-bottom: 1.5rem; color: #2c3e50; font-size: 1.6rem; font-weight: 800; position: relative;">
+            <span style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📞 聯絡方式</span>
+        </h2>
+        <div class="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; max-width: 1000px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 1.8rem; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid rgba(102, 126, 234, 0.1); position: relative; overflow: hidden; display: flex; flex-direction: column; height: 100%;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+                <h3 style="color: #2c3e50; margin-bottom: 1.2rem; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                    <span style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">👥 聯絡方式</span>
+                </h3>
+                <div style="flex: 1;">
+                    <p style="margin-bottom: 0.8rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
+                        <i class="bi bi-person-fill" style="color: #667eea; font-size: 1.1rem;"></i>
+                        <span style="font-weight: 600;">劉子菲</span>
+                        <a href="tel:0925666597" style="color: #e74c3c; text-decoration: none; font-weight: bold; margin-left: auto; display: flex; align-items: center; gap: 0.25rem;">
+                            <i class="bi bi-phone-fill"></i> 0925-666-597
+                        </a>
+                    </p>
+                    <p style="margin-bottom: 0.8rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
+                        <i class="bi bi-person-fill" style="color: #667eea; font-size: 1.1rem;"></i>
+                        <span style="font-weight: 600;">蔡濬瑒</span>
+                        <a href="tel:0928776755" style="color: #e74c3c; text-decoration: none; font-weight: bold; margin-left: auto; display: flex; align-items: center; gap: 0.25rem;">
+                            <i class="bi bi-phone-fill"></i> 0928-776-755
+                        </a>
+                    </p>
+                    <p style="margin-bottom: 1.2rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(0, 200, 81, 0.05); border-radius: 8px; border-left: 3px solid #00c851;">
+                        <i class="bi bi-chat-dots-fill" style="color: #00c851; font-size: 1.1rem;"></i>
+                        <span style="font-weight: 600;">LINE：@931aeinu</span>
+                        <button id="copyLineId" style="background: linear-gradient(45deg, #00c851, #00a085); color: white; border: none; padding: 0.3rem 0.7rem; border-radius: 12px; cursor: pointer; font-size: 0.8rem; margin-left: auto; transition: all 0.3s ease;" title="複製 LINE ID">
+                            <i class="bi bi-copy"></i> 複製
+                        </button>
+                    </p>
+                </div>
+                <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: auto; padding-top: 1rem;">
+                    <a href="tel:0928776755" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3); flex: 1; justify-content: center; font-size: 0.85rem;">
+                        <i class="bi bi-telephone-outbound-fill"></i> 立即來電
+                    </a>
+                    <a href="https://lin.ee/Lax7jMka" target="_blank" style="background: linear-gradient(45deg, #00c851, #00a085); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(0, 200, 81, 0.3); flex: 1; justify-content: center; font-size: 0.85rem;">
+                        <i class="fa-brands fa-line"></i> LINE聯絡
+                    </a>
+                </div>
+            </div>
+            <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 1.8rem; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid rgba(102, 126, 234, 0.1); position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+                <h3 style="color: #2c3e50; margin-bottom: 1.2rem; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                    <span style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🏢 經紀業資訊</span>
+                </h3>
+                <div>
+                    <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                        <i class="bi bi-buildings" style="color: #667eea; font-size: 1rem;"></i>
+                        <span style="font-weight: 600;">公司：常鴻悦豐企業社</span>
+                    </p>
+                    <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                        <i class="bi bi-person-badge-fill" style="color: #667eea; font-size: 1rem;"></i>
+                        <span style="font-weight: 600;">營業員：蔡文豪（112）桃市字第432900號</span>
+                    </p>
+                    <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                        <i class="bi bi-person-badge-fill" style="color: #667eea; font-size: 1rem;"></i>
+                        <span style="font-weight: 600;">營業員：劉子菲（113）桃市字第467056號</span>
+                    </p>
+                    <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                        <i class="bi bi-person-vcard-fill" style="color: #667eea; font-size: 1rem;"></i>
+                        <span style="font-weight: 600;">經紀人：葉靜蓉（104）新北經證字第003119號</span>
+                    </p>
+                    <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                        <i class="bi bi-geo-alt-fill" style="color: #667eea; font-size: 1rem;"></i>
+                        <span style="font-weight: 600;">服務據點：住商不動產楊梅大順店</span>
+                    </p>
+                    <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                        <i class="bi bi-clock-fill" style="color: #667eea; font-size: 1rem;"></i>
+                        <span style="font-weight: 600;">營業時間：09:00–21:00</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 照片燈箱 -->
+    <div id="photoLightbox" class="photo-lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-nav lightbox-prev" onclick="previousImage()">‹</button>
+            <button class="lightbox-nav lightbox-next" onclick="nextImage()">›</button>
+            
+            <img id="lightboxMainImage" class="lightbox-main-image" src="" alt="">
+            
+            <div class="lightbox-thumbnails" id="lightboxThumbnails">
+                <!-- 縮圖會由JavaScript動態生成 -->
+            </div>
+            
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxCounter"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 貸款試算彈窗 -->
+    <div id="loanModal" class="loan-modal">
+        <div class="loan-modal-content">
+            <div class="loan-modal-header">
+                <div class="loan-modal-title">
+                    <span class="text-2xl mr-3">🧮</span>
+                    買方費用估算
+                </div>
+                <span class="loan-modal-close" onclick="closeLoanModal()">&times;</span>
+            </div>
+            <div class="loan-modal-body">
+                <div class="loan-modal-grid">
+                    <!-- 輸入區域 -->
+                    <div class="loan-input-section">
+                        <h3 style="color: #10b981; font-weight: bold; margin-bottom: 0.8rem; font-size: 0.9rem;">📝 輸入參數</h3>
+                        
+                        <div class="loan-input-group">
+                            <label class="loan-input-label">房屋總價 (萬元)</label>
+                            <input type="number" id="modalHousePrice" class="loan-input" placeholder="例如：1398" value="1398">
                         </div>
-                        <div class="result-item">
-                            <div class="result-value" id="gracePeriodPayment">--</div>
-                            <div class="result-label">寬限期月付</div>
+                        
+                        <div class="loan-input-group">
+                            <label class="loan-input-label">貸款成數 (%)</label>
+                            <input type="range" id="modalLoanRatio" min="40" max="85" value="80" class="loan-slider">
+                            <div class="loan-slider-value" id="modalLoanRatioValue">80%</div>
                         </div>
-                        <div class="result-item">
-                            <div class="result-value" id="totalInterest">--</div>
-                            <div class="result-label">總利息支出</div>
+                        
+                        <div class="loan-input-group">
+                            <label class="loan-input-label">貸款年限 (年)</label>
+                            <input type="range" id="modalLoanYears" min="0" max="40" value="40" class="loan-slider">
+                            <div class="loan-slider-value" id="modalLoanYearsValue">40年</div>
                         </div>
-                        <div class="result-item">
-                            <div class="result-value" id="totalPayment">--</div>
-                            <div class="result-label">總還款金額</div>
+                        
+                        <div class="loan-input-group">
+                            <label class="loan-input-label">貸款利率 (%)</label>
+                            <input type="range" id="modalInterestRate" min="0.5" max="5" step="0.1" value="2.1" class="loan-slider">
+                            <div class="loan-slider-value" id="modalInterestRateValue">2.1%</div>
+                        </div>
+                        
+                        <div class="loan-input-group">
+                            <label class="loan-input-label">名下有無其他房貸</label>
+                            <select id="modalExistingLoan" class="loan-input" onchange="adjustLoanConditions()">
+                                <option value="none">無其他房貸 (首購)</option>
+                                <option value="existing">有其他房貸 (第二戶)</option>
+                                <option value="youth">新青安貸款 (限1000萬)</option>
+                            </select>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="loan-input-group">
+                                <label class="loan-input-label">寬限期 (年)</label>
+                                <select id="modalGracePeriod" class="loan-input">
+                                    <option value="0">無寬限期</option>
+                                    <option value="1">1年</option>
+                                    <option value="2">2年</option>
+                                    <option value="3">3年</option>
+                                    <option value="5" selected>新青安 5年</option>
+                                </select>
+                            </div>
+                            
+                            <div class="loan-input-group">
+                                <label class="loan-input-label">還款方式</label>
+                                <select id="modalRepaymentType" class="loan-input">
+                                    <option value="equal_payment">等額本息</option>
+                                    <option value="equal_principal">等額本金</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="loan-input-group">
+                                <label class="loan-input-label">代書費+契稅 (元)</label>
+                                <input type="number" id="modalServiceFee" class="loan-input" placeholder="100000" value="100000">
+                            </div>
+                            
+                            <div class="loan-input-group">
+                                <label class="loan-input-label">代書潤筆費 (元)</label>
+                                <input type="number" id="modalNotaryFee" class="loan-input" placeholder="2000" value="2000">
+                            </div>
+                        </div>
+                        
+                        <div class="loan-input-group">
+                            <label class="loan-input-label">仲介費 (%)</label>
+                            <input type="range" id="modalAgentFee" min="0" max="2" step="0.1" value="2" class="loan-slider">
+                            <div class="loan-slider-value" id="modalAgentFeeValue">2%</div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                            <div class="loan-input-group">
+                                <label class="loan-input-label">月收入 (萬元)</label>
+                                <input type="number" id="modalMonthlyIncome" class="loan-input" placeholder="例如：8" value="8">
+                            </div>
+                            
+                            <div class="loan-input-group">
+                                <label class="loan-input-label">其他月支出 (萬元)</label>
+                                <input type="number" id="modalOtherExpenses" class="loan-input" placeholder="例如：2" value="2">
+                            </div>
+                        </div>
+                        
+                        <div class="loan-input-group">
+                            <div style="text-align: center; color: #10b981; font-size: 0.8rem; font-weight: 500;">
+                                💡 所有參數即時計算，無需點擊按鈕
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="results-grid" style="margin-top: 1rem;">
-                        <div class="result-item">
-                            <div class="result-value" id="downPaymentAmount">--</div>
-                            <div class="result-label">自備款金額</div>
+                    <!-- 結果區域 -->
+                    <div class="loan-result-section">
+                        <h3 style="color: #10b981; font-weight: bold; margin-bottom: 0.8rem; font-size: 0.9rem;">📊 計算結果</h3>
+                        <div id="modalLoanResults">
+                            <div class="text-center text-gray-500 py-4">
+                                <div class="text-2xl mb-1">📊</div>
+                                <p class="text-xs">請輸入房屋價格開始計算</p>
+                            </div>
                         </div>
-                        <div class="result-item">
-                            <div class="result-value" id="displayLoanAmount">--</div>
-                            <div class="result-label">貸款金額</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="result-value" id="debtRatio">--</div>
-                            <div class="result-label">負債收入比</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="result-value" id="displayInterestRate">--</div>
-                            <div class="result-label">年利率</div>
-                        </div>
-                    </div>
-                    
-                    <!-- 詳細還款計劃 -->
-                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 15px; margin-top: 1.5rem; border-left: 5px solid #e74c3c;">
-                        <h4 style="color: #e74c3c; margin-bottom: 1rem;">📅 還款計劃詳情</h4>
-                        <div id="repaymentSchedule" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                            <!-- 動態生成還款計劃 -->
-                        </div>
-                    </div>
-                    
-                    <div style="background: #e8f4fd; padding: 1rem; border-radius: 10px; margin-top: 1rem; border-left: 4px solid #3498db;">
-                        <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">💡 貸款建議</h4>
-                        <p id="loanAdvice" style="font-size: 0.9rem; margin: 0; color: #34495e;"></p>
                     </div>
                 </div>
             </div>
@@ -1096,523 +1893,6 @@
     </div>
     
     <script>
-        // 貸款計算器功能
-        function openLoanCalculator(price, propertyType) {
-            const modal = document.getElementById('loanModal');
-            const propertyPriceInput = document.getElementById('propertyPrice');
-            const resultsSection = document.getElementById('resultsSection');
-            
-            // 設置預設價格
-            propertyPriceInput.value = price;
-            
-            // 隱藏結果區域
-            resultsSection.style.display = 'none';
-            
-            // 顯示彈跳視窗
-            modal.classList.add('show');
-            
-            // 自動計算自備款和貸款金額
-            updateLoanAmounts();
-            
-            // 綁定輸入變化事件
-            propertyPriceInput.addEventListener('input', updateLoanAmounts);
-            document.getElementById('loanRate').addEventListener('change', updateLoanAmounts);
-            document.getElementById('loanYears').addEventListener('change', smartRecommendation);
-        }
-        
-        function closeLoanCalculator() {
-            const modal = document.getElementById('loanModal');
-            modal.classList.remove('show');
-        }
-        
-        function updateLoanAmounts() {
-            const propertyPrice = parseFloat(document.getElementById('propertyPrice').value) || 0;
-            const loanRate = parseFloat(document.getElementById('loanRate').value) || 80;
-            
-            const downPayment = propertyPrice * (100 - loanRate) / 100;
-            const loanAmount = propertyPrice * loanRate / 100;
-            
-            document.getElementById('downPayment').value = Math.round(downPayment);
-            document.getElementById('loanAmount').value = Math.round(loanAmount);
-        }
-        
-        function smartRecommendation() {
-            const loanYears = parseInt(document.getElementById('loanYears').value);
-            const interestRateSelect = document.getElementById('interestRate');
-            const loanRateSelect = document.getElementById('loanRate');
-            const gracePeriodSelect = document.getElementById('gracePeriod');
-            
-            // 如果選擇40年貸款，自動推薦新青安選項
-            if (loanYears === 40) {
-                // 推薦新青安一段式利率
-                interestRateSelect.value = '1.775';
-                // 推薦新青安最高貸款成數
-                loanRateSelect.value = '80';
-                // 推薦新青安5年寬限期
-                gracePeriodSelect.value = '5';
-                
-                // 顯示推薦提示
-                showRecommendationToast('已自動選擇新青安方案：1.775%利率 + 5年寬限期');
-            } else if (loanYears >= 30) {
-                // 30年貸款推薦3年寬限期
-                gracePeriodSelect.value = '3';
-                showRecommendationToast('已推薦3年寬限期，減輕初期負擔');
-            } else if (loanYears >= 25) {
-                // 25年貸款推薦2年寬限期
-                gracePeriodSelect.value = '2';
-                showRecommendationToast('已推薦2年寬限期');
-            }
-        }
-        
-        function showRecommendationToast(message) {
-            // 創建提示框
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(45deg, #27ae60, #2ecc71);
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 10px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                z-index: 1001;
-                font-weight: bold;
-                animation: slideInRight 0.3s ease;
-            `;
-            toast.textContent = message;
-            
-            // 添加動畫樣式
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideInRight {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            document.body.appendChild(toast);
-            
-            // 3秒後自動移除
-            setTimeout(() => {
-                toast.style.animation = 'slideInRight 0.3s ease reverse';
-                setTimeout(() => {
-                    document.body.removeChild(toast);
-                    document.head.removeChild(style);
-                }, 300);
-            }, 3000);
-        }
-        
-        function calculateLoan(event) {
-            event.preventDefault();
-            
-            const propertyPrice = parseFloat(document.getElementById('propertyPrice').value);
-            const loanRate = parseFloat(document.getElementById('loanRate').value);
-            const interestRate = parseFloat(document.getElementById('interestRate').value);
-            const loanYears = parseInt(document.getElementById('loanYears').value);
-            const gracePeriod = parseInt(document.getElementById('gracePeriod').value);
-            const repaymentType = document.getElementById('repaymentType').value;
-            
-            // 調試信息
-            console.log('輸入參數:', {
-                propertyPrice: propertyPrice,
-                loanRate: loanRate,
-                interestRate: interestRate,
-                loanYears: loanYears,
-                gracePeriod: gracePeriod,
-                repaymentType: repaymentType
-            });
-            
-            const loanAmount = propertyPrice * loanRate / 100;
-            const downPayment = propertyPrice - loanAmount;
-            const monthlyRate = interestRate / 100 / 12;
-            const totalMonths = loanYears * 12;
-            const gracePeriodMonths = gracePeriod * 12;
-            const actualRepaymentMonths = totalMonths - gracePeriodMonths;
-            
-            console.log('計算參數:', {
-                loanAmount: loanAmount,
-                downPayment: downPayment,
-                monthlyRate: monthlyRate,
-                totalMonths: totalMonths,
-                gracePeriodMonths: gracePeriodMonths,
-                actualRepaymentMonths: actualRepaymentMonths
-            });
-            
-            let monthlyPayment = 0;
-            let gracePeriodPayment = 0;
-            let totalPayment = 0;
-            let totalInterest = 0;
-            
-            if (gracePeriod > 0) {
-                // 寬限期內只付利息
-                gracePeriodPayment = loanAmount * monthlyRate;
-                
-                if (repaymentType === 'principal_interest') {
-                    // 寬限期後本息攤還
-                    monthlyPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, actualRepaymentMonths) / 
-                                   (Math.pow(1 + monthlyRate, actualRepaymentMonths) - 1);
-                } else {
-                    // 寬限期後本金攤還 - 修正計算
-                    const principalPayment = loanAmount / actualRepaymentMonths;
-                    // 本金攤還第一個月最高，之後遞減
-                    monthlyPayment = principalPayment + (loanAmount * monthlyRate);
-                }
-                
-                // 計算總利息
-                const gracePeriodInterest = gracePeriodPayment * gracePeriodMonths;
-                const repaymentInterest = calculateRepaymentInterest(loanAmount, monthlyRate, actualRepaymentMonths, repaymentType);
-                totalInterest = gracePeriodInterest + repaymentInterest;
-                
-                totalPayment = loanAmount + totalInterest;
-                
-            } else {
-                // 無寬限期
-                gracePeriodPayment = 0;
-                
-                if (repaymentType === 'principal_interest') {
-                    // 本息攤還
-                    monthlyPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalMonths) / 
-                                   (Math.pow(1 + monthlyRate, totalMonths) - 1);
-                    totalPayment = monthlyPayment * totalMonths;
-                    totalInterest = totalPayment - loanAmount;
-                } else {
-                    // 本金攤還 - 修正計算
-                    const principalPayment = loanAmount / totalMonths;
-                    monthlyPayment = principalPayment + (loanAmount * monthlyRate);
-                    // 本金攤還的總利息需要精確計算
-                    totalInterest = calculatePrincipalInterest(loanAmount, monthlyRate, totalMonths);
-                    totalPayment = loanAmount + totalInterest;
-                }
-            }
-            
-            // 假設月收入計算負債收入比 (一般建議不超過40%)
-            const estimatedIncome = monthlyPayment / 0.35; // 假設月付佔收入的35%
-            const debtRatio = (monthlyPayment / estimatedIncome * 100).toFixed(1);
-            
-            // 更新顯示結果 - 使用新的ID
-            try {
-                // 檢查所有元素是否存在
-                const elements = {
-                    monthlyPayment: document.getElementById('monthlyPayment'),
-                    gracePeriodPayment: document.getElementById('gracePeriodPayment'),
-                    totalInterest: document.getElementById('totalInterest'),
-                    totalPayment: document.getElementById('totalPayment'),
-                    downPaymentAmount: document.getElementById('downPaymentAmount'),
-                    displayLoanAmount: document.getElementById('displayLoanAmount'),
-                    debtRatio: document.getElementById('debtRatio'),
-                    displayInterestRate: document.getElementById('displayInterestRate')
-                };
-                
-                console.log('元素檢查:', elements);
-                
-                // 月付金額顯示（元）
-                if (elements.monthlyPayment) {
-                    elements.monthlyPayment.textContent = Math.round(monthlyPayment).toLocaleString() + ' 元';
-                    console.log('月付金額已更新:', Math.round(monthlyPayment).toLocaleString() + ' 元');
-                } else {
-                    console.error('找不到 monthlyPayment 元素');
-                }
-                
-                if (elements.gracePeriodPayment) {
-                    elements.gracePeriodPayment.textContent = gracePeriod > 0 ? Math.round(gracePeriodPayment).toLocaleString() + ' 元' : '--';
-                }
-                
-                // 萬元金額顯示
-                if (elements.totalInterest) {
-                    elements.totalInterest.textContent = Math.round(totalInterest / 10000).toLocaleString() + ' 萬元';
-                }
-                
-                if (elements.totalPayment) {
-                    elements.totalPayment.textContent = Math.round(totalPayment / 10000).toLocaleString() + ' 萬元';
-                }
-                
-                if (elements.downPaymentAmount) {
-                    elements.downPaymentAmount.textContent = Math.round(downPayment / 10000).toLocaleString() + ' 萬元';
-                }
-                
-                if (elements.displayLoanAmount) {
-                    elements.displayLoanAmount.textContent = Math.round(loanAmount / 10000).toLocaleString() + ' 萬元';
-                }
-                
-                // 百分比顯示
-                if (elements.debtRatio) {
-                    elements.debtRatio.textContent = debtRatio + '%';
-                }
-                
-                if (elements.displayInterestRate) {
-                    elements.displayInterestRate.textContent = interestRate.toFixed(2) + '%';
-                }
-                
-                console.log('最終計算結果:', {
-                    monthlyPayment: monthlyPayment,
-                    totalInterest: totalInterest,
-                    totalPayment: totalPayment,
-                    loanAmount: loanAmount,
-                    downPayment: downPayment,
-                    gracePeriodPayment: gracePeriodPayment
-                });
-            } catch (error) {
-                console.error('更新顯示結果時發生錯誤:', error);
-            }
-            
-            // 生成詳細還款計劃
-            generateRepaymentSchedule(loanAmount, monthlyRate, gracePeriodMonths, actualRepaymentMonths, repaymentType);
-            
-            // 生成貸款建議
-            generateLoanAdvice(monthlyPayment, totalInterest, debtRatio, loanAmount, gracePeriod, repaymentType);
-            
-            // 顯示結果區域
-            const resultsSection = document.getElementById('resultsSection');
-            if (resultsSection) {
-                resultsSection.style.display = 'block';
-                console.log('結果區域已顯示');
-                
-                // 滾動到結果區域
-                resultsSection.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                console.error('找不到 resultsSection 元素');
-            }
-        }
-        
-        function formatCurrency(amount, showUnit = false) {
-            if (isNaN(amount) || amount === null || amount === undefined) {
-                return '0';
-            }
-            
-            if (amount >= 10000) {
-                // 萬元以上的數字，顯示為萬
-                const result = (Math.round(amount / 10000 * 100) / 100).toLocaleString();
-                return showUnit ? result + ' 萬' : result;
-            } else {
-                // 萬元以下的數字，顯示千分位
-                return Math.round(amount).toLocaleString();
-            }
-        }
-        
-        function generateRepaymentSchedule(loanAmount, monthlyRate, gracePeriodMonths, actualRepaymentMonths, repaymentType) {
-            const scheduleElement = document.getElementById('repaymentSchedule');
-            let scheduleHTML = '';
-            
-            // 寬限期階段
-            if (gracePeriodMonths > 0) {
-                const gracePeriodPayment = loanAmount * monthlyRate;
-                    scheduleHTML += `
-                        <div style="background: #e8f5e8; padding: 1rem; border-radius: 10px; text-align: center;">
-                            <h5 style="color: #27ae60; margin: 0 0 0.5rem 0;">寬限期 ${gracePeriodMonths} 個月</h5>
-                            <div style="font-size: 1.2rem; font-weight: bold; color: #27ae60;">
-                                ${Math.round(gracePeriodPayment).toLocaleString()} 元/月
-                            </div>
-                            <div style="font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">
-                                只付利息
-                            </div>
-                        </div>
-                    `;
-            }
-            
-            // 正式還款階段
-            if (actualRepaymentMonths > 0) {
-                let repaymentPayment;
-                if (repaymentType === 'principal_interest') {
-                    // 本息攤還
-                    repaymentPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, actualRepaymentMonths) / 
-                                     (Math.pow(1 + monthlyRate, actualRepaymentMonths) - 1);
-                    scheduleHTML += `
-                        <div style="background: #fff3cd; padding: 1rem; border-radius: 10px; text-align: center;">
-                            <h5 style="color: #856404; margin: 0 0 0.5rem 0;">正式還款 ${actualRepaymentMonths} 個月</h5>
-                            <div style="font-size: 1.2rem; font-weight: bold; color: #856404;">
-                                ${Math.round(repaymentPayment).toLocaleString()} 元/月
-                            </div>
-                            <div style="font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">
-                                本息攤還 (固定)
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    // 本金攤還 - 顯示第一個月和最後一個月
-                    const principalPayment = loanAmount / actualRepaymentMonths;
-                    const firstMonthPayment = principalPayment + (loanAmount * monthlyRate);
-                    const lastMonthPayment = principalPayment + (principalPayment * monthlyRate);
-                    
-                    scheduleHTML += `
-                        <div style="background: #fff3cd; padding: 1rem; border-radius: 10px; text-align: center;">
-                            <h5 style="color: #856404; margin: 0 0 0.5rem 0;">正式還款 ${actualRepaymentMonths} 個月</h5>
-                            <div style="font-size: 1rem; font-weight: bold; color: #856404;">
-                                首月: ${Math.round(firstMonthPayment).toLocaleString()} 元<br>
-                                末月: ${Math.round(lastMonthPayment).toLocaleString()} 元
-                            </div>
-                            <div style="font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">
-                                本金攤還 (遞減)
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-            
-            // 總覽
-            const totalMonths = gracePeriodMonths + actualRepaymentMonths;
-            scheduleHTML += `
-                <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; text-align: center; border: 2px solid #6c757d;">
-                    <h5 style="color: #495057; margin: 0 0 0.5rem 0;">貸款總覽</h5>
-                    <div style="font-size: 1rem; color: #495057;">
-                        總期數: ${totalMonths} 個月<br>
-                        貸款金額: ${Math.round(loanAmount / 10000).toLocaleString()} 萬元
-                    </div>
-                </div>
-            `;
-            
-            scheduleElement.innerHTML = scheduleHTML;
-        }
-        
-        function calculatePrincipalInterest(principal, monthlyRate, months) {
-            let totalInterest = 0;
-            let remainingPrincipal = principal;
-            const monthlyPrincipal = principal / months;
-            
-            for (let i = 0; i < months; i++) {
-                const monthlyInterest = remainingPrincipal * monthlyRate;
-                totalInterest += monthlyInterest;
-                remainingPrincipal -= monthlyPrincipal;
-            }
-            
-            return totalInterest;
-        }
-        
-        function calculateRepaymentInterest(principal, monthlyRate, months, repaymentType) {
-            if (repaymentType === 'principal_interest') {
-                // 本息攤還的總利息
-                const monthlyPayment = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / 
-                                     (Math.pow(1 + monthlyRate, months) - 1);
-                return (monthlyPayment * months) - principal;
-            } else {
-                // 本金攤還的總利息 - 使用新的精確計算函數
-                return calculatePrincipalInterest(principal, monthlyRate, months);
-            }
-        }
-        
-        function generateLoanAdvice(monthlyPayment, totalInterest, debtRatio, loanAmount, gracePeriod = 0, repaymentType = 'principal_interest') {
-            const adviceElement = document.getElementById('loanAdvice');
-            const loanYears = parseInt(document.getElementById('loanYears').value);
-            const interestRate = parseFloat(document.getElementById('interestRate').value);
-            const loanRate = parseFloat(document.getElementById('loanRate').value);
-            
-            let advice = '';
-            
-            // 檢查是否為新青安貸款
-            const isNewGreenLoan = loanYears === 40 && interestRate <= 1.775;
-            
-            if (isNewGreenLoan) {
-                advice += '🌱 <strong>新青安貸款優勢：</strong><br>';
-                advice += '✅ 超低利率1.775%，大幅降低購屋負擔<br>';
-                advice += '✅ 40年貸款期，月付金額更輕鬆<br>';
-                advice += '✅ 最高1000萬額度，首購族首選<br>';
-                if (gracePeriod > 0) {
-                    advice += '✅ 最長5年寬限期，初期負擔更輕<br>';
-                }
-                advice += '<br>';
-            }
-            
-            // 寬限期建議
-            if (gracePeriod > 0) {
-                advice += '⏰ <strong>寬限期優勢：</strong><br>';
-                advice += '✅ 初期只付利息，現金流壓力較小<br>';
-                advice += '⚠️ 寬限期後月付金額會增加，需提前準備<br>';
-                advice += '💡 適合收入預期成長的購屋者<br><br>';
-            }
-            
-            // 還款方式建議
-            if (repaymentType === 'principal_interest') {
-                advice += '📊 <strong>本息攤還：</strong><br>';
-                advice += '✅ 月付金額固定，便於財務規劃<br>';
-                advice += '✅ 初期負擔較本金攤還輕<br><br>';
-            } else {
-                advice += '📊 <strong>本金攤還：</strong><br>';
-                advice += '✅ 總利息支出較少<br>';
-                advice += '⚠️ 初期月付金額較高<br>';
-                advice += '💡 適合收入穩定且較高的購屋者<br><br>';
-            }
-            
-            // 貸款成數建議
-            if (loanRate <= 75) {
-                advice += '✅ 貸款成數75%，自備款充足，審核通過率高<br>';
-            } else if (loanRate <= 80) {
-                advice += '✅ 貸款成數80%，一般住宅標準，條件良好<br>';
-            } else {
-                advice += '⚠️ 貸款成數85%，需提供完整財力證明<br>';
-            }
-            
-            // 根據月付金額給建議
-            if (monthlyPayment < 30000) {
-                advice += '✅ 月付金額合理，負擔較輕。<br>';
-            } else if (monthlyPayment < 50000) {
-                advice += '⚠️ 月付金額中等，建議確認收入穩定性。<br>';
-            } else {
-                advice += '🔴 月付金額較高，建議詳細評估財務狀況。<br>';
-            }
-            
-            // 根據負債收入比給建議
-            if (debtRatio < 30) {
-                advice += '✅ 負債收入比良好，貸款條件佳。<br>';
-            } else if (debtRatio < 40) {
-                advice += '⚠️ 負債收入比接近警戒線，建議謹慎評估。<br>';
-            } else {
-                advice += '🔴 負債收入比過高，建議增加自備款或延長貸款期限。<br>';
-            }
-            
-            // 根據貸款金額給建議
-            if (loanAmount < 800) {
-                advice += '✅ 貸款金額適中，銀行審核通過率較高。<br>';
-            } else if (loanAmount < 1200) {
-                advice += '⚠️ 貸款金額較大，建議提供完整財力證明。<br>';
-            } else {
-                advice += '🔴 貸款金額很大，建議多準備財力證明或擔保品。<br>';
-            }
-            
-            // 新青安特殊提醒
-            if (isNewGreenLoan) {
-                advice += '<br>🌱 <strong>新青安申請提醒：</strong><br>';
-                advice += '• 需符合年齡限制(18-40歲)和首購條件<br>';
-                advice += '• 家庭年收入需低於120萬元<br>';
-                advice += '• 申請日前6個月起購買住宅<br>';
-            }
-            
-            advice += '<br>💡 <strong>貼心提醒：</strong>以上為估算值，實際貸款條件以銀行審核為準。';
-            
-            adviceElement.innerHTML = advice;
-        }
-        
-        // 點擊彈跳視窗外部關閉
-        window.onclick = function(event) {
-            const modal = document.getElementById('loanModal');
-            if (event.target === modal) {
-                closeLoanCalculator();
-            }
-        }
-        
-        // ESC鍵關閉彈跳視窗
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeLoanCalculator();
-            }
-        });
-        
-        // 新青安資訊收合功能
-        function toggleNewGreenInfo() {
-            const content = document.getElementById('newGreenContent');
-            const toggle = document.getElementById('newGreenToggle');
-            
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-                toggle.style.transform = 'rotate(180deg)';
-                toggle.textContent = '▲';
-            } else {
-                content.style.display = 'none';
-                toggle.style.transform = 'rotate(0deg)';
-                toggle.textContent = '▼';
-            }
-        }
-
         // 添加一些互動效果
         document.addEventListener('DOMContentLoaded', function() {
             // 滾動動畫效果
@@ -1635,7 +1915,7 @@
             });
             
             // 點擊按鈕效果
-            const buttons = document.querySelectorAll('.contact-button, .loan-calc-button');
+            const buttons = document.querySelectorAll('.contact-button');
             buttons.forEach(button => {
                 button.addEventListener('click', function() {
                     this.style.transform = 'scale(0.95)';
@@ -1645,6 +1925,866 @@
                 });
             });
         });
+        
+        // 貸款試算彈窗功能
+        function openLoanModal(propertyPrice = 1398, monthlyIncome = 8) {
+            try {
+                console.log('開啟貸款試算彈窗');
+                document.getElementById('loanModal').style.display = 'block';
+                document.body.style.overflow = 'hidden'; // 防止背景滾動
+                
+                // 設置預設值
+                document.getElementById('modalHousePrice').value = propertyPrice;
+                document.getElementById('modalMonthlyIncome').value = monthlyIncome;
+                
+                // 重新綁定滑桿事件
+                setTimeout(() => {
+                    bindSliderEvents();
+                    bindInputEvents(); // 綁定輸入框事件
+                    calculateModalLoan(); // 立即計算一次顯示結果
+                }, 100);
+            } catch (error) {
+                console.error('彈窗開啟錯誤:', error);
+                alert('彈窗開啟失敗，請檢查控制台錯誤訊息');
+            }
+        }
+        
+        // 第二個房產的貸款試算
+        function openLoanModal1568() {
+            openLoanModal(1568, 15);
+        }
+        
+        function closeLoanModal() {
+            document.getElementById('loanModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // 恢復背景滾動
+        }
+        
+        // 點擊彈窗外部關閉
+        window.onclick = function(event) {
+            const modal = document.getElementById('loanModal');
+            if (event.target === modal) {
+                closeLoanModal();
+            }
+        }
+        
+        // 滑桿值更新 - 確保在DOM載入後綁定
+        function bindSliderEvents() {
+            const loanRatioSlider = document.getElementById('modalLoanRatio');
+            const loanYearsSlider = document.getElementById('modalLoanYears');
+            const interestRateSlider = document.getElementById('modalInterestRate');
+            
+            if (loanRatioSlider) {
+                loanRatioSlider.addEventListener('input', function() {
+                    document.getElementById('modalLoanRatioValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
+                    if (document.getElementById('modalExistingLoan').value === 'youth') {
+                        showYouthLoanNotice();
+                    }
+                });
+                loanRatioSlider.addEventListener('change', function() {
+                    document.getElementById('modalLoanRatioValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
+                    if (document.getElementById('modalExistingLoan').value === 'youth') {
+                        showYouthLoanNotice();
+                    }
+                });
+            }
+            
+            if (loanYearsSlider) {
+                loanYearsSlider.addEventListener('input', function() {
+                    document.getElementById('modalLoanYearsValue').textContent = this.value + '年';
+                    calculateModalLoan(); // 即時計算
+                });
+                loanYearsSlider.addEventListener('change', function() {
+                    document.getElementById('modalLoanYearsValue').textContent = this.value + '年';
+                    calculateModalLoan(); // 即時計算
+                });
+            }
+            
+            if (interestRateSlider) {
+                interestRateSlider.addEventListener('input', function() {
+                    document.getElementById('modalInterestRateValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+                interestRateSlider.addEventListener('change', function() {
+                    document.getElementById('modalInterestRateValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+            }
+        }
+        
+        // 驗證計算準確性的測試函數
+        function validateLoanCalculation() {
+            // 測試案例1：無寬限期，標準計算
+            console.log("=== 貸款計算驗證測試 ===");
+            
+            // 測試數據
+            const testCases = [
+                {
+                    name: "標準案例：無寬限期",
+                    housePrice: 1500, // 萬元
+                    loanRatio: 80,    // %
+                    loanYears: 20,    // 年
+                    interestRate: 2.1, // %
+                    gracePeriod: 0,   // 年
+                    expectedMonthlyPayment: 7628, // 預期月付約7628元
+                },
+                {
+                    name: "寬限期案例：3年寬限期",
+                    housePrice: 1500,
+                    loanRatio: 80,
+                    loanYears: 20,
+                    interestRate: 2.1,
+                    gracePeriod: 3,
+                    expectedGracePayment: 2100, // 預期寬限期月付約2100元
+                },
+                {
+                    name: "新青安案例：5年寬限期",
+                    housePrice: 1500,
+                    loanRatio: 80,
+                    loanYears: 30,
+                    interestRate: 2.1,
+                    gracePeriod: 5,
+                    expectedGracePayment: 2100, // 預期寬限期月付約2100元
+                }
+            ];
+            
+            testCases.forEach(testCase => {
+                console.log(`\n測試：${testCase.name}`);
+                
+                // 設置測試數據
+                document.getElementById('modalHousePrice').value = testCase.housePrice;
+                document.getElementById('modalLoanRatio').value = testCase.loanRatio;
+                document.getElementById('modalLoanYears').value = testCase.loanYears;
+                document.getElementById('modalInterestRate').value = testCase.interestRate;
+                document.getElementById('modalGracePeriod').value = testCase.gracePeriod;
+                
+                // 執行計算
+                calculateModalLoan();
+                
+                console.log("測試完成，請檢查結果是否合理");
+            });
+        }
+        
+        // 根據貸款狀況調整貸款條件
+        function adjustLoanConditions() {
+            const existingLoan = document.getElementById('modalExistingLoan').value;
+            const loanRatioSlider = document.getElementById('modalLoanRatio');
+            const gracePeriodSelect = document.getElementById('modalGracePeriod');
+            const interestRateSlider = document.getElementById('modalInterestRate');
+            
+            if (existingLoan === 'existing') {
+                // 第二戶貸款：限制貸款成數50%，取消寬限期
+                loanRatioSlider.max = 50;
+                loanRatioSlider.value = Math.min(loanRatioSlider.value, 50);
+                document.getElementById('modalLoanRatioValue').textContent = loanRatioSlider.value + '%';
+                
+                gracePeriodSelect.value = '0'; // 強制設為無寬限期
+                
+                // 恢復一般利率範圍
+                interestRateSlider.min = 1.5;
+                interestRateSlider.max = 5;
+                interestRateSlider.value = Math.max(interestRateSlider.value, 1.5);
+                document.getElementById('modalInterestRateValue').textContent = interestRateSlider.value + '%';
+                
+                // 顯示政策提醒
+                showPolicyNotice('第二戶房貸限制：貸款成數最高50%，無寬限期');
+                
+            } else if (existingLoan === 'youth') {
+                // 新青安貸款：限制1000萬額度，優惠利率，5年寬限期
+                loanRatioSlider.max = 80;
+                loanRatioSlider.value = Math.min(loanRatioSlider.value, 80);
+                document.getElementById('modalLoanRatioValue').textContent = loanRatioSlider.value + '%';
+                
+                gracePeriodSelect.value = '5'; // 強制設為新青安5年寬限期
+                
+                // 設置新青安優惠利率範圍 (基準利率+0.555%-政府補貼2碼)
+                interestRateSlider.min = 1.2;
+                interestRateSlider.max = 2.0;
+                interestRateSlider.value = 1.8; // 預設新青安優惠利率
+                document.getElementById('modalInterestRateValue').textContent = interestRateSlider.value + '%';
+                
+                // 顯示新青安政策提醒和一般貸款利率設定
+                showYouthLoanNotice();
+                
+            } else {
+                // 首購：恢復正常條件
+                loanRatioSlider.max = 85;
+                loanRatioSlider.value = Math.min(loanRatioSlider.value, 85);
+                document.getElementById('modalLoanRatioValue').textContent = loanRatioSlider.value + '%';
+                
+                gracePeriodSelect.value = '5'; // 恢復新青安5年寬限期
+                
+                // 恢復一般利率範圍
+                interestRateSlider.min = 1.5;
+                interestRateSlider.max = 5;
+                interestRateSlider.value = Math.max(interestRateSlider.value, 1.5);
+                document.getElementById('modalInterestRateValue').textContent = interestRateSlider.value + '%';
+                
+                // 隱藏政策提醒
+                hidePolicyNotice();
+            }
+            
+            // 重新計算
+            calculateModalLoan();
+        }
+        
+        // 顯示政策提醒
+        function showPolicyNotice(message) {
+            let notice = document.getElementById('policyNotice');
+            if (!notice) {
+                notice = document.createElement('div');
+                notice.id = 'policyNotice';
+                notice.style.cssText = `
+                    background: linear-gradient(135deg, #fef3c7, #fde68a);
+                    border: 1px solid #f59e0b;
+                    border-radius: 6px;
+                    padding: 0.6rem;
+                    margin: 0.6rem 0;
+                    font-size: 0.8rem;
+                    color: #92400e;
+                    text-align: center;
+                    animation: fadeIn 0.3s ease-in;
+                `;
+                
+                // 插入到寬限期選擇框之後
+                const gracePeriodGroup = document.querySelector('#modalGracePeriod').closest('div[style*="grid-template-columns"]');
+                gracePeriodGroup.parentNode.insertBefore(notice, gracePeriodGroup.nextSibling);
+            }
+            notice.textContent = '⚠️ ' + message;
+            notice.style.display = 'block';
+        }
+        
+        // 隱藏政策提醒
+        function hidePolicyNotice() {
+            const notice = document.getElementById('policyNotice');
+            if (notice) {
+                notice.style.display = 'none';
+            }
+            // 同時隱藏新青安一般貸款利率設定
+            const youthRateSetting = document.getElementById('youthNormalRateSetting');
+            if (youthRateSetting) {
+                youthRateSetting.style.display = 'none';
+            }
+        }
+        
+        // 顯示新青安貸款提醒和一般貸款利率設定
+        function showYouthLoanNotice() {
+            showPolicyNotice('新青安貸款：前1000萬享優惠利率1.8%，超過部分適用一般利率，優惠至2026/7/31');
+            
+            // 創建或顯示一般貸款利率設定區域
+            let youthRateSetting = document.getElementById('youthNormalRateSetting');
+            if (!youthRateSetting) {
+                youthRateSetting = document.createElement('div');
+                youthRateSetting.id = 'youthNormalRateSetting';
+                youthRateSetting.style.cssText = `
+                    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+                    border: 1px solid #2196f3;
+                    border-radius: 6px;
+                    padding: 0.8rem;
+                    margin: 0.6rem 0;
+                    font-size: 0.85rem;
+                    color: #0d47a1;
+                    animation: fadeIn 0.3s ease-in;
+                `;
+                
+                // 插入到政策提醒之後
+                const policyNotice = document.getElementById('policyNotice');
+                if (policyNotice) {
+                    policyNotice.parentNode.insertBefore(youthRateSetting, policyNotice.nextSibling);
+                }
+            }
+            
+            // 獲取當前房屋總價和貸款成數來計算是否會超過1000萬
+            const housePrice = parseFloat(document.getElementById('modalHousePrice').value) * 10000;
+            const loanRatio = parseFloat(document.getElementById('modalLoanRatio').value) / 100;
+            const totalLoanAmount = housePrice * loanRatio;
+            const normalLoanAmount = Math.max(0, totalLoanAmount - 10000000);
+            
+            if (normalLoanAmount > 0) {
+                const normalLoanAmountWan = Math.round(normalLoanAmount / 10000);
+                youthRateSetting.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                        <span style="margin-right: 0.5rem;">💰</span>
+                        <strong>超過1000萬部分 (${normalLoanAmountWan}萬元) 一般貸款利率設定</strong>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; align-items: center;">
+                        <label style="font-size: 0.8rem;">一般貸款利率：</label>
+                        <div style="display: flex; align-items: center; gap: 0.3rem;">
+                            <input type="range" id="normalLoanRate" min="2.0" max="4.0" step="0.1" value="2.8" 
+                                   style="flex: 1; height: 4px; border-radius: 2px; background: #e0e0e0; outline: none; cursor: pointer;">
+                            <span id="normalLoanRateValue" style="font-weight: bold; min-width: 3rem; text-align: center;">2.8%</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.75rem; margin-top: 0.3rem; color: #666;">
+                        💡 超過1000萬的部分將使用此利率計算
+                    </div>
+                `;
+                youthRateSetting.style.display = 'block';
+                
+                // 綁定一般貸款利率滑桿事件
+                setTimeout(() => {
+                    const normalRateSlider = document.getElementById('normalLoanRate');
+                    const normalRateValue = document.getElementById('normalLoanRateValue');
+                    
+                    if (normalRateSlider && normalRateValue) {
+                        normalRateSlider.addEventListener('input', function() {
+                            normalRateValue.textContent = this.value + '%';
+                            calculateModalLoan(); // 重新計算
+                        });
+                    }
+                }, 100);
+            } else {
+                youthRateSetting.style.display = 'none';
+            }
+        }
+        
+        // 綁定輸入框事件
+        function bindInputEvents() {
+            // 房屋總價
+            const housePriceInput = document.getElementById('modalHousePrice');
+            if (housePriceInput) {
+                housePriceInput.addEventListener('input', function() {
+                    calculateModalLoan();
+                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
+                    if (document.getElementById('modalExistingLoan').value === 'youth') {
+                        showYouthLoanNotice();
+                    }
+                });
+                housePriceInput.addEventListener('change', function() {
+                    calculateModalLoan();
+                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
+                    if (document.getElementById('modalExistingLoan').value === 'youth') {
+                        showYouthLoanNotice();
+                    }
+                });
+            }
+            
+            // 寬限期下拉選單
+            const gracePeriodSelect = document.getElementById('modalGracePeriod');
+            if (gracePeriodSelect) {
+                gracePeriodSelect.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 代書費+契稅
+            const serviceFeeInput = document.getElementById('modalServiceFee');
+            if (serviceFeeInput) {
+                serviceFeeInput.addEventListener('input', calculateModalLoan);
+                serviceFeeInput.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 代書潤筆費
+            const notaryFeeInput = document.getElementById('modalNotaryFee');
+            if (notaryFeeInput) {
+                notaryFeeInput.addEventListener('input', calculateModalLoan);
+                notaryFeeInput.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 仲介費滑桿
+            const agentFeeSlider = document.getElementById('modalAgentFee');
+            if (agentFeeSlider) {
+                agentFeeSlider.addEventListener('input', function() {
+                    document.getElementById('modalAgentFeeValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+                agentFeeSlider.addEventListener('change', function() {
+                    document.getElementById('modalAgentFeeValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+            }
+            
+            // 還款方式
+            const repaymentTypeSelect = document.getElementById('modalRepaymentType');
+            if (repaymentTypeSelect) {
+                repaymentTypeSelect.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 名下有無其他房貸
+            const existingLoanSelect = document.getElementById('modalExistingLoan');
+            if (existingLoanSelect) {
+                existingLoanSelect.addEventListener('change', adjustLoanConditions);
+            }
+            
+            // 月收入
+            const monthlyIncomeInput = document.getElementById('modalMonthlyIncome');
+            if (monthlyIncomeInput) {
+                monthlyIncomeInput.addEventListener('input', calculateModalLoan);
+                monthlyIncomeInput.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 其他月支出
+            const otherExpensesInput = document.getElementById('modalOtherExpenses');
+            if (otherExpensesInput) {
+                otherExpensesInput.addEventListener('input', calculateModalLoan);
+                otherExpensesInput.addEventListener('change', calculateModalLoan);
+            }
+        }
+        
+        // 貸款試算計算功能
+        function calculateModalLoan() {
+            const housePrice = parseFloat(document.getElementById('modalHousePrice').value) * 10000;
+            const loanRatio = parseFloat(document.getElementById('modalLoanRatio').value) / 100;
+            const loanYears = parseInt(document.getElementById('modalLoanYears').value);
+            const interestRate = parseFloat(document.getElementById('modalInterestRate').value) / 100;
+            const gracePeriod = parseInt(document.getElementById('modalGracePeriod').value) || 0;
+            const serviceFee = parseFloat(document.getElementById('modalServiceFee').value) || 0;
+            const notaryFee = parseFloat(document.getElementById('modalNotaryFee').value) || 0;
+            const agentFeeRate = parseFloat(document.getElementById('modalAgentFee').value) || 0;
+            const agentFee = housePrice * (agentFeeRate / 100); // 仲介費按房屋總價百分比計算
+            const repaymentType = document.getElementById('modalRepaymentType').value;
+            const monthlyIncome = parseFloat(document.getElementById('modalMonthlyIncome').value) * 10000 || 0;
+            const otherExpenses = parseFloat(document.getElementById('modalOtherExpenses').value) * 10000 || 0;
+            const existingLoan = document.getElementById('modalExistingLoan').value;
+            
+            if (!housePrice || housePrice <= 0) {
+                alert('請輸入有效的房屋價格');
+                return;
+            }
+            
+            // 基本計算
+            const loanAmount = housePrice * loanRatio;
+            const downPayment = housePrice - loanAmount;
+            
+            // 新青安混合貸款計算
+            let youthLoanAmount = 0;
+            let normalLoanAmount = 0;
+            let youthInterestRate = interestRate;
+            let normalInterestRate = interestRate;
+            
+            if (existingLoan === 'youth') {
+                // 新青安：前1000萬享優惠利率，超過部分一般利率
+                youthLoanAmount = Math.min(loanAmount, 10000000);
+                normalLoanAmount = Math.max(0, loanAmount - 10000000);
+                youthInterestRate = 1.8 / 100; // 新青安優惠利率
+                
+                // 獲取用戶自定義的一般貸款利率
+                const normalRateSlider = document.getElementById('normalLoanRate');
+                if (normalRateSlider && normalLoanAmount > 0) {
+                    normalInterestRate = parseFloat(normalRateSlider.value) / 100;
+                } else {
+                    normalInterestRate = 2.8 / 100; // 預設一般貸款利率
+                }
+            }
+            
+            // 貸款計算（月利率）
+            const totalMonths = loanYears * 12;
+            const graceMonths = gracePeriod * 12;
+            const remainingMonths = totalMonths - graceMonths;
+            
+            // 計算月付金額
+            let monthlyPayment = 0;
+            let gracePayment = 0;
+            let totalInterest = 0;
+            
+            if (existingLoan === 'youth' && normalLoanAmount > 0) {
+                // 混合貸款：新青安 + 一般貸款
+                const youthMonthlyRate = youthInterestRate / 12;
+                const normalMonthlyRate = normalInterestRate / 12;
+                
+                // 寬限期內只付利息
+                const youthGracePayment = youthLoanAmount * youthMonthlyRate;
+                const normalGracePayment = normalLoanAmount * normalMonthlyRate;
+                gracePayment = youthGracePayment + normalGracePayment;
+                
+                // 寬限期後的正常還款
+                if (remainingMonths > 0) {
+                    let youthMonthlyPayment = 0;
+                    let normalMonthlyPayment = 0;
+                    
+                    if (repaymentType === 'equal_payment') {
+                        // 等額本息公式
+                        if (youthLoanAmount > 0) {
+                            youthMonthlyPayment = youthLoanAmount * (youthMonthlyRate * Math.pow(1 + youthMonthlyRate, remainingMonths)) / (Math.pow(1 + youthMonthlyRate, remainingMonths) - 1);
+                        }
+                        if (normalLoanAmount > 0) {
+                            normalMonthlyPayment = normalLoanAmount * (normalMonthlyRate * Math.pow(1 + normalMonthlyRate, remainingMonths)) / (Math.pow(1 + normalMonthlyRate, remainingMonths) - 1);
+                        }
+                    } else {
+                        // 等額本金公式（第一個月）
+                        if (youthLoanAmount > 0) {
+                            const youthMonthlyPrincipal = youthLoanAmount / remainingMonths;
+                            youthMonthlyPayment = youthMonthlyPrincipal + youthLoanAmount * youthMonthlyRate;
+                        }
+                        if (normalLoanAmount > 0) {
+                            const normalMonthlyPrincipal = normalLoanAmount / remainingMonths;
+                            normalMonthlyPayment = normalMonthlyPrincipal + normalLoanAmount * normalMonthlyRate;
+                        }
+                    }
+                    
+                    monthlyPayment = youthMonthlyPayment + normalMonthlyPayment;
+                } else {
+                    monthlyPayment = gracePayment;
+                }
+                
+                // 正確的總利息計算
+                const graceInterest = gracePayment * graceMonths;
+                let normalPeriodTotalPayment = 0;
+                
+                if (repaymentType === 'equal_payment') {
+                    // 等額本息：固定月付 × 剩餘月數
+                    normalPeriodTotalPayment = monthlyPayment * remainingMonths;
+                } else {
+                    // 等額本金：逐月計算
+                    if (youthLoanAmount > 0) {
+                        const youthMonthlyPrincipal = youthLoanAmount / remainingMonths;
+                        for (let i = 0; i < remainingMonths; i++) {
+                            const youthRemainingPrincipal = youthLoanAmount - (youthMonthlyPrincipal * i);
+                            normalPeriodTotalPayment += youthMonthlyPrincipal + (youthRemainingPrincipal * youthMonthlyRate);
+                        }
+                    }
+                    if (normalLoanAmount > 0) {
+                        const normalMonthlyPrincipal = normalLoanAmount / remainingMonths;
+                        for (let i = 0; i < remainingMonths; i++) {
+                            const normalRemainingPrincipal = normalLoanAmount - (normalMonthlyPrincipal * i);
+                            normalPeriodTotalPayment += normalMonthlyPrincipal + (normalRemainingPrincipal * normalMonthlyRate);
+                        }
+                    }
+                }
+                
+                totalInterest = graceInterest + (normalPeriodTotalPayment - loanAmount);
+            } else {
+                // 單一利率貸款
+                const monthlyRate = interestRate / 12;
+                
+                if (loanAmount > 0 && monthlyRate > 0) {
+                    // 寬限期內只付利息
+                    gracePayment = loanAmount * monthlyRate;
+                    
+                    // 寬限期後的正常還款
+                    if (remainingMonths > 0) {
+                        if (repaymentType === 'equal_payment') {
+                            // 等額本息公式
+                            monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) / (Math.pow(1 + monthlyRate, remainingMonths) - 1);
+                        } else {
+                            // 等額本金公式（第一個月）
+                            const monthlyPrincipal = loanAmount / remainingMonths;
+                            monthlyPayment = monthlyPrincipal + loanAmount * monthlyRate;
+                        }
+                    } else {
+                        monthlyPayment = gracePayment;
+                    }
+                    
+                    // 正確的總利息計算
+                    const graceInterest = gracePayment * graceMonths;
+                    let normalPeriodTotalPayment = 0;
+                    
+                    if (repaymentType === 'equal_payment') {
+                        // 等額本息：固定月付 × 剩餘月數
+                        normalPeriodTotalPayment = monthlyPayment * remainingMonths;
+                    } else {
+                        // 等額本金：逐月計算
+                        const monthlyPrincipal = loanAmount / remainingMonths;
+                        for (let i = 0; i < remainingMonths; i++) {
+                            const remainingPrincipal = loanAmount - (monthlyPrincipal * i);
+                            normalPeriodTotalPayment += monthlyPrincipal + (remainingPrincipal * monthlyRate);
+                        }
+                    }
+                    
+                    totalInterest = graceInterest + (normalPeriodTotalPayment - loanAmount);
+                }
+            }
+            
+            
+            // 雜項費用計算
+            const totalFees = serviceFee + notaryFee + agentFee;
+            
+            // 總成本計算（包含自備款和雜費）
+            const totalCost = downPayment + totalFees;
+            
+            // 負擔能力分析
+            const debtRatio = monthlyPayment / monthlyIncome; // 負債比
+            const availableIncome = monthlyIncome - otherExpenses; // 可用收入
+            const affordabilityRatio = monthlyPayment / availableIncome; // 房貸負擔比
+            const recommendedIncome = monthlyPayment * 3; // 建議月收入（房貸不超過收入1/3）
+            const isAffordable = affordabilityRatio <= 0.5; // 是否負擔得起（負擔比不超過50%）
+            
+            const results = `
+                <div style="line-height: 1.3;">
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">💰 房屋資訊</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>總價：</div><div class="font-semibold">${Math.round(housePrice / 10000)}萬</div>
+                            <div>貸款：</div><div class="font-semibold text-blue-600">${Math.round(loanAmount / 10000)}萬${existingLoan === 'youth' && normalLoanAmount > 0 ? ` (新青安${Math.round(youthLoanAmount/10000)}萬@${(youthInterestRate*100).toFixed(1)}%+一般${Math.round(normalLoanAmount/10000)}萬@${(normalInterestRate*100).toFixed(1)}%)` : existingLoan === 'youth' ? ' @1.8%' : ''}</div>
+                            <div>成數：</div><div class="font-semibold">${(loanRatio * 100).toFixed(0)}%</div>
+                            <div>自備款：</div><div class="font-semibold text-red-600">${Math.round(downPayment / 10000)}萬</div>
+                        </div>
+                    </div>
+                    
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">🏦 貸款條件</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>年限：</div><div class="font-semibold">${loanYears}年</div>
+                            <div>利率：</div><div class="font-semibold">${(interestRate * 100).toFixed(2)}%</div>
+                            <div>還款：</div><div class="font-semibold">${repaymentType === 'equal_payment' ? '等額本息' : '等額本金'}</div>
+                            <div>寬限期：</div><div class="font-semibold">${gracePeriod > 0 ? (gracePeriod === 5 ? '新青安5年' : `${gracePeriod}年`) : '無'}</div>
+                            ${gracePeriod > 0 ? `<div>寬限期月付：</div><div class="font-semibold text-green-600">${Math.round(gracePayment).toLocaleString()}元</div>` : ''}
+                            <div>正常期月付：</div><div class="font-semibold text-blue-600">${Math.round(monthlyPayment).toLocaleString()}元</div>
+                            <div>總利息：</div><div class="font-semibold text-orange-600">${(totalInterest / 10000).toFixed(1)}萬</div>
+                        </div>
+                    </div>
+                    
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">📋 雜項費用</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>代書費+契稅：</div><div class="font-semibold">${serviceFee.toLocaleString()}元</div>
+                            <div>貸書潤筆費：</div><div class="font-semibold">${notaryFee.toLocaleString()}元</div>
+                            <div>仲介費(${agentFeeRate}%)：</div><div class="font-semibold">${Math.round(agentFee).toLocaleString()}元</div>
+                            <div class="font-bold">雜費總計：</div><div class="font-bold text-red-600">${totalFees.toLocaleString()}元</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-bottom: 0.4rem;">
+                        <div class="loan-result-highlight" style="padding: 0.6rem;">
+                            <h3 style="font-size: 0.8rem; margin-bottom: 0.2rem;">🎯 購屋資金需求</h3>
+                            <div class="amount" style="font-size: 1.1rem;">${(totalCost / 10000).toFixed(1)}萬</div>
+                            <p style="opacity: 0.9; margin-top: 0.2rem; font-size: 0.7rem;">自備款+雜費</p>
+                        </div>
+                        
+                        <div class="loan-result-highlight" style="padding: 0.6rem;">
+                            <h3 style="font-size: 0.8rem; margin-bottom: 0.2rem;">💳 每月負擔</h3>
+                            <div class="amount" style="font-size: 1.1rem;">${Math.round(monthlyPayment).toLocaleString()}元</div>
+                            <p style="opacity: 0.9; margin-top: 0.2rem; font-size: 0.7rem;">${gracePeriod > 0 ? '正常期月付' : '房貸月付'}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">📊 負擔能力分析</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>負債比：</div><div class="font-semibold ${debtRatio > 0.3 ? 'text-red-600' : debtRatio > 0.2 ? 'text-orange-600' : 'text-green-600'}">${(debtRatio * 100).toFixed(1)}%</div>
+                            <div>房貸負擔比：</div><div class="font-semibold ${affordabilityRatio > 0.5 ? 'text-red-600' : affordabilityRatio > 0.3 ? 'text-orange-600' : 'text-green-600'}">${(affordabilityRatio * 100).toFixed(1)}%</div>
+                            <div>建議月收入：</div><div class="font-semibold text-blue-600">${Math.round(recommendedIncome / 10000).toFixed(1)}萬</div>
+                            <div>負擔評估：</div><div class="font-semibold ${isAffordable ? 'text-green-600' : 'text-red-600'}">${isAffordable ? '✅ 可負擔' : '⚠️ 負擔過重'}</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            `;
+            
+            document.getElementById('modalLoanResults').innerHTML = results;
+        }
+        
+        
+        // 急售倒數計時功能
+        function updateUrgentCountdown() {
+            // 設定截止時間：2025年9月22日 24:00
+            const endDate = new Date('2025-09-22T23:59:59');
+            const now = new Date();
+            const timeDiff = endDate.getTime() - now.getTime();
+            
+            if (timeDiff <= 0) {
+                // 已過期
+                document.getElementById('urgentCountdown').textContent = '急售已結束';
+                return;
+            }
+            
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+            
+            if (days > 0) {
+                // 超過1天，顯示天數
+                if (days === 1) {
+                    document.getElementById('urgentCountdown').textContent = '急售僅1天';
+                } else {
+                    document.getElementById('urgentCountdown').textContent = `急售僅${days}天`;
+                }
+            } else {
+                // 1天內，顯示24小時倒數計時
+                const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('urgentCountdown').textContent = `急售倒數 ${timeString}`;
+            }
+        }
+        
+        // 頁面載入時啟動倒數計時
+        document.addEventListener('DOMContentLoaded', function() {
+            // 立即更新一次
+            updateUrgentCountdown();
+            
+            // 每秒更新一次
+            setInterval(updateUrgentCountdown, 1000);
+        });
+        
+        // 照片燈箱功能
+        let currentPhotoIndex = 0;
+        let currentPhotoSet = '';
+        let photoSets = {
+            'property1': {
+                images: [
+                    { src: 'images/property1/客廳.jpg', title: '客廳' },
+                    { src: 'images/property1/廚房.jpg', title: '廚房' },
+                    { src: 'images/property1/主臥房視角.jpg', title: '主臥房視角' },
+                    { src: 'images/property1/主臥房視角2.jpg', title: '主臥房視角2' },
+                    { src: 'images/property1/次臥房.jpg', title: '次臥房' },
+                    { src: 'images/property1/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/property1/次臥房4.jpg', title: '次臥房4' },
+                    { src: 'images/property1/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/property1/前陽台.jpg', title: '前陽台' },
+                    { src: 'images/property1/前陽台景觀.jpg', title: '前陽台景觀' },
+                    { src: 'images/property1/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/property1/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/property1/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property2': {
+                images: [
+                    { src: 'images/property2/客廳全景.jpg', title: '客廳全景' },
+                    { src: 'images/property2/客廳角度二.jpg', title: '客廳角度二' },
+                    { src: 'images/property2/客廳細節.jpg', title: '客廳細節' },
+                    { src: 'images/property2/廚房.jpg', title: '廚房' },
+                    { src: 'images/property2/主臥室.jpg', title: '主臥室' },
+                    { src: 'images/property2/次臥室.jpg', title: '次臥室' },
+                    { src: 'images/property2/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/property2/次臥房4.jpg', title: '次臥房4' },
+                    { src: 'images/property2/臥室細節.jpg', title: '臥室細節' },
+                    { src: 'images/property2/衛浴開窗.jpg', title: '衛浴開窗' },
+                    { src: 'images/property2/主臥衛浴開窗.jpg', title: '主臥衛浴開窗' },
+                    { src: 'images/property2/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/property2/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/property2/格局圖.jpg', title: '格局圖' }
+                ]
+            }
+        };
+        
+        function openLightbox(index, photoSet) {
+            currentPhotoIndex = index;
+            currentPhotoSet = photoSet;
+            
+            const lightbox = document.getElementById('photoLightbox');
+            const mainImage = document.getElementById('lightboxMainImage');
+            const title = document.getElementById('lightboxTitle');
+            const counter = document.getElementById('lightboxCounter');
+            const thumbnails = document.getElementById('lightboxThumbnails');
+            
+            // 顯示燈箱
+            lightbox.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // 更新主圖
+            const currentPhoto = photoSets[photoSet].images[index];
+            mainImage.src = currentPhoto.src;
+            mainImage.alt = currentPhoto.title;
+            
+            // 更新標題和計數器
+            title.textContent = currentPhoto.title;
+            counter.textContent = `${index + 1} / ${photoSets[photoSet].images.length}`;
+            
+            // 生成縮圖
+            thumbnails.innerHTML = '';
+            photoSets[photoSet].images.forEach((photo, i) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = photo.src;
+                thumbnail.alt = photo.title;
+                thumbnail.className = 'lightbox-thumbnail';
+                if (i === index) thumbnail.classList.add('active');
+                thumbnail.onclick = () => switchToImage(i);
+                thumbnails.appendChild(thumbnail);
+            });
+            
+            // 綁定鍵盤事件
+            document.addEventListener('keydown', handleKeyPress);
+        }
+        
+        function closeLightbox() {
+            document.getElementById('photoLightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.removeEventListener('keydown', handleKeyPress);
+        }
+        
+        function nextImage() {
+            const totalImages = photoSets[currentPhotoSet].images.length;
+            currentPhotoIndex = (currentPhotoIndex + 1) % totalImages;
+            switchToImage(currentPhotoIndex);
+        }
+        
+        function previousImage() {
+            const totalImages = photoSets[currentPhotoSet].images.length;
+            currentPhotoIndex = (currentPhotoIndex - 1 + totalImages) % totalImages;
+            switchToImage(currentPhotoIndex);
+        }
+        
+        function switchToImage(index) {
+            currentPhotoIndex = index;
+            const currentPhoto = photoSets[currentPhotoSet].images[index];
+            
+            // 更新主圖
+            document.getElementById('lightboxMainImage').src = currentPhoto.src;
+            document.getElementById('lightboxTitle').textContent = currentPhoto.title;
+            document.getElementById('lightboxCounter').textContent = `${index + 1} / ${photoSets[currentPhotoSet].images.length}`;
+            
+            // 更新縮圖活動狀態
+            const thumbnails = document.querySelectorAll('.lightbox-thumbnail');
+            thumbnails.forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+        }
+        
+        function handleKeyPress(event) {
+            switch(event.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    previousImage();
+                    break;
+                case 'ArrowRight':
+                    nextImage();
+                    break;
+            }
+        }
+        
+        // 點擊燈箱背景關閉
+        document.getElementById('photoLightbox').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // 複製 LINE ID 功能
+        document.getElementById('copyLineId').addEventListener('click', async ()=>{
+            try {
+                await navigator.clipboard.writeText('@931aeinu');
+                alert('已複製 LINE ID：@931aeinu');
+            } catch(e) {
+                // 備用方案：使用舊的複製方法
+                const textArea = document.createElement('textarea');
+                textArea.value = '@931aeinu';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('已複製 LINE ID：@931aeinu');
+            }
+        });
+
+        // 客戶見證輪播功能
+        let currentTestimonialIndex = 0;
+        const testimonialSlides = document.getElementById('testimonialSlides');
+        const testimonialPrev = document.getElementById('testimonialPrev');
+        const testimonialNext = document.getElementById('testimonialNext');
+        const totalTestimonials = document.querySelectorAll('.testimonial-slide').length;
+
+        function updateTestimonialCarousel() {
+            testimonialSlides.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
+        }
+
+        testimonialPrev.addEventListener('click', () => {
+            currentTestimonialIndex = currentTestimonialIndex > 0 ? currentTestimonialIndex - 1 : totalTestimonials - 1;
+            updateTestimonialCarousel();
+        });
+
+        testimonialNext.addEventListener('click', () => {
+            currentTestimonialIndex = currentTestimonialIndex < totalTestimonials - 1 ? currentTestimonialIndex + 1 : 0;
+            updateTestimonialCarousel();
+        });
+
+        // 自動播放客戶見證
+        setInterval(() => {
+            currentTestimonialIndex = currentTestimonialIndex < totalTestimonials - 1 ? currentTestimonialIndex + 1 : 0;
+            updateTestimonialCarousel();
+        }, 5000);
     </script>
 </body>
 </html>
