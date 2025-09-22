@@ -1179,9 +1179,12 @@
             padding: 1rem;
             flex: 1;
             overflow-y: auto;
-            max-height: calc(90vh - 100px);
+            max-height: calc(90vh - 80px);
+            min-height: 400px;
             scrollbar-width: thin;
             scrollbar-color: #10b981 #f1f5f9;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
         
         .loan-modal-body::-webkit-scrollbar {
@@ -1363,7 +1366,10 @@
             .loan-modal-body {
                 padding: 1rem;
                 max-height: calc(90vh - 80px);
+                min-height: 300px;
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
             }
             
             .loan-modal-grid {
@@ -1495,7 +1501,10 @@
             .loan-modal-body {
                 padding: 0.6rem;
                 max-height: calc(98vh - 60px);
+                min-height: 250px;
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
             }
             
             .loan-modal-grid {
