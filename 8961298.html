@@ -2794,15 +2794,11 @@
                 loanRatioSlider.addEventListener('input', function() {
                     document.getElementById('modalLoanRatioValue').textContent = this.value + '%';
                     calculateModalLoan(); // 即時計算
-                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
-                    if (document.getElementById('modalExistingLoan').value === 'youth') {
-                        showYouthLoanNotice();
-                    }
                 });
                 loanRatioSlider.addEventListener('change', function() {
                     document.getElementById('modalLoanRatioValue').textContent = this.value + '%';
                     calculateModalLoan(); // 即時計算
-                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
+                    // 只有在變更時才檢查新青安貸款設定
                     if (document.getElementById('modalExistingLoan').value === 'youth') {
                         showYouthLoanNotice();
                     }
@@ -3041,12 +3037,13 @@
                 `;
                 youthRateSetting.style.display = 'block';
                 
-                // 綁定一般貸款利率滑桿事件
+                // 綁定一般貸款利率滑桿事件（避免重複綁定）
                 setTimeout(() => {
                     const normalRateSlider = document.getElementById('normalLoanRate');
                     const normalRateValue = document.getElementById('normalLoanRateValue');
                     
-                    if (normalRateSlider && normalRateValue) {
+                    if (normalRateSlider && normalRateValue && !normalRateSlider.hasAttribute('data-bound')) {
+                        normalRateSlider.setAttribute('data-bound', 'true');
                         normalRateSlider.addEventListener('input', function() {
                             normalRateValue.textContent = this.value + '%';
                             calculateModalLoan(); // 重新計算
@@ -3065,14 +3062,10 @@
             if (housePriceInput) {
                 housePriceInput.addEventListener('input', function() {
                     calculateModalLoan();
-                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
-                    if (document.getElementById('modalExistingLoan').value === 'youth') {
-                        showYouthLoanNotice();
-                    }
                 });
                 housePriceInput.addEventListener('change', function() {
                     calculateModalLoan();
-                    // 如果是新青安貸款，重新檢查是否需要顯示一般貸款利率設定
+                    // 只有在變更時才檢查新青安貸款設定
                     if (document.getElementById('modalExistingLoan').value === 'youth') {
                         showYouthLoanNotice();
                     }
