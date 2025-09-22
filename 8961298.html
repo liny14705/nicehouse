@@ -174,7 +174,7 @@
         }
         
         .price-highlight span {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
         }
         
         .original-price {
@@ -337,30 +337,34 @@
         @media (max-width: 768px) {
             .properties-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
                 line-height: 1.2;
             }
             
             .header p {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
             
             .urgent-banner {
-                font-size: 1rem;
-                padding: 0.8rem;
+                font-size: 0.9rem;
+                padding: 0.7rem;
             }
             
             .property-card {
-                padding: 1.2rem;
-                margin-bottom: 1rem;
+                padding: 1rem;
+                margin-bottom: 0.8rem;
             }
             
             .property-title {
-                font-size: 1.2rem;
-                line-height: 1.3;
+                font-size: 1rem;
+                line-height: 1.2;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .property-title::before {
@@ -369,29 +373,47 @@
             
             .price-highlight {
                 font-size: 1.1rem;
-                line-height: 1.3;
+                line-height: 1.2;
+                padding: 0.7rem;
             }
             
             .price-highlight span {
-                font-size: 1.5rem !important;
+                font-size: 0.9rem !important;
             }
             
             .features-list li {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 padding: 0.4rem 0;
                 padding-left: 1.5rem;
             }
             
             .loan-info {
-                font-size: 0.85rem;
-                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.7rem;
                 margin: -0.1rem 0;
             }
             
             .loan-info .contact-button {
-                font-size: 0.8rem !important;
+                font-size: 0.75rem !important;
                 padding: 0.3rem 0.6rem !important;
                 margin-top: 0.15rem !important;
+            }
+            
+            /* 地址和社區資訊優化 */
+            .property-card div[style*="background: #f8f9fa"] {
+                font-size: 0.8rem !important;
+                padding: 0.5rem !important;
+            }
+            
+            /* 生活機能區域優化 */
+            .property-card div[style*="background: #e8f5e8"] {
+                font-size: 0.7rem !important;
+                padding: 0.4rem !important;
+            }
+            
+            .property-card div[style*="background: #e8f5e8"] p {
+                font-size: 0.7rem !important;
+                margin: 0 !important;
             }
             
             .info-grid {
@@ -508,6 +530,19 @@
                 font-size: 0.8rem !important;
                 padding: 0.5rem 0.8rem !important;
                 margin: 0.2rem !important;
+            }
+            
+            /* 快速切換按鈕手機版優化 */
+            .tab-buttons {
+                flex-direction: column !important;
+                gap: 0.3rem !important;
+                width: 100% !important;
+            }
+            
+            .tab-button {
+                width: 100% !important;
+                padding: 0.5rem 1rem !important;
+                font-size: 0.85rem !important;
             }
             
             /* 客戶見證按鈕手機版優化 */
@@ -727,6 +762,18 @@
                 font-size: 0.85rem !important;
                 padding: 0.6rem 1rem !important;
             }
+            
+            /* 快速切換按鈕響應式設計 */
+            .tab-buttons {
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+            }
+            
+            .tab-button {
+                width: 100% !important;
+                padding: 0.6rem 1.5rem !important;
+                font-size: 0.9rem !important;
+            }
         }
         
         /* 電腦版照片滾動區優化 */
@@ -741,6 +788,30 @@
         .photo-item:hover {
             transform: translateY(-2px) !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+        }
+        
+        /* 分頁樣式 */
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(45deg, #667eea, #764ba2) !important;
+            color: white !important;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
         }
         
         .photo-item img:hover {
@@ -1307,6 +1378,55 @@
                 font-size: 0.9rem;
             }
             
+            /* 超小螢幕優化 */
+            .property-title {
+                font-size: 0.9rem !important;
+            }
+            
+            .price-highlight {
+                font-size: 1rem !important;
+                padding: 0.6rem !important;
+            }
+            
+            .price-highlight span {
+                font-size: 0.8rem !important;
+            }
+            
+            .features-list li {
+                font-size: 0.75rem !important;
+                padding: 0.3rem 0 !important;
+                padding-left: 1.2rem !important;
+            }
+            
+            .loan-info {
+                font-size: 0.7rem !important;
+                padding: 0.3rem 0.6rem !important;
+            }
+            
+            .property-card div[style*="background: #f8f9fa"] {
+                font-size: 0.75rem !important;
+                padding: 0.4rem !important;
+            }
+            
+            .property-card div[style*="background: #e8f5e8"] {
+                font-size: 0.65rem !important;
+                padding: 0.3rem !important;
+            }
+            
+            .property-card div[style*="background: #e8f5e8"] p {
+                font-size: 0.65rem !important;
+            }
+            
+            .contact-button {
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.7rem !important;
+            }
+            
+            .tab-button {
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.7rem !important;
+            }
+            
             .loan-modal-close {
                 font-size: 1.5rem;
                 padding: 0.1rem;
@@ -1445,54 +1565,73 @@
                 <h2 style="font-size: 1.8rem; color: #2c3e50; padding: 0.4rem 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2); text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; display: inline-block; margin: 0;">濬瑒嚴選優質物件</h2>
             </div>
             
-            <div class="properties-grid">
-                <div class="property-card">
+            <!-- 分頁切換按鈕 -->
+            <div class="tab-container" style="text-align: center; margin: 1rem 0 2rem 0;">
+                <div class="tab-buttons" style="display: inline-flex; background: #f8f9fa; border-radius: 25px; padding: 0.3rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <button class="tab-button active" onclick="switchTab('property1')" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);">
+                        🏠 2房物件
+                    </button>
+                    <button class="tab-button" onclick="switchTab('property2')" style="background: transparent; color: #666; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        🏢 3房物件
+                    </button>
+                    <button class="tab-button" onclick="switchTab('property3')" style="background: transparent; color: #666; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        🏘️ 4房物件
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 分頁內容 -->
+            <div class="tab-content">
+                <!-- 新都悅分頁 -->
+                <div id="tab-property1" class="tab-pane active">
+                    <div class="properties-grid">
+                        <div class="property-card">
                     <h3 class="property-title">新都悅｜2房2廳1衛｜車位</h3>
                     
                     <!-- 照片滾動區 -->
                     <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
                         <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
                             <div class="photo-item" onclick="openLightbox(0, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(1, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/客廳視角2.jpg" alt="客廳視角2" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/客廳視角2.jpg" alt="客廳視角2" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(2, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/客廳視角3.jpg" alt="客廳視角3" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/客廳視角3.jpg" alt="客廳視角3" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(3, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/客廳視角4.jpg" alt="客廳視角4" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/客廳視角4.jpg" alt="客廳視角4" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(4, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/玄關.jpg" alt="玄關" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/玄關.jpg" alt="玄關" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(5, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/主臥房.jpg" alt="主臥房" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/主臥房.jpg" alt="主臥房" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(6, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/主臥房2.jpg" alt="主臥房2" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/主臥房2.jpg" alt="主臥房2" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(7, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/次臥房.jpg" alt="次臥房" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/次臥房.jpg" alt="次臥房" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(8, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/衛浴.jpg" alt="衛浴" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/衛浴.jpg" alt="衛浴" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(9, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/陽台照片.jpg" alt="陽台照片" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/陽台照片.jpg" alt="陽台照片" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(10, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/陽台照片2.jpg" alt="陽台照片2" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/陽台照片2.jpg" alt="陽台照片2" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(11, 'property1')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property3/格局圖.png" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/2-1/格局圖.png" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                         </div>
                     </div>
                     
-                    <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.8rem;">
-                        <strong>📍 地址：</strong>楊梅區梅獅路二段232巷28號10樓<br>
+                    <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.9rem;">
+                        <strong>📍 地址：</strong>楊梅區梅獅路二段232巷***號10樓<br>
                         <strong>🏢 社區：</strong>新都悅景觀溫馨兩房車
                     </div>
                     <div class="price-highlight">
@@ -1526,64 +1665,135 @@
                             🧮 貸款試算
                         </a>
                     </div>
+                        </div>
+                        
+                        <!-- 第二個2房物件 -->
+                        <div class="property-card">
+                            <h3 class="property-title">金山街｜2房2廳1衛｜車位</h3>
+                            
+                            <!-- 照片滾動區 -->
+                            <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
+                                <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
+                                    <div class="photo-item" onclick="openLightbox(0, 'property1b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/2-2/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(1, 'property1b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/2-2/客餐廳.jpg" alt="客餐廳" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(2, 'property1b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/2-2/主臥房.jpg" alt="主臥房" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(3, 'property1b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/2-2/次臥房.jpg" alt="次臥房" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(4, 'property1b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/2-2/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(5, 'property1b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/2-2/衛浴.jpg" alt="衛浴" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(6, 'property1b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/2-2/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.9rem;">
+                                <strong>📍 地址：</strong>楊梅區金山街275巷***號9樓<br>
+                                <strong>🏢 社區：</strong>金山街景觀兩房車
+                            </div>
+                            <div class="price-highlight">
+                                售價：1,098萬<br>
+                                <span style="color: #27ae60;">無限棟距採光一級棒</span>
+                            </div>
+                            <ul class="features-list">
+                                <li>2房2廳1衛格局</li>
+                                <li>總坪數38.18坪 (主建物17.76坪)</li>
+                                <li>9樓 / 總樓層15樓</li>
+                                <li>屋齡9年 (104.09.25完工)</li>
+                                <li>座西北朝東南 / 有電梯</li>
+                                <li>平面車位B2-219 / 機車位B1-21</li>
+                                <li>管理費1,619元/月</li>
+                            </ul>
+                            <div style="background: #e8f5e8; padding: 0.6rem; border-radius: 6px; margin-top: auto;">
+                                <h4 style="color: #27ae60; margin-bottom: 0.3rem; font-size: 0.85rem;">🌟 生活機能</h4>
+                                <p style="font-size: 0.75rem; margin: 0;">
+                                    <strong>學校：</strong>楊明國中、楊明國小<br>
+                                    <strong>交通：</strong>楊梅交流道、幼獅交流道、楊梅火車站<br>
+                                    <strong>商圈：</strong>大成路商圈、環東路商圈、新農街商圈、星巴克、全聯福利中心<br>
+                                    <strong>醫院：</strong>天成醫院、怡仁綜合醫院<br>
+                                    <strong>公園：</strong>楊明公園
+                                </p>
+                            </div>
+                            <div class="loan-info" style="margin-top: 0.6rem;">
+                                💰 可貸款額度：878萬 - 933萬
+                                <div style="font-size: 0.6rem; color: #e74c3c; margin-top: 0.05rem; font-weight: bold;">以上為銀行初估實際依個人條件為主</div>
+                                <a href="javascript:void(0)" onclick="openLoanModal(1098)" class="contact-button" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; margin-top: 0.2rem; display: inline-block;">
+                                    🧮 貸款試算
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="property-card">
+                <!-- 世紀美妝分頁 -->
+                <div id="tab-property2" class="tab-pane">
+                    <div class="properties-grid">
+                        <div class="property-card">
                     <h3 class="property-title">世紀美妝雙開三房車｜3房2廳2衛｜車位</h3>
                     
                     <!-- 照片滾動區 -->
                     <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
                         <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
                             <div class="photo-item" onclick="openLightbox(0, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(1, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/客廳1.jpg" alt="客廳1" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/客廳1.jpg" alt="客廳1" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(2, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/客廳2.jpg" alt="客廳2" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/客廳2.jpg" alt="客廳2" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(3, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(4, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/主臥.jpg" alt="主臥" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/主臥.jpg" alt="主臥" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(5, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/次臥房.jpg" alt="次臥房" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/次臥房-1.jpg" alt="次臥房-1" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(6, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/次臥房2.jpg" alt="次臥房2" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/次臥房-1-1.jpg" alt="次臥房-1-1" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(7, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/次臥房3.jpg" alt="次臥房3" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/次臥房2.jpg" alt="次臥房2" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(8, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/次臥房-1.jpg" alt="次臥房-1" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/次臥房2-1.jpg" alt="次臥房2-1" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(9, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/次臥房-1-1.jpg" alt="次臥房-1-1" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/次臥房3.jpg" alt="次臥房3" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(10, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/次臥房2-1.jpg" alt="次臥房2-1" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/衛浴1.jpg" alt="衛浴1" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(11, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/衛浴1.jpg" alt="衛浴1" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/廁所.jpg" alt="廁所" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(12, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/廁所.jpg" alt="廁所" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/陽台.jpg" alt="陽台" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(13, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/陽台.jpg" alt="陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="images/3-1/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="photo-item" onclick="openLightbox(14, 'property2')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="images/property4/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                         </div>
                     </div>
                     
-                    <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.8rem;">
-                        <strong>📍 地址：</strong>楊梅區金山街368巷20號14樓<br>
+                    <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.9rem;">
+                        <strong>📍 地址：</strong>楊梅區金山街368巷***號14樓<br>
                         <strong>🏢 社區：</strong>世紀城 (世紀美妝雙開三房車)
                     </div>
                     <div class="price-highlight">
@@ -1621,30 +1831,347 @@
                             🧮 貸款試算
                         </a>
                     </div>
+                        </div>
+                        
+                        <!-- 第二個3房物件 -->
+                        <div class="property-card">
+                            <h3 class="property-title">泳達首郡次頂樓3房車｜3房2廳2衛｜車位</h3>
+                            
+                            <!-- 照片滾動區 -->
+                            <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
+                                <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
+                                    <div class="photo-item" onclick="openLightbox(0, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(1, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/主臥.jpg" alt="主臥" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(2, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/主臥1.jpg" alt="主臥1" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(3, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(4, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/後陽台.jpg" alt="後陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(5, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/房間.jpg" alt="房間" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(6, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/衛浴.jpg" alt="衛浴" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(7, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/陽台景觀.jpg" alt="陽台景觀" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(8, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/B205CS178329j.jpg" alt="B205CS178329j" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(9, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/B205CS178329k.jpg" alt="B205CS178329k" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(10, 'property2b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/3-2/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.9rem;">
+                                <strong>📍 地址：</strong>楊梅區楊新北路***號11樓<br>
+                                <strong>🏢 社區：</strong>泳達首郡
+                            </div>
+                            <div class="price-highlight">
+                                售價：1,298萬<br>
+                                <span style="color: #27ae60;">次頂樓景觀戶、稀有釋出</span>
+                            </div>
+                            <ul class="features-list">
+                                <li>3房2廳2衛格局</li>
+                                <li>總坪數52.68坪 (主建物23.85坪)</li>
+                                <li>11樓 / 總樓層12樓 (次頂樓)</li>
+                                <li>屋齡10.3年</li>
+                                <li>座西朝東向、採光佳</li>
+                                <li>私有坡道平面車位</li>
+                                <li>管理費2,200元/月</li>
+                                <li>雙衛浴皆有開窗、通風佳</li>
+                                <li>屋況佳、稀有釋出</li>
+                                <li>優質社區、環境清幽</li>
+                                <li>近楊梅車站、交流道</li>
+                            </ul>
+                            <div style="background: #e8f5e8; padding: 0.6rem; border-radius: 6px; margin-top: auto;">
+                                <h4 style="color: #27ae60; margin-bottom: 0.3rem; font-size: 0.85rem;">🌟 生活機能</h4>
+                                <p style="font-size: 0.75rem; margin: 0;">
+                                    <strong>學校：</strong>市立大同國小、市立楊明國中<br>
+                                    <strong>交通：</strong>楊梅車站、交流道生活圈<br>
+                                    <strong>商圈：</strong>交流道生活圈<br>
+                                    <strong>公園：</strong>楊明公園<br>
+                                    <strong>市場：</strong>市場
+                                </p>
+                            </div>
+                            <div class="loan-info" style="margin-top: 0.6rem;">
+                                💰 可貸款額度：1,038萬 - 1,103萬
+                                <div style="font-size: 0.6rem; color: #e74c3c; margin-top: 0.05rem; font-weight: bold;">以上為銀行初估實際依個人條件為主</div>
+                                <a href="javascript:void(0)" onclick="openLoanModal(1298, 8)" class="contact-button" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; margin-top: 0.2rem; display: inline-block;">
+                                    🧮 貸款試算
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4房物件分頁 -->
+                <div id="tab-property3" class="tab-pane">
+                    <div class="properties-grid">
+                        <div class="property-card">
+                            <h3 class="property-title">和耀新加州｜4房2廳2衛｜單車位</h3>
+                            
+                            <!-- 照片滾動區 -->
+                            <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
+                                <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
+                                    <div class="photo-item" onclick="openLightbox(0, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/客廳.jpg" alt="客廳" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(1, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(2, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/主臥房視角.jpg" alt="主臥房視角" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(3, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/主臥房視角2.jpg" alt="主臥房視角2" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(4, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/次臥房.jpg" alt="次臥房" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(5, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/次臥房3.jpg" alt="次臥房3" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(6, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/次臥房4.jpg" alt="次臥房4" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(7, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/衛浴.jpg" alt="衛浴" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(8, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/前陽台.jpg" alt="前陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(9, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/前陽台景觀.jpg" alt="前陽台景觀" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(10, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/後陽台.jpg" alt="後陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(11, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/陽台景觀.jpg" alt="陽台景觀" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(12, 'property3a')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-1/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.9rem;">
+                                <strong>📍 地址：</strong>楊梅區新農街二段***號3樓<br>
+                                <strong>🏢 社區：</strong>全新落成正四房+車位 (和耀新加州)
+                            </div>
+                            <div class="price-highlight">
+                                絕版價：1,398萬
+                            </div>
+                            <ul class="features-list">
+                                <li>4房2廳2衛格局</li>
+                                <li>衛浴雙開窗設計</li>
+                                <li>平面單車位</li>
+                                <li>總坪數50.29坪 (建物24.91坪 / 土地持分7.89坪)</li>
+                                <li>3樓 / 總樓層12樓</li>
+                                <li>屋齡不到1年 (2024.12.19完工)</li>
+                                <li>大廈管理</li>
+                                <li>座南朝北 / 有電梯</li>
+                            </ul>
+                            <div style="background: #e8f5e8; padding: 0.6rem; border-radius: 6px; margin-top: 0.6rem;">
+                                <h4 style="color: #27ae60; margin-bottom: 0.3rem; font-size: 0.85rem;">🌟 生活機能</h4>
+                                <p style="font-size: 0.75rem; margin: 0;">
+                                    <strong>學校：</strong>楊明國中、楊明國小、楊梅國小<br>
+                                    <strong>交通：</strong>台1線、楊梅交流道、五楊交流道、楊梅區免費公車、楊梅火車站<br>
+                                    <strong>公園：</strong>楊梅市場、頭重溪公園
+                                </p>
+                            </div>
+                            <div class="loan-info">
+                                💰 可貸款額度：1,150萬 - 1,210萬
+                                <div style="font-size: 0.6rem; color: #e74c3c; margin-top: 0.05rem; font-weight: bold;">以上為銀行初估實際依個人條件為主</div>
+                                <a href="javascript:void(0)" onclick="openLoanModal(1398, 8)" class="contact-button" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; margin-top: 0.2rem; display: inline-block;">
+                                    🧮 貸款試算
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="property-card">
+                            <h3 class="property-title">和耀新加州｜4房2廳2衛｜雙車位</h3>
+                            
+                            <!-- 照片滾動區 -->
+                            <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
+                                <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
+                                    <div class="photo-item" onclick="openLightbox(0, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/客廳全景.jpg" alt="客廳全景" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(1, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/客廳細節.jpg" alt="客廳細節" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(2, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/客廳角度二.jpg" alt="客廳角度二" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(3, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/廚房.jpg" alt="廚房" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(4, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/主臥室.jpg" alt="主臥室" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(5, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/次臥室.jpg" alt="次臥室" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(6, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/次臥房3.jpg" alt="次臥房3" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(7, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/次臥房4.jpg" alt="次臥房4" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(8, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/臥室細節.jpg" alt="臥室細節" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(9, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/衛浴開窗.jpg" alt="衛浴開窗" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(10, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/主臥衛浴開窗.jpg" alt="主臥衛浴開窗" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(11, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/後陽台.jpg" alt="後陽台" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(12, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/陽台景觀.jpg" alt="陽台景觀" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="photo-item" onclick="openLightbox(13, 'property3b')" style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <img src="images/4-2/格局圖.jpg" alt="格局圖" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #f8f9fa; padding: 0.6rem; border-radius: 6px; margin: 0.6rem 0; font-size: 0.9rem;">
+                                <strong>📍 地址：</strong>楊梅區新農街二段***號3樓<br>
+                                <strong>🏢 社區：</strong>全新落成正四房+雙車位 (和耀新加州)
+                            </div>
+                            <div class="price-highlight">
+                                絕版價：1,568萬
+                            </div>
+                            <ul class="features-list">
+                                <li>4房2廳2衛格局</li>
+                                <li>衛浴雙開窗設計</li>
+                                <li>平面雙車位</li>
+                                <li>總坪數58.13坪 (建物24.91坪 / 土地持分7.89坪)</li>
+                                <li>3樓 / 總樓層12樓</li>
+                                <li>屋齡不到1年 (2024.12.19完工)</li>
+                                <li>大廈管理</li>
+                                <li>座南朝北 / 有電梯</li>
+                            </ul>
+                            <div style="background: #e8f5e8; padding: 0.6rem; border-radius: 6px; margin-top: 0.6rem;">
+                                <h4 style="color: #27ae60; margin-bottom: 0.3rem; font-size: 0.85rem;">🌟 生活機能</h4>
+                                <p style="font-size: 0.75rem; margin: 0;">
+                                    <strong>學校：</strong>楊明國中、楊明國小、楊梅國小<br>
+                                    <strong>交通：</strong>台1線、楊梅交流道、五楊交流道、楊梅區免費公車、楊梅火車站<br>
+                                    <strong>公園：</strong>楊梅市場、頭重溪公園
+                                </p>
+                            </div>
+                            <div class="loan-info">
+                                💰 可貸款額度：1,184萬 - 1,258萬
+                                <div style="font-size: 0.6rem; color: #e74c3c; margin-top: 0.05rem; font-weight: bold;">以上為銀行初估實際依個人條件為主</div>
+                                <a href="javascript:void(0)" onclick="openLoanModal(1568, 15)" class="contact-button" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; margin-top: 0.2rem; display: inline-block;">
+                                    🧮 貸款試算
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         
+        <!-- ========================================== -->
+        <!-- 地圖區域 - 分頁式地圖顯示 -->
+        <!-- ========================================== -->
         <section style="background: #f8f9fa; padding: 1.2rem; text-align: center;">
             <h2 style="color: #2c3e50; margin-bottom: 1.2rem;">📍 物件位置</h2>
             
-            <!-- 兩個物件的地圖並排顯示 -->
-            <div class="maps-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 800px; margin: 0 auto;">
-                <!-- 新都悅地圖 -->
-                <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <!-- 地圖分頁標籤 - 已隱藏，會自動跟隨物件分頁切換 -->
+            <div class="map-tabs" style="display: none;">
+                <button class="map-tab active" onclick="showMapTab('map-2room')" style="padding: 0.6rem 1.2rem; border: none; background: #3498db; color: white; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 500;">🏠 2房物件</button>
+                <button class="map-tab" onclick="showMapTab('map-3room')" style="padding: 0.6rem 1.2rem; border: none; background: #95a5a6; color: white; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 500;">🏢 3房物件</button>
+                <button class="map-tab" onclick="showMapTab('map-4room')" style="padding: 0.6rem 1.2rem; border: none; background: #95a5a6; color: white; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 500;">🏘️ 4房物件</button>
+            </div>
+            
+            <!-- 2房物件地圖 -->
+            <div id="map-2room" class="map-content active" style="display: block;">
+                <div class="maps-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 800px; margin: 0 auto;">
+                <!-- 新都悅地圖 - 位置已鎖定，請勿修改 -->
+                <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" id="locked-map-newduyue">
                     <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 新都悅</h3>
-                    <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區梅獅路二段232巷28號10樓</p>
+                    <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;" id="map-address-1">楊梅區梅獅路二段232巷***號10樓</p>
                     <div style="border-radius: 10px; overflow: hidden;">
-                        <iframe src="https://www.google.com/maps/embed?pb=!4v1758354889136!6m8!1m7!1sUkFwZyw6j3XcYDAVWZAdcg!2m2!1d24.90605587454584!2d121.1772851819323!3f210.84360449450813!4f22.43580706557097!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <!-- 地圖iframe - 已鎖定，請勿修改 -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!4v1758510953344!6m8!1m7!1sLa6_NXvMG_mE19DLCOhwsA!2m2!1d24.90569409538472!2d121.1775006696377!3f297.88538766332994!4f22.681653370717882!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" id="locked-iframe-newduyue"></iframe>
                     </div>
                 </div>
                 
-                <!-- 世紀美妝地圖 -->
-                <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                    <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 世紀美妝雙開三房車</h3>
-                    <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區金山街368巷20號14樓</p>
+                <!-- 金山街地圖 - 位置已鎖定，請勿修改 -->
+                <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" id="locked-map-shijimeizhuang">
+                    <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 金山街景觀兩房車</h3>
+                    <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;" id="map-address-2">楊梅區金山街275巷***號9樓</p>
                     <div style="border-radius: 10px; overflow: hidden;">
-                        <iframe src="https://www.google.com/maps/embed?pb=!4v1758360194948!6m8!1m7!1sqwetxttnYo9gbfTJYRoi4A!2m2!1d24.91241314155521!2d121.1628332443688!3f154.83489254955228!4f26.465228026732888!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <!-- 地圖iframe - 已鎖定，請勿修改 -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!4v1758510999106!6m8!1m7!1snj-1uSnKMtwfnVydvXo9FQ!2m2!1d24.9114918783189!2d121.1619182235839!3f247.2903804553997!4f31.208406181227133!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" id="locked-iframe-shijimeizhuang"></iframe>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+            <!-- 3房物件地圖 -->
+            <div id="map-3room" class="map-content" style="display: none;">
+                <div class="maps-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 800px; margin: 0 auto;">
+                    <!-- 世紀美妝地圖 -->
+                    <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 世紀美妝雙開三房車</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區金山街368巷***號14樓</p>
+                        <div style="border-radius: 10px; overflow: hidden;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!4v1758510282901!6m8!1m7!1sqwetxttnYo9gbfTJYRoi4A!2m2!1d24.91241314155521!2d121.1628332443688!3f154.83!4f26.47!5f0.5970117501821992" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                    
+                    <!-- 泳達首郡地圖 -->
+                    <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 泳達首郡次頂樓3房車</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區楊新北路***號11樓</p>
+                        <div style="border-radius: 10px; overflow: hidden;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!4v1758512225458!6m8!1m7!1sywqa6EeYYVCeIJ4XHZGoXQ!2m2!1d24.91181564018986!2d121.1534108154013!3f245.29685858044493!4f23.16286326402428!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 4房物件地圖 -->
+            <div id="map-4room" class="map-content" style="display: none;">
+                <div class="maps-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 800px; margin: 0 auto;">
+                    <!-- 和耀新加州單車位地圖 -->
+                    <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 和耀新加州｜單車位</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區新農街二段***號3樓</p>
+                        <div style="border-radius: 10px; overflow: hidden;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!4v1758510265765!6m8!1m7!1s7w1_fK5tL3RYWBpCpBwAwg!2m2!1d24.91222143626028!2d121.1724532961861!3f324.3587955049225!4f10.700202839313008!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                    
+                    <!-- 和耀新加州雙車位地圖 -->
+                    <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <h3 style="color: #2c3e50; margin-bottom: 0.8rem; font-size: 1.1rem;">🏢 和耀新加州｜雙車位</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 0.8rem; font-size: 0.85rem;">楊梅區新農街二段***號3樓</p>
+                        <div style="border-radius: 10px; overflow: hidden;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!4v1758510265765!6m8!1m7!1s7w1_fK5tL3RYWBpCpBwAwg!2m2!1d24.91222143626028!2d121.1724532961861!3f324.3587955049225!4f10.700202839313008!5f0.7820865974627469" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1661,8 +2188,53 @@
                         grid-template-columns: 1fr !important;
                         gap: 1rem !important;
                     }
+                    
+                    .map-tabs {
+                        flex-direction: column !important;
+                        gap: 0.3rem !important;
+                    }
+                    
+                    .map-tab {
+                        font-size: 0.8rem !important;
+                        padding: 0.5rem 1rem !important;
+                    }
+                }
+                
+                /* 地圖分頁樣式 */
+                .map-tab {
+                    transition: all 0.3s ease;
+                }
+                
+                .map-tab:hover {
+                    background: #2980b9 !important;
+                    transform: translateY(-1px);
+                }
+                
+                .map-content {
+                    transition: opacity 0.3s ease;
                 }
             </style>
+        </section>
+        <!-- ========================================== -->
+        <!-- 地圖區域結束 - 以上區域已鎖定 -->
+        <!-- ========================================== -->
+        
+        <!-- 快速切換按鈕 -->
+        <section style="background: #f8f9fa; padding: 1.2rem; margin: 1rem 0; text-align: center;">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">⚡ 快速切換</h2>
+            <div class="tab-container" style="text-align: center; margin: 0 0 1.5rem 0;">
+                <div class="tab-buttons" style="display: inline-flex; background: #f8f9fa; border-radius: 25px; padding: 0.3rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <button class="tab-button active" onclick="switchTab('property1')" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);">
+                        🏠 2房物件
+                    </button>
+                    <button class="tab-button" onclick="switchTab('property2')" style="background: transparent; color: #666; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        🏢 3房物件
+                    </button>
+                    <button class="tab-button" onclick="switchTab('property3')" style="background: transparent; color: #666; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        🏘️ 4房物件
+                    </button>
+                </div>
+            </div>
         </section>
         
         <!-- 相關資料連結 -->
@@ -1962,6 +2534,31 @@
     </div>
     
     <script>
+        // 地圖分頁切換功能
+        function showMapTab(tabId) {
+            // 隱藏所有地圖內容
+            const mapContents = document.querySelectorAll('.map-content');
+            mapContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // 重置所有標籤按鈕樣式
+            const mapTabs = document.querySelectorAll('.map-tab');
+            mapTabs.forEach(tab => {
+                tab.style.background = '#95a5a6';
+            });
+            
+            // 顯示選中的地圖內容
+            const selectedContent = document.getElementById(tabId);
+            if (selectedContent) {
+                selectedContent.style.display = 'block';
+            }
+            
+            // 高亮選中的標籤按鈕
+            const selectedTab = event.target;
+            selectedTab.style.background = '#3498db';
+        }
+        
         // 添加一些互動效果
         document.addEventListener('DOMContentLoaded', function() {
             // 滾動動畫效果
@@ -2696,37 +3293,97 @@
         let photoSets = {
             'property1': {
                 images: [
-                    { src: 'images/property3/客廳.jpg', title: '客廳' },
-                    { src: 'images/property3/客廳視角2.jpg', title: '客廳視角2' },
-                    { src: 'images/property3/客廳視角3.jpg', title: '客廳視角3' },
-                    { src: 'images/property3/客廳視角4.jpg', title: '客廳視角4' },
-                    { src: 'images/property3/玄關.jpg', title: '玄關' },
-                    { src: 'images/property3/主臥房.jpg', title: '主臥房' },
-                    { src: 'images/property3/主臥房2.jpg', title: '主臥房2' },
-                    { src: 'images/property3/次臥房.jpg', title: '次臥房' },
-                    { src: 'images/property3/衛浴.jpg', title: '衛浴' },
-                    { src: 'images/property3/陽台照片.jpg', title: '陽台照片' },
-                    { src: 'images/property3/陽台照片2.jpg', title: '陽台照片2' },
-                    { src: 'images/property3/格局圖.png', title: '格局圖' }
+                    { src: 'images/2-1/客廳.jpg', title: '客廳' },
+                    { src: 'images/2-1/客廳視角2.jpg', title: '客廳視角2' },
+                    { src: 'images/2-1/客廳視角3.jpg', title: '客廳視角3' },
+                    { src: 'images/2-1/客廳視角4.jpg', title: '客廳視角4' },
+                    { src: 'images/2-1/玄關.jpg', title: '玄關' },
+                    { src: 'images/2-1/主臥房.jpg', title: '主臥房' },
+                    { src: 'images/2-1/主臥房2.jpg', title: '主臥房2' },
+                    { src: 'images/2-1/次臥房.jpg', title: '次臥房' },
+                    { src: 'images/2-1/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/2-1/陽台照片.jpg', title: '陽台照片' },
+                    { src: 'images/2-1/陽台照片2.jpg', title: '陽台照片2' },
+                    { src: 'images/2-1/格局圖.png', title: '格局圖' }
+                ]
+            },
+            'property1b': {
+                images: [
+                    { src: 'images/2-2/客廳.jpg', title: '客廳' },
+                    { src: 'images/2-2/客餐廳.jpg', title: '客餐廳' },
+                    { src: 'images/2-2/主臥房.jpg', title: '主臥房' },
+                    { src: 'images/2-2/次臥房.jpg', title: '次臥房' },
+                    { src: 'images/2-2/廚房.jpg', title: '廚房' },
+                    { src: 'images/2-2/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/2-2/格局圖.jpg', title: '格局圖' }
                 ]
             },
             'property2': {
                 images: [
-                    { src: 'images/property4/客廳.jpg', title: '客廳' },
-                    { src: 'images/property4/客廳1.jpg', title: '客廳1' },
-                    { src: 'images/property4/客廳2.jpg', title: '客廳2' },
-                    { src: 'images/property4/廚房.jpg', title: '廚房' },
-                    { src: 'images/property4/主臥.jpg', title: '主臥' },
-                    { src: 'images/property4/次臥房.jpg', title: '次臥房' },
-                    { src: 'images/property4/次臥房2.jpg', title: '次臥房2' },
-                    { src: 'images/property4/次臥房3.jpg', title: '次臥房3' },
-                    { src: 'images/property4/次臥房-1.jpg', title: '次臥房-1' },
-                    { src: 'images/property4/次臥房-1-1.jpg', title: '次臥房-1-1' },
-                    { src: 'images/property4/次臥房2-1.jpg', title: '次臥房2-1' },
-                    { src: 'images/property4/衛浴1.jpg', title: '衛浴1' },
-                    { src: 'images/property4/廁所.jpg', title: '廁所' },
-                    { src: 'images/property4/陽台.jpg', title: '陽台' },
-                    { src: 'images/property4/格局圖.jpg', title: '格局圖' }
+                    { src: 'images/3-1/客廳.jpg', title: '客廳' },
+                    { src: 'images/3-1/客廳1.jpg', title: '客廳1' },
+                    { src: 'images/3-1/客廳2.jpg', title: '客廳2' },
+                    { src: 'images/3-1/廚房.jpg', title: '廚房' },
+                    { src: 'images/3-1/主臥.jpg', title: '主臥' },
+                    { src: 'images/3-1/次臥房-1.jpg', title: '次臥房-1' },
+                    { src: 'images/3-1/次臥房-1-1.jpg', title: '次臥房-1-1' },
+                    { src: 'images/3-1/次臥房2.jpg', title: '次臥房2' },
+                    { src: 'images/3-1/次臥房2-1.jpg', title: '次臥房2-1' },
+                    { src: 'images/3-1/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/3-1/衛浴1.jpg', title: '衛浴1' },
+                    { src: 'images/3-1/廁所.jpg', title: '廁所' },
+                    { src: 'images/3-1/陽台.jpg', title: '陽台' },
+                    { src: 'images/3-1/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property2b': {
+                images: [
+                    { src: 'images/3-2/客廳.jpg', title: '客廳' },
+                    { src: 'images/3-2/主臥.jpg', title: '主臥' },
+                    { src: 'images/3-2/主臥1.jpg', title: '主臥1' },
+                    { src: 'images/3-2/廚房.jpg', title: '廚房' },
+                    { src: 'images/3-2/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/3-2/房間.jpg', title: '房間' },
+                    { src: 'images/3-2/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/3-2/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/3-2/B205CS178329j.jpg', title: 'B205CS178329j' },
+                    { src: 'images/3-2/B205CS178329k.jpg', title: 'B205CS178329k' },
+                    { src: 'images/3-2/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property3a': {
+                images: [
+                    { src: 'images/4-1/客廳.jpg', title: '客廳' },
+                    { src: 'images/4-1/廚房.jpg', title: '廚房' },
+                    { src: 'images/4-1/主臥房視角.jpg', title: '主臥房視角' },
+                    { src: 'images/4-1/主臥房視角2.jpg', title: '主臥房視角2' },
+                    { src: 'images/4-1/次臥房.jpg', title: '次臥房' },
+                    { src: 'images/4-1/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/4-1/次臥房4.jpg', title: '次臥房4' },
+                    { src: 'images/4-1/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/4-1/前陽台.jpg', title: '前陽台' },
+                    { src: 'images/4-1/前陽台景觀.jpg', title: '前陽台景觀' },
+                    { src: 'images/4-1/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/4-1/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/4-1/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property3b': {
+                images: [
+                    { src: 'images/4-2/客廳全景.jpg', title: '客廳全景' },
+                    { src: 'images/4-2/客廳細節.jpg', title: '客廳細節' },
+                    { src: 'images/4-2/客廳角度二.jpg', title: '客廳角度二' },
+                    { src: 'images/4-2/廚房.jpg', title: '廚房' },
+                    { src: 'images/4-2/主臥室.jpg', title: '主臥室' },
+                    { src: 'images/4-2/次臥室.jpg', title: '次臥室' },
+                    { src: 'images/4-2/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/4-2/次臥房4.jpg', title: '次臥房4' },
+                    { src: 'images/4-2/臥室細節.jpg', title: '臥室細節' },
+                    { src: 'images/4-2/衛浴開窗.jpg', title: '衛浴開窗' },
+                    { src: 'images/4-2/主臥衛浴開窗.jpg', title: '主臥衛浴開窗' },
+                    { src: 'images/4-2/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/4-2/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/4-2/格局圖.jpg', title: '格局圖' }
                 ]
             }
         };
@@ -2824,6 +3481,85 @@
                 closeLightbox();
             }
         });
+        
+        // 分頁切換功能
+        function switchTab(tabName) {
+            // 隱藏所有分頁內容
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+            
+            // 移除所有按鈕的active狀態
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.style.background = 'transparent';
+                button.style.color = '#666';
+                button.style.boxShadow = 'none';
+            });
+            
+            // 顯示選中的分頁
+            const activePane = document.getElementById('tab-' + tabName);
+            if (activePane) {
+                activePane.classList.add('active');
+            }
+            
+            // 激活選中的按鈕
+            const activeButton = event.target;
+            activeButton.classList.add('active');
+            activeButton.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            activeButton.style.color = 'white';
+            activeButton.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.3)';
+            
+            // 同步切換地圖分頁
+            switchMapTab(tabName);
+        }
+        
+        // 地圖分頁同步切換功能
+        function switchMapTab(tabName) {
+            // 隱藏所有地圖內容
+            const mapContents = document.querySelectorAll('.map-content');
+            mapContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // 重置所有地圖標籤按鈕樣式
+            const mapTabs = document.querySelectorAll('.map-tab');
+            mapTabs.forEach(tab => {
+                tab.style.background = '#95a5a6';
+            });
+            
+            // 根據物件分頁切換對應的地圖
+            let mapId = '';
+            switch(tabName) {
+                case 'property1':
+                    mapId = 'map-2room';
+                    break;
+                case 'property2':
+                    mapId = 'map-3room';
+                    break;
+                case 'property3':
+                    mapId = 'map-4room';
+                    break;
+            }
+            
+            // 顯示對應的地圖內容
+            if (mapId) {
+                const selectedMapContent = document.getElementById(mapId);
+                if (selectedMapContent) {
+                    selectedMapContent.style.display = 'block';
+                }
+                
+                // 高亮對應的地圖標籤按鈕
+                const mapTabButtons = document.querySelectorAll('.map-tab');
+                mapTabButtons.forEach(tab => {
+                    if (tab.onclick && tab.onclick.toString().includes(mapId)) {
+                        tab.style.background = '#3498db';
+                    }
+                });
+            }
+        }
     </script>
 </body>
 </html>
