@@ -349,17 +349,33 @@
                 touch-action: pan-y !important;
                 -webkit-overflow-scrolling: touch !important;
                 position: relative !important;
+                width: 100% !important;
+                max-width: 100vw !important;
             }
             
             html {
                 overflow-x: hidden !important;
                 touch-action: pan-y !important;
+                width: 100% !important;
+                max-width: 100vw !important;
             }
             
-            /* 防止橫向滑動 */
+            /* 防止橫向滑動 - 鎖定設計框 */
             .container {
                 overflow-x: hidden !important;
                 max-width: 100vw !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* 鎖定所有主要容器 */
+            .properties-section,
+            .info-section,
+            .contact-section {
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
+                overflow-x: hidden !important;
             }
             
             /* 照片滾動區域優化 */
@@ -368,6 +384,15 @@
                 overflow-y: hidden !important;
                 -webkit-overflow-scrolling: touch !important;
                 touch-action: pan-x !important;
+                scroll-behavior: smooth !important;
+            }
+            
+            /* 確保所有可滾動區域都能正常滑動 */
+            .properties-section,
+            .info-section,
+            .contact-section {
+                touch-action: pan-y !important;
+                -webkit-overflow-scrolling: touch !important;
             }
             
             .properties-grid {
@@ -376,17 +401,26 @@
             }
             
             .header h1 {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
                 line-height: 1.2;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .header p {
-                font-size: 0.85rem;
+                font-size: 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .urgent-banner {
-                font-size: 0.9rem;
+                font-size: 1.1rem;
                 padding: 0.7rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .property-card {
@@ -395,7 +429,7 @@
             }
             
             .property-title {
-                font-size: 1rem;
+                font-size: 1.2rem;
                 line-height: 1.2;
                 white-space: nowrap;
                 overflow: hidden;
@@ -407,48 +441,70 @@
             }
             
             .price-highlight {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
                 line-height: 1.2;
                 padding: 0.7rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .price-highlight span {
-                font-size: 0.9rem !important;
+                font-size: 1.1rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .features-list li {
-                font-size: 0.8rem;
+                font-size: 1rem;
                 padding: 0.4rem 0;
                 padding-left: 1.5rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .loan-info {
-                font-size: 0.75rem;
+                font-size: 0.9rem;
                 padding: 0.4rem 0.7rem;
                 margin: -0.1rem 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .loan-info .contact-button {
-                font-size: 0.75rem !important;
+                font-size: 0.9rem !important;
                 padding: 0.3rem 0.6rem !important;
                 margin-top: 0.15rem !important;
+                white-space: nowrap;
             }
             
             /* 地址和社區資訊優化 */
             .property-card div[style*="background: #f8f9fa"] {
-                font-size: 0.8rem !important;
+                font-size: 1rem !important;
                 padding: 0.5rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             /* 生活機能區域優化 */
             .property-card div[style*="background: #e8f5e8"] {
-                font-size: 0.7rem !important;
+                font-size: 0.9rem !important;
                 padding: 0.4rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .property-card div[style*="background: #e8f5e8"] p {
-                font-size: 0.7rem !important;
+                font-size: 0.9rem !important;
                 margin: 0 !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .info-grid {
@@ -461,13 +517,19 @@
             }
             
             .info-card h3 {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .schedule-table th,
             .schedule-table td {
                 padding: 0.6rem;
-                font-size: 0.85rem;
+                font-size: 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .commission-grid {
@@ -484,24 +546,33 @@
             }
             
             .contact-section h2 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .contact-section h3 {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
                 margin-top: 1.5rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .contact-button {
-                font-size: 0.85rem;
+                font-size: 1rem;
                 padding: 0.6rem 0.8rem;
                 margin: 0.15rem;
                 white-space: nowrap;
             }
             
             .contact-section p {
-                font-size: 0.9rem !important;
+                font-size: 1.1rem !important;
                 line-height: 1.4;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .contact-section > div {
@@ -517,9 +588,12 @@
                 min-width: 140px;
                 max-width: 180px;
                 text-align: center;
-                font-size: 0.8rem;
+                font-size: 1rem;
                 padding: 0.6rem 0.5rem;
                 line-height: 1.2;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .contact-section > div:last-child {
@@ -535,7 +609,10 @@
             
             .contact-section > div:last-child > div > div {
                 padding: 0.6rem;
-                font-size: 0.9rem;
+                font-size: 1.1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .contact-section > div:last-child > div > div > div {
@@ -562,9 +639,12 @@
             /* 相關資料連結手機版優化 */
             .contact-button {
                 min-width: 150px !important;
-                font-size: 0.8rem !important;
+                font-size: 1rem !important;
                 padding: 0.5rem 0.8rem !important;
                 margin: 0.2rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             /* 快速切換按鈕手機版優化 */
@@ -579,24 +659,34 @@
                 flex: 1 !important;
                 min-width: 0 !important;
                 padding: 0.5rem 0.8rem !important;
-                font-size: 0.8rem !important;
+                font-size: 1rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             /* 客戶見證按鈕手機版優化 */
             #testimonialPrev, #testimonialNext {
-                font-size: 0.8rem !important;
+                font-size: 1rem !important;
                 padding: 0.4rem 0.8rem !important;
                 margin: 0.2rem !important;
+                white-space: nowrap;
             }
             
             /* 聯絡方式文字手機版優化 */
             .contact-section p {
-                font-size: 0.9rem !important;
+                font-size: 1.1rem !important;
                 padding: 0.5rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .contact-section span {
-                font-size: 0.9rem !important;
+                font-size: 1.1rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
         
@@ -2599,90 +2689,118 @@
             selectedTab.style.background = '#3498db';
         }
         
-        // 優化的手機觸控處理
+        // 防止手機滑動時網頁被帶動 - 優化版本
         document.addEventListener('DOMContentLoaded', function() {
             let startX = 0;
             let startY = 0;
             let isScrolling = false;
+            let touchStartTime = 0;
+            let touchEndTime = 0;
             
-            // 防止雙指縮放，但允許單指滑動
+            // 防止雙指縮放和手勢
             document.addEventListener('gesturestart', function(e) {
                 e.preventDefault();
             }, { passive: false });
             
-            // 優化的觸控開始處理
+            document.addEventListener('gesturechange', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+            
+            document.addEventListener('gestureend', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+            
+            // 觸控開始
             document.addEventListener('touchstart', function(e) {
+                touchStartTime = Date.now();
+                
                 if (e.touches.length === 1) {
                     const touch = e.touches[0];
                     startX = touch.clientX;
                     startY = touch.clientY;
                     isScrolling = false;
-                }
-            }, { passive: true });
-            
-            // 優化的觸控移動處理 - 只在必要時阻止預設行為
-            document.addEventListener('touchmove', function(e) {
-                // 只阻止多指觸控（縮放）
-                if (e.touches.length > 1) {
+                } else if (e.touches.length > 1) {
+                    // 多指觸控時阻止預設行為
                     e.preventDefault();
-                    return;
-                }
-                
-                // 單指觸控時，只在明確的橫向滑動時才阻止
-                if (e.touches.length === 1 && !isScrolling) {
-                    const touch = e.touches[0];
-                    const deltaX = Math.abs(touch.clientX - startX);
-                    const deltaY = Math.abs(touch.clientY - startY);
-                    
-                    // 只有在橫向滑動明顯大於縱向滑動時才阻止
-                    if (deltaX > deltaY && deltaX > 10) {
-                        // 檢查是否在可滑動區域內
-                        const target = e.target;
-                        const scrollableParent = target.closest('.photo-scroll-container, .property-card, .info-card');
-                        
-                        // 如果不在可滑動區域內，才阻止預設行為
-                        if (!scrollableParent) {
-                            e.preventDefault();
-                        }
-                        isScrolling = true;
-                    }
                 }
             }, { passive: false });
             
-            // 觸控結束時重置狀態
-            document.addEventListener('touchend', function(e) {
-                isScrolling = false;
-            }, { passive: true });
-            
-            // 優化照片滑動容器
-            const photoScrollContainers = document.querySelectorAll('.photo-scroll-container');
-            photoScrollContainers.forEach(container => {
-                // 添加平滑滑動
-                container.style.scrollBehavior = 'smooth';
-                container.style.webkitOverflowScrolling = 'touch';
-                
-                // 優化觸控滑動
-                let isDragging = false;
-                let startScrollLeft = 0;
-                let startTouchX = 0;
-                
-                container.addEventListener('touchstart', function(e) {
-                    isDragging = true;
-                    startScrollLeft = this.scrollLeft;
-                    startTouchX = e.touches[0].clientX;
-                }, { passive: true });
-                
-                container.addEventListener('touchmove', function(e) {
-                    if (isDragging) {
-                        const touchX = e.touches[0].clientX;
-                        const diff = startTouchX - touchX;
-                        this.scrollLeft = startScrollLeft + diff;
+            // 觸控移動 - 更寬鬆的滑動檢測
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const deltaX = Math.abs(touch.clientX - startX);
+                    const deltaY = Math.abs(touch.clientY - startY);
+                    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                    
+                    // 只有當移動距離足夠大時才判斷方向
+                    if (distance > 15) {
+                        if (deltaX > deltaY) {
+                            // 橫向滑動 - 只在照片滾動區域允許
+                            const target = e.target.closest('.photo-scroll-container');
+                            if (!target) {
+                                e.preventDefault();
+                            }
+                        }
+                        // 縱向滑動始終允許
+                        isScrolling = true;
                     }
-                }, { passive: true });
+                } else if (e.touches.length > 1) {
+                    // 多指觸控時阻止預設行為
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // 觸控結束
+            document.addEventListener('touchend', function(e) {
+                touchEndTime = Date.now();
+                isScrolling = false;
                 
-                container.addEventListener('touchend', function(e) {
-                    isDragging = false;
-                }, { passive: true });
+                // 防止快速雙擊縮放
+                const touchDuration = touchEndTime - touchStartTime;
+                if (touchDuration < 200) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // 防止雙擊縮放 - 更精確的檢測
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(e) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, { passive: false });
+            
+            // 添加觸控重置機制，防止卡住
+            setInterval(function() {
+                if (isScrolling && Date.now() - touchEndTime > 1000) {
+                    isScrolling = false;
+                }
+            }, 500);
+            
+            // 添加緊急重置機制
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    isScrolling = false;
+                }
+            });
+            
+            // 添加頁面焦點重置
+            window.addEventListener('focus', function() {
+                isScrolling = false;
+            });
+            
+            // 添加觸控強制重置（當檢測到異常時）
+            let touchResetTimer = null;
+            document.addEventListener('touchstart', function() {
+                if (touchResetTimer) {
+                    clearTimeout(touchResetTimer);
+                }
+                touchResetTimer = setTimeout(function() {
+                    isScrolling = false;
+                }, 2000);
             });
         });
         
@@ -2707,24 +2825,13 @@
                 observer.observe(card);
             });
             
-            // 優化的按鈕點擊效果
+            // 點擊按鈕效果
             const buttons = document.querySelectorAll('.contact-button');
             buttons.forEach(button => {
-                // 添加觸控反饋
-                button.addEventListener('touchstart', function(e) {
-                    this.style.transform = 'scale(0.95)';
-                    this.style.transition = 'transform 0.1s ease';
-                }, { passive: true });
-                
-                button.addEventListener('touchend', function(e) {
-                    this.style.transform = 'scale(1)';
-                    this.style.transition = 'transform 0.2s ease';
-                }, { passive: true });
-                
                 button.addEventListener('click', function() {
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
-                        this.style.transform = 'scale(1)';
+                        this.style.transform = 'scale(1.05)';
                     }, 100);
                 });
             });
