@@ -1125,7 +1125,7 @@
             width: 95%;
             max-width: 950px;
             max-height: 90vh;
-            overflow: hidden;
+            overflow: visible;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             animation: modalSlideIn 0.3s ease-out;
             display: flex;
@@ -1182,6 +1182,8 @@
             max-height: calc(90vh - 100px);
             scrollbar-width: thin;
             scrollbar-color: #10b981 #f1f5f9;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
         
         .loan-modal-body::-webkit-scrollbar {
@@ -1364,6 +1366,8 @@
                 padding: 1rem;
                 max-height: calc(90vh - 80px);
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
             }
             
             .loan-modal-grid {
@@ -1496,6 +1500,8 @@
                 padding: 0.6rem;
                 max-height: calc(98vh - 60px);
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
             }
             
             .loan-modal-grid {
