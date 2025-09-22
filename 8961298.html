@@ -15,11 +15,19 @@
             box-sizing: border-box;
         }
         
+        html {
+            overflow-x: hidden;
+            touch-action: pan-y;
+        }
+        
         body {
             font-family: 'Microsoft JhengHei', Arial, sans-serif;
             line-height: 1.6;
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
         }
         
         .container {
@@ -335,6 +343,33 @@
         }
         
         @media (max-width: 768px) {
+            /* 防止手機滑動時網頁被帶動 */
+            body {
+                overflow-x: hidden !important;
+                touch-action: pan-y !important;
+                -webkit-overflow-scrolling: touch !important;
+                position: relative !important;
+            }
+            
+            html {
+                overflow-x: hidden !important;
+                touch-action: pan-y !important;
+            }
+            
+            /* 防止橫向滑動 */
+            .container {
+                overflow-x: hidden !important;
+                max-width: 100vw !important;
+            }
+            
+            /* 照片滾動區域優化 */
+            .photo-scroll-container {
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                -webkit-overflow-scrolling: touch !important;
+                touch-action: pan-x !important;
+            }
+            
             .properties-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
@@ -2563,6 +2598,39 @@
             const selectedTab = event.target;
             selectedTab.style.background = '#3498db';
         }
+        
+        // 防止手機滑動時網頁被帶動
+        document.addEventListener('DOMContentLoaded', function() {
+            // 防止橫向滑動
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // 防止雙指縮放
+            document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+            });
+            
+            // 防止橫向滾動
+            document.addEventListener('touchstart', function(e) {
+                const touch = e.touches[0];
+                const startX = touch.clientX;
+                const startY = touch.clientY;
+                
+                document.addEventListener('touchmove', function(e) {
+                    const touch = e.touches[0];
+                    const deltaX = Math.abs(touch.clientX - startX);
+                    const deltaY = Math.abs(touch.clientY - startY);
+                    
+                    // 如果橫向滑動距離大於縱向滑動距離，阻止預設行為
+                    if (deltaX > deltaY) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            });
+        });
         
         // 添加一些互動效果
         document.addEventListener('DOMContentLoaded', function() {
