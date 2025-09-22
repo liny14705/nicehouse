@@ -366,13 +366,108 @@
             color: white;
         }
         
-        @media (max-width: 768px) {
-            .properties-grid {
-                grid-template-columns: 1fr;
+        /* 小手機版 (320px - 480px) */
+        @media (max-width: 480px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .header {
+                padding: 1.5rem 1rem;
             }
             
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
+                line-height: 1.2;
+                margin-bottom: 0.3rem;
+            }
+            
+            .header p {
+                font-size: 0.8rem;
+            }
+            
+            .urgent-banner {
+                font-size: 0.9rem;
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .properties-section {
+                padding: 1.5rem 0.8rem;
+            }
+            
+            .properties-section h2 {
+                font-size: 1.4rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            
+            .property-card {
+                padding: 1rem 0.8rem;
+                margin-bottom: 0.8rem;
+                border-radius: 12px;
+            }
+            
+            .property-title {
+                font-size: 1.1rem;
+                line-height: 1.3;
+                margin-bottom: 0.5rem;
+            }
+            
+            .price-highlight {
+                font-size: 1rem;
+                padding: 0.8rem;
+                margin: 0.6rem 0;
+            }
+            
+            .features-list li {
+                font-size: 0.85rem;
+                padding: 0.3rem 0;
+                padding-left: 1.3rem;
+            }
+            
+            .loan-info {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.7rem;
+            }
+            
+            .loan-info .contact-button {
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.7rem !important;
+            }
+            
+            .info-card {
+                padding: 0.8rem;
+            }
+            
+            .info-card h3 {
+                font-size: 1rem;
+            }
+            
+            .schedule-table th,
+            .schedule-table td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            iframe {
+                height: 200px;
+                border-radius: 8px;
+            }
+        }
+
+        /* 一般手機版 (481px - 768px) */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .container {
+                margin: 0.5rem;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 1.8rem 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.7rem;
                 line-height: 1.2;
             }
             
@@ -385,13 +480,22 @@
                 padding: 0.8rem;
             }
             
+            .properties-section {
+                padding: 2rem 1.2rem;
+            }
+            
+            .properties-section h2 {
+                font-size: 1.6rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
             .property-card {
-                padding: 1.2rem;
+                padding: 1.1rem;
                 margin-bottom: 1rem;
             }
             
             .property-title {
-                font-size: 1.2rem;
+                font-size: 1.15rem;
                 line-height: 1.3;
             }
             
@@ -400,30 +504,24 @@
             }
             
             .price-highlight {
-                font-size: 1.1rem;
+                font-size: 1.05rem;
                 line-height: 1.3;
             }
             
-            .price-highlight span {
-                font-size: 1.1rem !important;
-            }
-            
             .features-list li {
-                font-size: 0.9rem;
-                padding: 0.4rem 0;
-                padding-left: 1.5rem;
+                font-size: 0.88rem;
+                padding: 0.35rem 0;
+                padding-left: 1.4rem;
             }
             
             .loan-info {
-                font-size: 0.85rem;
-                padding: 0.4rem 0.8rem;
-                margin: -0.1rem 0;
+                font-size: 0.82rem;
+                padding: 0.45rem 0.75rem;
             }
             
             .loan-info .contact-button {
-                font-size: 0.8rem !important;
-                padding: 0.3rem 0.6rem !important;
-                margin-top: 0.15rem !important;
+                font-size: 0.78rem !important;
+                padding: 0.35rem 0.65rem !important;
             }
             
             .info-grid {
@@ -436,13 +534,61 @@
             }
             
             .info-card h3 {
-                font-size: 1.1rem;
+                font-size: 1.05rem;
             }
             
             .schedule-table th,
             .schedule-table td {
-                padding: 0.6rem;
-                font-size: 0.85rem;
+                padding: 0.55rem;
+                font-size: 0.82rem;
+            }
+            
+            iframe {
+                height: 220px;
+                border-radius: 10px;
+            }
+        }
+        
+        /* 平板版 (769px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 600px;
+                margin: 2rem auto 0;
+            }
+            
+            .property-card {
+                padding: 1.3rem;
+            }
+            
+            .features-list {
+                grid-template-columns: 1fr;
+                gap: 0.3rem;
+            }
+            
+            .features-list li {
+                font-size: 0.9rem;
+                padding: 0.4rem 0;
+                padding-left: 1.5rem;
+            }
+            
+            .loan-info {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            iframe {
+                height: 280px;
+                max-width: 600px;
+            }
+        }
+        
+        /* 通用手機版樣式 */
+        @media (max-width: 768px) {
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
             .commission-grid {
@@ -455,16 +601,16 @@
             }
             
             .contact-section {
-                padding: 2rem 1rem;
+                padding: 1.5rem 1rem;
             }
             
             .contact-section h2 {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
             
             .contact-section h3 {
-                font-size: 1.2rem;
-                margin-top: 1.5rem;
+                font-size: 1.1rem;
+                margin-top: 1.2rem;
             }
             
             .contact-button {
@@ -517,12 +663,6 @@
                 font-size: 1.5rem;
                 margin-bottom: 0.2rem;
             }
-            
-            iframe {
-                height: 250px;
-                width: 100%;
-                max-width: 500px;
-            }
         }
         
         /* 電腦版物件卡片進一步優化 */
@@ -550,33 +690,58 @@
             }
         }
         
-        /* 手機版特色列表改為單欄 */
+        /* 手機版特色列表和照片滾動區優化 */
         @media (max-width: 768px) {
             .features-list {
                 grid-template-columns: 1fr;
             }
-            
-            /* 照片滾動區手機版優化 */
+        }
+        
+        /* 小手機版照片滾動區優化 */
+        @media (max-width: 480px) {
             .photo-item {
-                width: 70px !important;
-                height: 52px !important;
+                width: 65px !important;
+                height: 48px !important;
             }
             
             .photo-scroll {
-                gap: 0.4rem !important;
+                gap: 0.3rem !important;
+            }
+            
+            .photo-scroll-container {
+                padding: 0.25rem 0 !important;
+            }
+        }
+        
+        /* 一般手機版照片滾動區優化 */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .photo-item {
+                width: 72px !important;
+                height: 54px !important;
+            }
+            
+            .photo-scroll {
+                gap: 0.35rem !important;
             }
             
             .photo-scroll-container {
                 padding: 0.3rem 0 !important;
             }
-            
         }
         
         /* 平板版照片滾動區優化 */
         @media (max-width: 1024px) and (min-width: 769px) {
             .photo-item {
-                width: 75px !important;
-                height: 56px !important;
+                width: 78px !important;
+                height: 58px !important;
+            }
+            
+            .photo-scroll {
+                gap: 0.45rem !important;
+            }
+            
+            .photo-scroll-container {
+                padding: 0.4rem 0 !important;
             }
             
             .loan-info {
@@ -588,8 +753,16 @@
         /* 電腦版照片滾動區優化 */
         @media (min-width: 1025px) {
             .photo-item {
-                width: 80px !important;
-                height: 60px !important;
+                width: 85px !important;
+                height: 64px !important;
+            }
+            
+            .photo-scroll {
+                gap: 0.5rem !important;
+            }
+            
+            .photo-scroll-container {
+                padding: 0.5rem 0 !important;
             }
         }
         
@@ -1487,8 +1660,7 @@
                     <p style="margin-top: 1rem;"><strong>⚠️ 重要提醒：</strong><br>
                     • 斡旋為優先順位<br>
                     • 需確認自備足夠<br>
-                    • 不壓保貸<br>
-                    • 賠錢就不賣，有自住買方</p>
+                    • 不壓保貸</p>
                 </div>
             </div>
         </section>
@@ -2315,8 +2487,8 @@
         
         // 急售倒數計時功能
         function updateUrgentCountdown() {
-            // 設定截止時間：2025年9月22日 24:00
-            const endDate = new Date('2025-09-22T23:59:59');
+            // 設定截止時間：2025年10月6日 24:00
+            const endDate = new Date('2025-10-06T23:59:59');
             const now = new Date();
             const timeDiff = endDate.getTime() - now.getTime();
             
