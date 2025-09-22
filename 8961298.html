@@ -1125,7 +1125,7 @@
             width: 95%;
             max-width: 950px;
             max-height: 90vh;
-            overflow: visible;
+            overflow: hidden;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             animation: modalSlideIn 0.3s ease-out;
             display: flex;
@@ -1182,8 +1182,6 @@
             max-height: calc(90vh - 100px);
             scrollbar-width: thin;
             scrollbar-color: #10b981 #f1f5f9;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
         }
         
         .loan-modal-body::-webkit-scrollbar {
@@ -1366,8 +1364,6 @@
                 padding: 1rem;
                 max-height: calc(90vh - 80px);
                 overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                scroll-behavior: smooth;
             }
             
             .loan-modal-grid {
@@ -1500,8 +1496,6 @@
                 padding: 0.6rem;
                 max-height: calc(98vh - 60px);
                 overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                scroll-behavior: smooth;
             }
             
             .loan-modal-grid {
@@ -2758,7 +2752,7 @@
             try {
                 console.log('開啟貸款試算彈窗');
                 document.getElementById('loanModal').style.display = 'block';
-                document.body.style.overflow = 'hidden'; // 防止背景滾動
+                // 不設定 body overflow，讓彈窗內部可以滾動
                 
                 // 設置預設值
                 document.getElementById('modalHousePrice').value = propertyPrice;
@@ -2779,7 +2773,7 @@
         
         function closeLoanModal() {
             document.getElementById('loanModal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // 恢復背景滾動
+            // 不需要恢復 body overflow，因為沒有設定
         }
         
         // 點擊彈窗外部關閉
