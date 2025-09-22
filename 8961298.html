@@ -1125,7 +1125,7 @@
             width: 95%;
             max-width: 950px;
             max-height: 90vh;
-            overflow: hidden;
+            overflow: visible;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             animation: modalSlideIn 0.3s ease-out;
             display: flex;
@@ -2665,7 +2665,7 @@
                     
                     // 檢查是否在可滑動區域內
                     const target = e.target;
-                    const scrollableParent = target.closest('.photo-scroll-container, .property-card, .info-card, .container');
+                    const scrollableParent = target.closest('.photo-scroll-container, .property-card, .info-card, .container, .loan-modal');
                     
                     // 如果不在可滑動區域內，阻止預設行為
                     if (!scrollableParent) {
