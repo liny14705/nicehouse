@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>楊梅精選物件 - 新都悅 & 世紀美妝雙開三房車 | 住商不動產</title>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- 手機響應式優化 -->
+    <style>
+        /* 大螢幕 3 欄佈局 */
+        @media (min-width: 1200px) {
+            .properties-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 2.1rem !important;
+                max-width: 1400px !important;
+                margin: 2rem auto !important;
+            }
+            
+            .property-card {
+                max-width: 360px !important;
+                margin: 0 auto !important;
+                padding: 1.2rem !important;
+            }
+            
+            .photo-item {
+                width: 110px !important;
+                height: 82px !important;
+                border-radius: 10px !important;
+            }
+            
+            .photo-scroll-container {
+                margin: 0.5rem 0 !important;
+                padding: 0.4rem 0 !important;
+            }
+        }
+        
+        /* 中等螢幕 2 欄佈局 */
+        @media (min-width: 769px) and (max-width: 1199px) {
+            .properties-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1.9rem !important;
+                max-width: 1000px !important;
+                margin: 2rem auto !important;
+            }
+            
+            .property-card {
+                max-width: 420px !important;
+                margin: 0 auto !important;
+                padding: 1.1rem !important;
+            }
+        }
+        
+        /* 手機響應式設計 */
+        @media (max-width: 768px) {
+            /* 基本佈局調整 */
+            .container {
+                padding: 0;
+                margin: 0;
+                max-width: 100vw;
+                height: 100vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+            
+            /* 標題區域優化 */
+            .header h1 {
+                font-size: 1.2rem !important;
+                padding: 0.5rem !important;
+            }
+            
+            .header p {
+                font-size: 0.9rem !important;
+                margin: 0.3rem 0 !important;
+            }
+            
+            /* 搜尋和篩選區域 */
+            .search-filter-container {
+                padding: 0 1rem !important;
+                margin: 1rem 0 !important;
+            }
+            
+            #property-search {
+                width: 100% !important;
+                max-width: none !important;
+                padding: 0.6rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .filter-buttons {
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+                padding: 0.5rem !important;
+            }
+            
+            .filter-button {
+                padding: 0.6rem 1rem !important;
+                font-size: 0.9rem !important;
+                border-radius: 15px !important;
+            }
+            
+            /* 物件卡片優化 */
+            .properties-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+                padding: 0 1rem !important;
+            }
+            
+            .property-card {
+                margin: 0 !important;
+                padding: 1rem !important;
+                border-radius: 12px !important;
+            }
+            
+            .property-title {
+                font-size: 1rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            
+            /* 照片滾動區域 */
+            .photo-scroll-container {
+                margin: 0.3rem 0 !important;
+                padding: 0.2rem 0 !important;
+            }
+            
+            .photo-item {
+                width: 85px !important;
+                height: 64px !important;
+                border-radius: 8px !important;
+            }
+            
+            /* 物件資訊區域 */
+            .property-info {
+                padding: 0.6rem !important;
+                margin: 0.4rem 0 !important;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.4rem !important;
+                margin-bottom: 0.6rem !important;
+            }
+            
+            .info-item {
+                padding: 0.3rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            /* 地圖區域 */
+            iframe {
+                height: 100px !important;
+                border-radius: 6px !important;
+            }
+            
+            /* 聯絡方式區域 */
+            .contact-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+                padding: 0 1rem !important;
+            }
+            
+            .contact-grid > div {
+                padding: 1.2rem !important;
+            }
+            
+            /* 分頁按鈕 */
+            .pagination {
+                flex-wrap: wrap !important;
+                gap: 0.3rem !important;
+                padding: 0 1rem !important;
+            }
+            
+            .pagination button {
+                padding: 0.4rem 0.8rem !important;
+                font-size: 0.8rem !important;
+                min-width: 35px !important;
+            }
+            
+            /* 統計資訊 */
+            #stats-container {
+                padding: 0 1rem !important;
+            }
+            
+            #stats-container > div {
+                padding: 0.8rem !important;
+                font-size: 0.9rem !important;
+            }
+        }
+        
+        /* 超小螢幕優化 */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1rem !important;
+                padding: 0.4rem !important;
+            }
+            
+            .header p {
+                font-size: 0.8rem !important;
+            }
+            
+            .property-card {
+                padding: 0.8rem !important;
+            }
+            
+            .property-title {
+                font-size: 0.9rem !important;
+            }
+            
+            .photo-item {
+                width: 75px !important;
+                height: 56px !important;
+            }
+            
+            .property-info {
+                padding: 0.5rem !important;
+            }
+            
+            .info-item {
+                padding: 0.25rem !important;
+                font-size: 0.8rem !important;
+            }
+            
+            iframe {
+                height: 80px !important;
+            }
+            
+            .contact-grid > div {
+                padding: 1rem !important;
+            }
+            
+            .filter-button {
+                padding: 0.5rem 0.8rem !important;
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        /* 燈箱手機優化 */
+        @media (max-width: 768px) {
+            .modal {
+                padding: 10px !important;
+            }
+            
+            .modal > div {
+                max-width: 95vw !important;
+                max-height: 95vh !important;
+                border-radius: 12px !important;
+            }
+            
+            .modal img {
+                max-width: 90vw !important;
+                max-height: 60vh !important;
+            }
+            
+            .modal .photo-info {
+                padding: 10px 15px !important;
+                margin-top: 15px !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .modal .thumbnails {
+                margin-top: 15px !important;
+                padding: 10px !important;
+                max-width: 90vw !important;
+            }
+            
+            .modal .thumbnails img {
+                width: 50px !important;
+                height: 37px !important;
+            }
+        }
+        
+        /* 地圖彈窗手機優化 */
+        @media (max-width: 768px) {
+            .modal .map-container {
+                height: 50vh !important;
+                min-height: 300px !important;
+            }
+            
+            .modal .map-buttons {
+                flex-direction: column !important;
+                gap: 10px !important;
+                padding: 15px !important;
+            }
+            
+            .modal .map-buttons a {
+                padding: 10px 20px !important;
+                font-size: 0.9rem !important;
+            }
+        }
+        
+        /* 觸控優化 */
+        @media (hover: none) and (pointer: coarse) {
+            .photo-item:hover,
+            .filter-button:hover,
+            .pagination button:hover {
+                transform: none !important;
+            }
+            
+            .photo-item:active {
+                transform: scale(0.95) !important;
+            }
+            
+            .filter-button:active {
+                transform: scale(0.98) !important;
+            }
+        }
+        
+        /* 橫向模式優化 */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .header {
+                padding: 0.5rem !important;
+            }
+            
+            .header h1 {
+                font-size: 1rem !important;
+                margin: 0 !important;
+            }
+            
+            .header p {
+                font-size: 0.8rem !important;
+                margin: 0.2rem 0 !important;
+            }
+            
+            .search-filter-container {
+                margin: 0.5rem 0 !important;
+            }
+            
+            .properties-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.8rem !important;
+            }
+        }
+        
+        /* 大螢幕橫向模式 3 欄佈局 */
+        @media (min-width: 1200px) and (orientation: landscape) {
+            .properties-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 2.5rem !important;
+                max-width: 1600px !important;
+                padding: 0 2rem !important;
+            }
+            
+            .property-card {
+                padding: 0.6rem !important;
+            }
+            
+            .photo-item {
+                width: 65px !important;
+                height: 49px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <img src="https://joinus.hbhousing.com.tw/assets/images/logo.5aacccab.png" alt="住商不動產" style="height: 1.2em; width: auto; vertical-align: middle;">
+                住商不動產-楊梅大順店
+            </h1>
+            <p>精選物件 | 低於銀行鑑價 | 預約從速</p>
+        </header>
+        
+        
+        <section class="properties-section">
+            <div style="text-align: center; margin: 0.3rem 0 0.8rem 0;">
+                <h2 style="font-size: 1.6rem; color: #2c3e50; padding: 0.4rem 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2); text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; display: inline-block; margin: 0;">濬瑒、子菲精選物件</h2>
+            </div>
+            
+            <!-- 搜尋和篩選區域 -->
+            <div class="search-filter-container" style="text-align: center; margin: 1rem 0 2rem 0;">
+                <!-- 搜尋框 -->
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="property-search" placeholder="搜尋物件名稱、地址、社區..." 
+                           style="width: 300px; max-width: 90%; padding: 0.8rem 1rem; border: 2px solid #e9ecef; border-radius: 25px; font-size: 1rem; outline: none; transition: all 0.3s ease;"
+                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'"
+                           onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                </div>
+                
+                <!-- 篩選按鈕 -->
+                <div class="filter-buttons" style="display: inline-flex; background: #f8f9fa; border-radius: 25px; padding: 0.3rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <button class="filter-button active" data-filter="all" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);">
+                        🏠 全部物件
+                    </button>
+                    <button class="filter-button" data-filter="2房" style="background: transparent; color: #666; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        🏠 2房物件
+                    </button>
+                    <button class="filter-button" data-filter="3房" style="background: transparent; color: #666; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        🏢 3房物件
+                    </button>
+                    <button class="filter-button" data-filter="4房" style="background: transparent; color: #666; border: none; padding: 0.8rem 2rem; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        🏘️ 4房物件
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 統計資訊 -->
+            <div id="stats-container"></div>
+            
+            <!-- 動態物件容器 -->
+            <div id="properties-container" class="properties-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                <!-- 物件將由 JavaScript 動態載入 -->
+            </div>
+            
+            <!-- 分頁導航 -->
+            <div id="pagination-container"></div>
+        </section>
+        
+        <!-- 聯絡方式 -->
+        <section style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 1.5rem 1.2rem; margin: 1rem 0; position: relative;">
+            <h2 style="text-align: center; margin-bottom: 1.5rem; color: #2c3e50; font-size: 1.6rem; font-weight: 800; position: relative;">
+                <span style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📞 聯絡方式</span>
+            </h2>
+            <div class="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; max-width: 1000px; margin: 0 auto;">
+                <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 1.8rem; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid rgba(102, 126, 234, 0.1); position: relative; overflow: hidden; display: flex; flex-direction: column; height: 100%;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+                    <h3 style="color: #2c3e50; margin-bottom: 1.2rem; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                        <span style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">👥 聯絡方式</span>
+                    </h3>
+                    <div style="flex: 1;">
+                        <p style="margin-bottom: 0.8rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
+                            <i class="bi bi-person-fill" style="color: #667eea; font-size: 1.1rem;"></i>
+                            <span style="font-weight: 600;">劉子菲</span>
+                            <a href="tel:0925666597" style="color: #e74c3c; text-decoration: none; font-weight: bold; margin-left: auto; display: flex; align-items: center; gap: 0.25rem;">
+                                <i class="bi bi-phone-fill"></i> 0925-666-597
+                            </a>
+                        </p>
+                        <p style="margin-bottom: 0.8rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
+                            <i class="bi bi-person-fill" style="color: #667eea; font-size: 1.1rem;"></i>
+                            <span style="font-weight: 600;">蔡濬瑒</span>
+                            <a href="tel:0928776755" style="color: #e74c3c; text-decoration: none; font-weight: bold; margin-left: auto; display: flex; align-items: center; gap: 0.25rem;">
+                                <i class="bi bi-phone-fill"></i> 0928-776-755
+                            </a>
+                        </p>
+                        <p style="margin-bottom: 1.2rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; background: rgba(0, 200, 81, 0.05); border-radius: 8px; border-left: 3px solid #00c851;">
+                            <i class="bi bi-chat-dots-fill" style="color: #00c851; font-size: 1.1rem;"></i>
+                            <span style="font-weight: 600;">LINE：@931aeinu</span>
+                            <button id="copyLineId" style="background: linear-gradient(45deg, #00c851, #00a085); color: white; border: none; padding: 0.3rem 0.7rem; border-radius: 12px; cursor: pointer; font-size: 0.8rem; margin-left: auto; transition: all 0.3s ease;" title="複製 LINE ID">
+                                <i class="bi bi-copy"></i> 複製
+                            </button>
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: auto; padding-top: 1rem;">
+                        <a href="tel:0928776755" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3); flex: 1; justify-content: center; font-size: 0.85rem;">
+                            <i class="bi bi-telephone-outbound-fill"></i> 立即來電
+                        </a>
+                        <a href="https://lin.ee/Lax7jMka" target="_blank" style="background: linear-gradient(45deg, #00c851, #00a085); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 3px 12px rgba(0, 200, 81, 0.3); flex: 1; justify-content: center; font-size: 0.85rem;">
+                            <i class="fa-brands fa-line"></i> LINE聯絡
+                        </a>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 1.8rem; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid rgba(102, 126, 234, 0.1); position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+                    <h3 style="color: #2c3e50; margin-bottom: 1.2rem; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                        <span style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🏢 經紀業資訊</span>
+                    </h3>
+                    <div>
+                        <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                            <i class="bi bi-buildings" style="color: #667eea; font-size: 1rem;"></i>
+                            <span style="font-weight: 600;">公司：常鴻悦豐企業社</span>
+                        </p>
+                        <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                            <i class="bi bi-person-badge-fill" style="color: #667eea; font-size: 1rem;"></i>
+                            <span style="font-weight: 600;">營業員：蔡文豪（112）桃市字第432900號</span>
+                        </p>
+                        <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                            <i class="bi bi-person-badge-fill" style="color: #667eea; font-size: 1rem;"></i>
+                            <span style="font-weight: 600;">營業員：劉子菲（113）桃市字第467056號</span>
+                        </p>
+                        <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                            <i class="bi bi-person-vcard-fill" style="color: #667eea; font-size: 1rem;"></i>
+                            <span style="font-weight: 600;">經紀人：葉靜蓉（104）新北經證字第003119號</span>
+                        </p>
+                        <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                            <i class="bi bi-geo-alt-fill" style="color: #667eea; font-size: 1rem;"></i>
+                            <span style="font-weight: 600;">服務據點：住商不動產楊梅大順店</span>
+                        </p>
+                        <p style="margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; background: rgba(102, 126, 234, 0.05); border-radius: 6px;">
+                            <i class="bi bi-clock-fill" style="color: #667eea; font-size: 1rem;"></i>
+                            <span style="font-weight: 600;">營業時間：09:00–21:00</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // 內嵌的物件資料（避免 fetch 問題）
+        const embeddedPropertiesData = {
+            properties: [
+                {
+                    id: "prop_001",
+                    title: "新都悅｜2房2廳1衛｜車位",
+                    type: "2房",
+                    community: "新都悅景觀溫馨兩房車",
+                    address: "楊梅區梅獅路二段232巷***號10樓",
+                    price: "896萬",
+                    total_area: "40.08坪",
+                    main_area: "18.17坪",
+                    layout: "2房2廳1衛",
+                    property_type: "大樓",
+                    age: "11年",
+                    completion_date: "103.01.05",
+                    floor: "10樓",
+                    total_floors: "14樓",
+                    management_fee: "2,077元/月",
+                    parking_space: "B3-14",
+                    motorcycle_space: "B1-55",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "愛買商圈、梅獅路商圈、UNIQLO、星巴克",
+                    transportation: "台1線、楊梅交流道、埔心火車站",
+                    schools: "瑞坪國中、瑞塘國小",
+                    market: "楊梅市場",
+                    park: "柚子公園",
+                    images: [
+                        "images/2-1/客廳.jpg",
+                        "images/2-1/客廳視角2.jpg",
+                        "images/2-1/客廳視角3.jpg",
+                        "images/2-1/客廳視角4.jpg",
+                        "images/2-1/玄關.jpg",
+                        "images/2-1/主臥房.jpg",
+                        "images/2-1/主臥房2.jpg",
+                        "images/2-1/次臥房.jpg",
+                        "images/2-1/衛浴.jpg",
+                        "images/2-1/陽台照片.jpg",
+                        "images/2-1/陽台照片2.jpg",
+                        "images/2-1/格局圖.png"
+                    ],
+                    features: [
+                        "新成屋",
+                        "景觀溫馨兩房車",
+                        "近台1線、楊梅交流道",
+                        "埔心火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅火車站",
+                        "公車客運站",
+                        "楊梅觀光夜市"
+                    ],
+                    description: "新都悅景觀溫馨兩房車，全新裝潢，採光佳，交通便利。低自備款溫馨兩房車，座北朝南，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758635508112!6m8!1m7!1sTcuziJwB6dHCbFzTFsQVIw!2m2!1d24.90580115978875!2d121.1774002660474!3f281.776500634199!4f24.362884434893175!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_002", 
+                    title: "金山街｜2房2廳1衛｜車位",
+                    type: "2房",
+                    community: "金山街景觀兩房車",
+                    address: "楊梅區金山街275巷***號9樓",
+                    price: "1,098萬",
+                    total_area: "38.18坪",
+                    main_area: "17.76坪",
+                    layout: "2房2廳1衛",
+                    property_type: "大樓",
+                    age: "9年",
+                    completion_date: "104.09.25",
+                    floor: "9樓",
+                    total_floors: "15樓",
+                    management_fee: "1,619元/月",
+                    parking_space: "B2-219",
+                    motorcycle_space: "B1-21",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "大成路商圈、環東路商圈、新農街商圈、星巴克、全聯福利中心",
+                    transportation: "楊梅交流道、幼獅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/2-2/客廳.jpg",
+                        "images/2-2/客餐廳.jpg",
+                        "images/2-2/主臥房.jpg",
+                        "images/2-2/次臥房.jpg",
+                        "images/2-2/廚房.jpg",
+                        "images/2-2/衛浴.jpg",
+                        "images/2-2/玄關.jpg",
+                        "images/2-2/後陽台.jpg",
+                        "images/2-2/臥房.jpg",
+                        "images/2-2/格局圖.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "無限棟距採光一級棒",
+                        "楊梅交流道",
+                        "幼獅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "頭重溪公園"
+                    ],
+                    description: "金山街景觀兩房車，無限棟距採光一級棒，座西北朝東南，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758635508112!6m8!1m7!1sTcuziJwB6dHCbFzTFsQVIw!2m2!1d24.90580115978875!2d121.1774002660474!3f281.776500634199!4f24.362884434893175!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_007",
+                    title: "楊梅新成屋｜2房2廳1衛｜車位",
+                    type: "2房",
+                    community: "楊梅新成屋景觀兩房",
+                    address: "楊梅區新農街二段***號5樓",
+                    price: "798萬",
+                    total_area: "39.5坪",
+                    main_area: "17.8坪",
+                    layout: "2房2廳1衛",
+                    property_type: "大樓",
+                    age: "8年",
+                    completion_date: "105.03.15",
+                    floor: "5樓",
+                    total_floors: "12樓",
+                    management_fee: "1,850元/月",
+                    parking_space: "B2-35",
+                    motorcycle_space: "B1-28",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "楊梅市場、新農街商圈、全聯福利中心",
+                    transportation: "台1線、楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/2-3/1745308457850.jpg",
+                        "images/2-3/1745308458247.jpg",
+                        "images/2-3/1745308458331.jpg",
+                        "images/2-3/1745308458413.jpg",
+                        "images/2-3/1745308458499.jpg",
+                        "images/2-3/1745308458599.jpg",
+                        "images/2-3/1745308458688.jpg",
+                        "images/2-3/1745308458795.jpg",
+                        "images/2-3/1745308458903.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅新成屋景觀兩房",
+                        "台1線、楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "楊梅新成屋景觀兩房，全新裝潢，採光佳，交通便利。溫馨兩房車，座東朝西，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510953344!6m8!1m7!1sLa6_NXvMG_mE19DLCOhwsA!2m2!1d24.90569409538472!2d121.1775006696377!3f297.88538766332994!4f22.681653370717882!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_008",
+                    title: "楊梅精選物件｜2房2廳1衛｜車位",
+                    type: "2房",
+                    community: "楊梅精選兩房車",
+                    address: "楊梅區大成路二段***號7樓",
+                    price: "868萬",
+                    total_area: "41.2坪",
+                    main_area: "18.5坪",
+                    layout: "2房2廳1衛",
+                    property_type: "大樓",
+                    age: "6年",
+                    completion_date: "107.08.20",
+                    floor: "7樓",
+                    total_floors: "15樓",
+                    management_fee: "2,100元/月",
+                    parking_space: "B3-42",
+                    motorcycle_space: "B1-38",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "大成路商圈、楊梅市場、愛買商圈",
+                    transportation: "台1線、楊梅交流道、埔心火車站",
+                    schools: "瑞坪國中、瑞塘國小",
+                    market: "楊梅市場",
+                    park: "頭重溪公園",
+                    images: [
+                        "images/2-4/1758639002283.jpg",
+                        "images/2-4/409741_0.jpg",
+                        "images/2-4/409742_0.jpg",
+                        "images/2-4/409743_0.jpg",
+                        "images/2-4/409744_0.jpg",
+                        "images/2-4/409745_0.jpg",
+                        "images/2-4/409746_0.jpg",
+                        "images/2-4/409747_0.jpg",
+                        "images/2-4/409748_0.jpg",
+                        "images/2-4/409749_0.jpg",
+                        "images/2-4/409750_0.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅精選兩房車",
+                        "台1線、楊梅交流道",
+                        "埔心火車站",
+                        "瑞坪國中",
+                        "瑞塘國小",
+                        "楊明國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "頭重溪公園"
+                    ],
+                    description: "楊梅精選兩房車，全新裝潢，採光佳，交通便利。精選兩房車，座南朝北，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510999106!6m8!1m7!1snj-1uSnKMtwfnVydvXo9FQ!2m2!1d24.9114918783189!2d121.1619182235839!3f247.2903804553997!4f31.208406181227133!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_009",
+                    title: "楊梅景觀大樓｜2房2廳1衛｜車位",
+                    type: "2房",
+                    community: "楊梅景觀大樓兩房車",
+                    address: "楊梅區環東路二段***號6樓",
+                    price: "758萬",
+                    total_area: "37.8坪",
+                    main_area: "17.2坪",
+                    layout: "2房2廳1衛",
+                    property_type: "大樓",
+                    age: "7年",
+                    completion_date: "106.05.12",
+                    floor: "6樓",
+                    total_floors: "13樓",
+                    management_fee: "1,750元/月",
+                    parking_space: "B2-28",
+                    motorcycle_space: "B1-32",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "環東路商圈、楊梅市場、全聯福利中心",
+                    transportation: "台1線、楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/2-5/1745308457850.jpg",
+                        "images/2-5/1745308458247.jpg",
+                        "images/2-5/1745308458331.jpg",
+                        "images/2-5/1745308458413.jpg",
+                        "images/2-5/1745308458499.jpg",
+                        "images/2-5/1745308458599.jpg",
+                        "images/2-5/1745308458688.jpg",
+                        "images/2-5/1745308458795.jpg",
+                        "images/2-5/1745308458903.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅景觀大樓兩房車",
+                        "台1線、楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "楊梅景觀大樓兩房車，全新裝潢，採光佳，交通便利。景觀兩房車，座東朝西，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510953344!6m8!1m7!1sLa6_NXvMG_mE19DLCOhwsA!2m2!1d24.90569409538472!2d121.1775006696377!3f297.88538766332994!4f22.681653370717882!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_010",
+                    title: "楊梅學區宅｜2房2廳1衛｜車位",
+                    type: "2房",
+                    community: "楊梅學區宅兩房車",
+                    address: "楊梅區瑞坪路二段***號8樓",
+                    price: "828萬",
+                    total_area: "40.5坪",
+                    main_area: "18.3坪",
+                    layout: "2房2廳1衛",
+                    property_type: "大樓",
+                    age: "5年",
+                    completion_date: "108.11.08",
+                    floor: "8樓",
+                    total_floors: "16樓",
+                    management_fee: "1,950元/月",
+                    parking_space: "B3-38",
+                    motorcycle_space: "B1-45",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "瑞坪路商圈、楊梅市場、愛買商圈",
+                    transportation: "台1線、楊梅交流道、埔心火車站",
+                    schools: "瑞坪國中、瑞塘國小",
+                    market: "楊梅市場",
+                    park: "柚子公園",
+                    images: [
+                        "images/2-6/1758639002283.jpg",
+                        "images/2-6/409741_0.jpg",
+                        "images/2-6/409742_0.jpg",
+                        "images/2-6/409743_0.jpg",
+                        "images/2-6/409744_0.jpg",
+                        "images/2-6/409745_0.jpg",
+                        "images/2-6/409746_0.jpg",
+                        "images/2-6/409747_0.jpg",
+                        "images/2-6/409748_0.jpg",
+                        "images/2-6/409749_0.jpg",
+                        "images/2-6/409750_0.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅學區宅兩房車",
+                        "台1線、楊梅交流道",
+                        "埔心火車站",
+                        "瑞坪國中",
+                        "瑞塘國小",
+                        "楊明國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "柚子公園"
+                    ],
+                    description: "楊梅學區宅兩房車，全新裝潢，採光佳，交通便利。學區兩房車，座北朝南，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510999106!6m8!1m7!1snj-1uSnKMtwfnVydvXo9FQ!2m2!1d24.9114918783189!2d121.1619182235839!3f247.2903804553997!4f31.208406181227133!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_011",
+                    title: "世紀美妝｜3房2廳2衛｜車位",
+                    type: "3房",
+                    community: "世紀美妝景觀三房車",
+                    address: "楊梅區金山街368巷***號14樓",
+                    price: "1,188萬",
+                    total_area: "45.2坪",
+                    main_area: "21.5坪",
+                    layout: "3房2廳2衛",
+                    property_type: "大樓",
+                    age: "8年",
+                    completion_date: "105.08.15",
+                    floor: "14樓",
+                    total_floors: "18樓",
+                    management_fee: "2,200元/月",
+                    parking_space: "B3-18",
+                    motorcycle_space: "B1-42",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "金山街商圈、楊梅市場、愛買商圈",
+                    transportation: "楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/3-1/主臥.jpg",
+                        "images/3-1/客廳.jpg",
+                        "images/3-1/客廳1.jpg",
+                        "images/3-1/客廳2.jpg",
+                        "images/3-1/廁所.jpg",
+                        "images/3-1/廚房.jpg",
+                        "images/3-1/格局圖.jpg",
+                        "images/3-1/次臥房-1-1.jpg",
+                        "images/3-1/次臥房-1.jpg",
+                        "images/3-1/次臥房.jpg",
+                        "images/3-1/次臥房2-1.jpg",
+                        "images/3-1/次臥房2.jpg",
+                        "images/3-1/次臥房3.jpg",
+                        "images/3-1/衛浴1.jpg",
+                        "images/3-1/陽台.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "世紀美妝景觀三房車",
+                        "楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "世紀美妝景觀三房車，全新裝潢，採光佳，交通便利。景觀三房車，座東朝西，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510953344!6m8!1m7!1sLa6_NXvMG_mE19DLCOhwsA!2m2!1d24.90569409538472!2d121.1775006696377!3f297.88538766332994!4f22.681653370717882!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_012",
+                    title: "楊梅精選｜3房2廳2衛｜車位",
+                    type: "3房",
+                    community: "楊梅精選三房車",
+                    address: "楊梅區楊新北路***號11樓",
+                    price: "1,088萬",
+                    total_area: "43.8坪",
+                    main_area: "20.2坪",
+                    layout: "3房2廳2衛",
+                    property_type: "大樓",
+                    age: "6年",
+                    completion_date: "107.03.20",
+                    floor: "11樓",
+                    total_floors: "15樓",
+                    management_fee: "2,050元/月",
+                    parking_space: "B2-25",
+                    motorcycle_space: "B1-38",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "楊新北路商圈、楊梅市場、全聯福利中心",
+                    transportation: "楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/3-2/B205CS178329j.jpg",
+                        "images/3-2/B205CS178329k.jpg",
+                        "images/3-2/主臥.jpg",
+                        "images/3-2/主臥1.jpg",
+                        "images/3-2/客廳.jpg",
+                        "images/3-2/廚房.jpg",
+                        "images/3-2/後陽台.jpg",
+                        "images/3-2/房間.jpg",
+                        "images/3-2/格局圖.jpg",
+                        "images/3-2/衛浴.jpg",
+                        "images/3-2/陽台景觀.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅精選三房車",
+                        "楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "楊梅精選三房車，全新裝潢，採光佳，交通便利。精選三房車，座南朝北，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510999106!6m8!1m7!1snj-1uSnKMtwfnVydvXo9FQ!2m2!1d24.9114918783189!2d121.1619182235839!3f247.2903804553997!4f31.208406181227133!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_013",
+                    title: "楊梅學區｜3房2廳2衛｜車位",
+                    type: "3房",
+                    community: "楊梅學區三房車",
+                    address: "楊梅區新農街二段***號3樓",
+                    price: "988萬",
+                    total_area: "42.5坪",
+                    main_area: "19.8坪",
+                    layout: "3房2廳2衛",
+                    property_type: "大樓",
+                    age: "4年",
+                    completion_date: "109.07.10",
+                    floor: "3樓",
+                    total_floors: "12樓",
+                    management_fee: "1,880元/月",
+                    parking_space: "B1-15",
+                    motorcycle_space: "B1-28",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "新農街商圈、楊梅市場、愛買商圈",
+                    transportation: "台1線、楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/3-3/主臥.jpg",
+                        "images/3-3/客廳.jpg",
+                        "images/3-3/客廳1.jpg",
+                        "images/3-3/客廳2.jpg",
+                        "images/3-3/廁所.jpg",
+                        "images/3-3/廚房.jpg",
+                        "images/3-3/格局圖.jpg",
+                        "images/3-3/次臥房-1-1.jpg",
+                        "images/3-3/次臥房-1.jpg",
+                        "images/3-3/次臥房.jpg",
+                        "images/3-3/次臥房2-1.jpg",
+                        "images/3-3/次臥房2.jpg",
+                        "images/3-3/次臥房3.jpg",
+                        "images/3-3/衛浴1.jpg",
+                        "images/3-3/陽台.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅學區三房車",
+                        "台1線、楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "楊梅學區三房車，全新裝潢，採光佳，交通便利。學區三房車，座北朝南，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510953344!6m8!1m7!1sLa6_NXvMG_mE19DLCOhwsA!2m2!1d24.90569409538472!2d121.1775006696377!3f297.88538766332994!4f22.681653370717882!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_014",
+                    title: "楊梅景觀｜3房2廳2衛｜車位",
+                    type: "3房",
+                    community: "楊梅景觀三房車",
+                    address: "楊梅區環東路二段***號7樓",
+                    price: "1,088萬",
+                    total_area: "44.2坪",
+                    main_area: "20.5坪",
+                    layout: "3房2廳2衛",
+                    property_type: "大樓",
+                    age: "5年",
+                    completion_date: "108.12.05",
+                    floor: "7樓",
+                    total_floors: "14樓",
+                    management_fee: "1,950元/月",
+                    parking_space: "B2-22",
+                    motorcycle_space: "B1-35",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "環東路商圈、楊梅市場、全聯福利中心",
+                    transportation: "台1線、楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/3-4/B205CS178329j.jpg",
+                        "images/3-4/B205CS178329k.jpg",
+                        "images/3-4/主臥.jpg",
+                        "images/3-4/主臥1.jpg",
+                        "images/3-4/客廳.jpg",
+                        "images/3-4/廚房.jpg",
+                        "images/3-4/後陽台.jpg",
+                        "images/3-4/房間.jpg",
+                        "images/3-4/格局圖.jpg",
+                        "images/3-4/衛浴.jpg",
+                        "images/3-4/陽台景觀.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅景觀三房車",
+                        "台1線、楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "楊梅景觀三房車，全新裝潢，採光佳，交通便利。景觀三房車，座東朝西，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510999106!6m8!1m7!1snj-1uSnKMtwfnVydvXo9FQ!2m2!1d24.9114918783189!2d121.1619182235839!3f247.2903804553997!4f31.208406181227133!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_015",
+                    title: "楊梅新成屋｜3房2廳2衛｜車位",
+                    type: "3房",
+                    community: "楊梅新成屋三房車",
+                    address: "楊梅區大成路二段***號9樓",
+                    price: "1,158萬",
+                    total_area: "45.8坪",
+                    main_area: "21.2坪",
+                    layout: "3房2廳2衛",
+                    property_type: "大樓",
+                    age: "3年",
+                    completion_date: "110.06.18",
+                    floor: "9樓",
+                    total_floors: "16樓",
+                    management_fee: "2,100元/月",
+                    parking_space: "B3-32",
+                    motorcycle_space: "B1-48",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "大成路商圈、楊梅市場、愛買商圈",
+                    transportation: "台1線、楊梅交流道、埔心火車站",
+                    schools: "瑞坪國中、瑞塘國小",
+                    market: "楊梅市場",
+                    park: "柚子公園",
+                    images: [
+                        "images/3-5/主臥.jpg",
+                        "images/3-5/客廳.jpg",
+                        "images/3-5/客廳1.jpg",
+                        "images/3-5/客廳2.jpg",
+                        "images/3-5/廁所.jpg",
+                        "images/3-5/廚房.jpg",
+                        "images/3-5/格局圖.jpg",
+                        "images/3-5/次臥房-1-1.jpg",
+                        "images/3-5/次臥房-1.jpg",
+                        "images/3-5/次臥房.jpg",
+                        "images/3-5/次臥房2-1.jpg",
+                        "images/3-5/次臥房2.jpg",
+                        "images/3-5/次臥房3.jpg",
+                        "images/3-5/衛浴1.jpg",
+                        "images/3-5/陽台.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅新成屋三房車",
+                        "台1線、楊梅交流道",
+                        "埔心火車站",
+                        "瑞坪國中",
+                        "瑞塘國小",
+                        "楊明國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "柚子公園"
+                    ],
+                    description: "楊梅新成屋三房車，全新裝潢，採光佳，交通便利。新成屋三房車，座南朝北，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510953344!6m8!1m7!1sLa6_NXvMG_mE19DLCOhwsA!2m2!1d24.90569409538472!2d121.1775006696377!3f297.88538766332994!4f22.681653370717882!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_016",
+                    title: "楊梅精選｜3房2廳2衛｜車位",
+                    type: "3房",
+                    community: "楊梅精選三房車",
+                    address: "楊梅區瑞坪路二段***號12樓",
+                    price: "1,288萬",
+                    total_area: "47.2坪",
+                    main_area: "22.1坪",
+                    layout: "3房2廳2衛",
+                    property_type: "大樓",
+                    age: "2年",
+                    completion_date: "111.04.22",
+                    floor: "12樓",
+                    total_floors: "18樓",
+                    management_fee: "2,250元/月",
+                    parking_space: "B4-45",
+                    motorcycle_space: "B1-52",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "瑞坪路商圈、楊梅市場、愛買商圈",
+                    transportation: "台1線、楊梅交流道、埔心火車站",
+                    schools: "瑞坪國中、瑞塘國小",
+                    market: "楊梅市場",
+                    park: "柚子公園",
+                    images: [
+                        "images/3-6/B205CS178329j.jpg",
+                        "images/3-6/B205CS178329k.jpg",
+                        "images/3-6/主臥.jpg",
+                        "images/3-6/主臥1.jpg",
+                        "images/3-6/客廳.jpg",
+                        "images/3-6/廚房.jpg",
+                        "images/3-6/後陽台.jpg",
+                        "images/3-6/房間.jpg",
+                        "images/3-6/格局圖.jpg",
+                        "images/3-6/衛浴.jpg",
+                        "images/3-6/陽台景觀.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅精選三房車",
+                        "台1線、楊梅交流道",
+                        "埔心火車站",
+                        "瑞坪國中",
+                        "瑞塘國小",
+                        "楊明國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "柚子公園"
+                    ],
+                    description: "楊梅精選三房車，全新裝潢，採光佳，交通便利。精選三房車，座北朝南，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510999106!6m8!1m7!1snj-1uSnKMtwfnVydvXo9FQ!2m2!1d24.9114918783189!2d121.1619182235839!3f247.2903804553997!4f31.208406181227133!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_017",
+                    title: "楊梅學區｜4房2廳2衛｜車位",
+                    type: "4房",
+                    community: "楊梅學區四房車",
+                    address: "楊梅區新農街二段***號3樓",
+                    price: "1,388萬",
+                    total_area: "52.8坪",
+                    main_area: "25.2坪",
+                    layout: "4房2廳2衛",
+                    property_type: "大樓",
+                    age: "6年",
+                    completion_date: "107.09.15",
+                    floor: "3樓",
+                    total_floors: "15樓",
+                    management_fee: "2,350元/月",
+                    parking_space: "B2-28",
+                    motorcycle_space: "B1-42",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "新農街商圈、楊梅市場、愛買商圈",
+                    transportation: "台1線、楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/4-1/主臥房視角.jpg",
+                        "images/4-1/主臥房視角2.jpg",
+                        "images/4-1/前陽台.jpg",
+                        "images/4-1/前陽台景觀.jpg",
+                        "images/4-1/客廳.jpg",
+                        "images/4-1/廚房.jpg",
+                        "images/4-1/後陽台.jpg",
+                        "images/4-1/格局圖.jpg",
+                        "images/4-1/次臥房.jpg",
+                        "images/4-1/次臥房3.jpg",
+                        "images/4-1/次臥房4.jpg",
+                        "images/4-1/衛浴.jpg",
+                        "images/4-1/陽台景觀.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅學區四房車",
+                        "台1線、楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "楊梅學區四房車，全新裝潢，採光佳，交通便利。學區四房車，座北朝南，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510953344!6m8!1m7!1sLa6_NXvMG_mE19DLCOhwsA!2m2!1d24.90569409538472!2d121.1775006696377!3f297.88538766332994!4f22.681653370717882!5f0.7820865974627469"
+                },
+                {
+                    id: "prop_018",
+                    title: "楊梅精選｜4房2廳2衛｜車位",
+                    type: "4房",
+                    community: "楊梅精選四房車",
+                    address: "楊梅區新農街二段***號3樓",
+                    price: "1,298萬",
+                    total_area: "50.5坪",
+                    main_area: "24.1坪",
+                    layout: "4房2廳2衛",
+                    property_type: "大樓",
+                    age: "5年",
+                    completion_date: "108.04.20",
+                    floor: "3樓",
+                    total_floors: "14樓",
+                    management_fee: "2,200元/月",
+                    parking_space: "B2-25",
+                    motorcycle_space: "B1-38",
+                    current_status: "空屋,隨時可看",
+                    facilities: ["電梯", "採光佳", "陽台"],
+                    nearby_facilities: "新農街商圈、楊梅市場、愛買商圈",
+                    transportation: "台1線、楊梅交流道、楊梅火車站",
+                    schools: "楊明國中、楊明國小",
+                    market: "楊梅市場",
+                    park: "楊明公園",
+                    images: [
+                        "images/4-2/主臥室.jpg",
+                        "images/4-2/主臥衛浴開窗.jpg",
+                        "images/4-2/客廳全景.jpg",
+                        "images/4-2/客廳細節.jpg",
+                        "images/4-2/客廳角度二.jpg",
+                        "images/4-2/廚房.jpg",
+                        "images/4-2/後陽台.jpg",
+                        "images/4-2/格局圖.jpg",
+                        "images/4-2/次臥室.jpg",
+                        "images/4-2/次臥房3.jpg",
+                        "images/4-2/次臥房4.jpg",
+                        "images/4-2/臥室細節.jpg",
+                        "images/4-2/衛浴開窗.jpg",
+                        "images/4-2/陽台景觀.jpg"
+                    ],
+                    features: [
+                        "新成屋",
+                        "楊梅精選四房車",
+                        "台1線、楊梅交流道",
+                        "楊梅火車站",
+                        "楊明國中",
+                        "楊明國小",
+                        "楊梅國小",
+                        "五楊交流道",
+                        "楊梅區免費公車",
+                        "楊梅市場",
+                        "楊明公園"
+                    ],
+                    description: "楊梅精選四房車，全新裝潢，採光佳，交通便利。精選四房車，座南朝北，有電梯，平面車位。",
+                    google_maps: "https://www.google.com/maps/embed?pb=!4v1758510999106!6m8!1m7!1snj-1uSnKMtwfnVydvXo9FQ!2m2!1d24.9114918783189!2d121.1619182235839!3f247.2903804553997!4f31.208406181227133!5f0.7820865974627469"
+                }
+            ],
+            settings: {
+                itemsPerPage: 6,
+                maxPages: 10,
+                enableSearch: true,
+                enableFilter: true
+            }
+        };
+
+        // 修改分頁系統以使用內嵌資料
+        class EmbeddedPropertyPaginationSystem {
+            constructor() {
+                this.properties = embeddedPropertiesData.properties;
+                this.currentPage = 1;
+                this.itemsPerPage = embeddedPropertiesData.settings.itemsPerPage || 4;
+                this.currentFilter = 'all';
+                this.searchTerm = '';
+                this.init();
+            }
+
+            init() {
+                this.renderProperties();
+                this.setupEventListeners();
+            }
+
+            getFilteredProperties() {
+                let filtered = this.properties;
+                
+                // 篩選功能
+                if (this.currentFilter !== 'all') {
+                    filtered = filtered.filter(property => property.type === this.currentFilter);
+                }
+                
+                // 搜尋功能
+                if (this.searchTerm) {
+                    const term = this.searchTerm.toLowerCase();
+                    filtered = filtered.filter(property => 
+                        property.title.toLowerCase().includes(term) ||
+                        property.address.toLowerCase().includes(term) ||
+                        property.community.toLowerCase().includes(term) ||
+                        property.features.some(feature => feature.toLowerCase().includes(term))
+                    );
+                }
+                
+                return filtered;
+            }
+
+            getPaginatedProperties() {
+                const filtered = this.getFilteredProperties();
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                return filtered.slice(startIndex, endIndex);
+            }
+
+            getTotalPages() {
+                const filtered = this.getFilteredProperties();
+                return Math.ceil(filtered.length / this.itemsPerPage);
+            }
+
+            renderProperties() {
+                const container = document.getElementById('properties-container');
+                if (!container) return;
+
+                const properties = this.getPaginatedProperties();
+                const totalPages = this.getTotalPages();
+
+                // 清空容器
+                container.innerHTML = '';
+
+                // 渲染物件卡片
+                properties.forEach(property => {
+                    const card = this.createPropertyCard(property);
+                    container.appendChild(card);
+                });
+
+                // 渲染分頁按鈕
+                this.renderPagination(totalPages);
+
+                // 更新統計資訊
+                this.updateStats();
+            }
+
+            createPropertyCard(property) {
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                card.innerHTML = `
+                    <h3 class="property-title">${property.title}</h3>
+                    
+                    <!-- 照片滾動區 -->
+                    <div class="photo-scroll-container" style="margin: 0.6rem 0; overflow-x: auto; padding: 0.5rem 0;">
+                        <div class="photo-scroll" style="display: flex; gap: 0.5rem; width: max-content;">
+                            ${property.images.map((img, index) => `
+                                <div class="photo-item" onclick="openLightbox(${index}, '${property.id}')" 
+                                     style="flex-shrink: 0; width: 80px; height: 60px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    <img src="${img}" alt="物件照片" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- 物件資訊 -->
+                    <div class="property-info" style="padding: 0.8rem; background: #f8f9fa; border-radius: 8px; margin: 0.5rem 0;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;">
+                            <div style="text-align: center; padding: 0.5rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 6px; font-weight: 600;">
+                                <div style="font-size: 0.9rem; opacity: 0.9;">售價</div>
+                                <div style="font-size: 1.3rem;">${property.price}</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem; background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border-radius: 6px; font-weight: 600;">
+                                <div style="font-size: 0.9rem; opacity: 0.9;">坪數</div>
+                                <div style="font-size: 1.3rem;">${property.total_area || property.area || '未設定'}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 0.6rem;">
+                            <strong>📍 地址：</strong>${property.address}<br>
+                            <strong>🏢 社區：</strong>${property.community}
+                        </div>
+                        
+                        ${property.layout ? `
+                        <div style="margin-bottom: 0.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <div style="padding: 0.3rem; background: #e8f5e8; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+                                <strong>格局：</strong>${property.layout}
+                            </div>
+                            <div style="padding: 0.3rem; background: #e8f5e8; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+                                <strong>屋齡：</strong>${property.age || '未設定'}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <!-- 街景地圖預覽 -->
+                        <div style="margin-bottom: 0.8rem;">
+                            <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; cursor: pointer;" onclick="showMapModal('${property.id}')">
+                                <iframe src="${property.google_maps || 'https://www.google.com/maps/embed?pb=!4v1758635508112!6m8!1m7!1sTcuziJwB6dHCbFzTFsQVIw!2m2!1d24.90580115978875!2d121.1774002660474!3f281.776500634199!4f24.362884434893175!5f0.7820865974627469'}" width="100%" height="120" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
+                                    <div style="background: rgba(0,0,0,0.7); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
+                                        <i class="fas fa-expand"></i> 查看大地圖
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button onclick="showPropertyDetails('${property.id}')" 
+                                    style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);">
+                                <i class="fas fa-info-circle"></i> 詳細資訊
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+            renderPagination(totalPages) {
+                const container = document.getElementById('pagination-container');
+                if (!container || totalPages <= 1) {
+                    if (container) container.innerHTML = '';
+                    return;
+                }
+
+                let paginationHTML = '<div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin: 2rem 0;">';
+                
+                // 上一頁按鈕
+                if (this.currentPage > 1) {
+                    paginationHTML += `
+                        <button onclick="embeddedPaginationSystem.goToPage(${this.currentPage - 1})" 
+                                style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">
+                            <i class="fas fa-chevron-left"></i> 上一頁
+                        </button>
+                    `;
+                }
+
+                // 頁碼按鈕 - 顯示所有頁碼
+                for (let i = 1; i <= totalPages; i++) {
+                    const isActive = i === this.currentPage;
+                    paginationHTML += `
+                        <button onclick="embeddedPaginationSystem.goToPage(${i})" 
+                                style="background: ${isActive ? '#667eea' : '#f8f9fa'}; color: ${isActive ? 'white' : '#666'}; border: ${isActive ? '2px solid #667eea' : '1px solid #ddd'}; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; font-weight: ${isActive ? 'bold' : 'normal'}; min-width: 40px;">
+                            ${i}
+                        </button>
+                    `;
+                }
+
+                // 下一頁按鈕
+                if (this.currentPage < totalPages) {
+                    paginationHTML += `
+                        <button onclick="embeddedPaginationSystem.goToPage(${this.currentPage + 1})" 
+                                style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">
+                            下一頁 <i class="fas fa-chevron-right"></i>
+                        </button>
+                    `;
+                }
+
+                paginationHTML += '</div>';
+                container.innerHTML = paginationHTML;
+            }
+
+            updateStats() {
+                const container = document.getElementById('stats-container');
+                if (!container) return;
+
+                const filtered = this.getFilteredProperties();
+                const total = this.properties.length;
+                const showing = filtered.length;
+                
+                container.innerHTML = `
+                    <div style="text-align: center; margin: 1rem 0; padding: 1rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 10px;">
+                        <div style="font-size: 1.1rem; font-weight: 600;">
+                            顯示 ${showing} 個物件，共 ${total} 個物件
+                            ${this.currentFilter !== 'all' ? `（篩選：${this.currentFilter}）` : ''}
+                            ${this.searchTerm ? `（搜尋：${this.searchTerm}）` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            goToPage(page) {
+                const totalPages = this.getTotalPages();
+                if (page >= 1 && page <= totalPages) {
+                    this.currentPage = page;
+                    this.renderProperties();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            setFilter(filter) {
+                this.currentFilter = filter;
+                this.currentPage = 1;
+                this.renderProperties();
+            }
+
+            setSearch(term) {
+                this.searchTerm = term;
+                this.currentPage = 1;
+                this.renderProperties();
+            }
+
+            setupEventListeners() {
+                // 搜尋功能
+                const searchInput = document.getElementById('property-search');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        this.setSearch(e.target.value);
+                    });
+                }
+
+                // 篩選按鈕
+                const filterButtons = document.querySelectorAll('.filter-button');
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const filter = e.target.dataset.filter;
+                        this.setFilter(filter);
+                        
+                        // 更新按鈕狀態
+                        filterButtons.forEach(btn => {
+                            btn.style.background = btn === e.target ? 
+                                'linear-gradient(45deg, #667eea, #764ba2)' : 'transparent';
+                            btn.style.color = btn === e.target ? 'white' : '#666';
+                        });
+                    });
+                });
+            }
+        }
+
+        // 物件詳細資訊函數
+        function showPropertyDetails(propertyId) {
+            const property = embeddedPropertiesData.properties.find(p => p.id === propertyId);
+            if (property) {
+                alert(`物件詳細資訊：\n\n${property.title}\n地址：${property.address}\n售價：${property.price}\n坪數：${property.total_area || property.area}\n\n${property.description}`);
+            }
+        }
+
+        // 全域變數儲存當前彈窗
+        let currentLightbox = null;
+        let currentMapModal = null;
+
+        // 關閉燈箱函數
+        function closeLightbox() {
+            if (currentLightbox) {
+                currentLightbox.remove();
+                currentLightbox = null;
+            }
+        }
+
+        // 關閉地圖彈窗函數
+        function closeMapModal() {
+            if (currentMapModal) {
+                currentMapModal.remove();
+                currentMapModal = null;
+            }
+        }
+
+        // 更新燈箱照片內容
+        function updateLightboxImage(newImageIndex, propertyId) {
+            const property = embeddedPropertiesData.properties.find(p => p.id === propertyId);
+            if (property && property.images && property.images[newImageIndex] && currentLightbox) {
+                // 更新主照片
+                const mainImage = currentLightbox.querySelector('img[alt="物件照片"]');
+                if (mainImage) {
+                    mainImage.src = property.images[newImageIndex];
+                }
+                
+                // 更新照片資訊
+                const photoInfo = currentLightbox.querySelector('p');
+                if (photoInfo) {
+                    photoInfo.textContent = `照片 ${newImageIndex + 1} / ${property.images.length}`;
+                }
+                
+                // 更新縮圖邊框
+                const thumbnails = currentLightbox.querySelectorAll('img[alt^="縮圖"]');
+                thumbnails.forEach((thumb, idx) => {
+                    if (idx === newImageIndex) {
+                        thumb.style.border = '3px solid #667eea';
+                        thumb.style.opacity = '1';
+                    } else {
+                        thumb.style.border = '2px solid transparent';
+                        thumb.style.opacity = '0.7';
+                    }
+                });
+            }
+        }
+
+        // 照片燈箱功能
+        function openLightbox(imageIndex, propertyId) {
+            const property = embeddedPropertiesData.properties.find(p => p.id === propertyId);
+            if (property && property.images && property.images[imageIndex]) {
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.9);
+                    z-index: 10000;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 20px;
+                    box-sizing: border-box;
+                    backdrop-filter: blur(5px);
+                `;
+                
+                modal.innerHTML = `
+                    <div style="
+                        position: relative;
+                        max-width: 90vw;
+                        max-height: 90vh;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    ">
+                        <!-- 關閉按鈕 -->
+                        <button onclick="closeLightbox()" style="
+                            position: absolute;
+                            top: -50px;
+                            right: 0;
+                            background: linear-gradient(45deg, #e74c3c, #c0392b);
+                            color: white;
+                            border: none;
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            font-size: 20px;
+                            font-weight: bold;
+                            z-index: 10001;
+                            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">×</button>
+                        
+                        <!-- 照片容器 -->
+                        <div style="
+                            background: white;
+                            border-radius: 15px;
+                            padding: 20px;
+                            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+                            position: relative;
+                            overflow: hidden;
+                        ">
+                            <img src="${property.images[imageIndex]}" 
+                                 alt="物件照片" 
+                                 style="
+                                     max-width: 80vw;
+                                     max-height: 70vh;
+                                     object-fit: contain;
+                                     border-radius: 10px;
+                                     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                                     touch-action: manipulation;
+                                     -webkit-user-select: none;
+                                     user-select: none;
+                                 "
+                                 onerror="this.style.border='2px solid #e74c3c'; this.alt='❌ 照片載入失敗'"
+                                 ondragstart="return false;">
+                        </div>
+                        
+                        <!-- 照片資訊 -->
+                        <div style="
+                            background: rgba(255,255,255,0.95);
+                            color: #2c3e50;
+                            padding: 15px 25px;
+                            border-radius: 25px;
+                            margin-top: 20px;
+                            text-align: center;
+                            backdrop-filter: blur(10px);
+                            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+                        ">
+                            <h3 style="margin: 0 0 5px 0; font-size: 1.2rem; font-weight: 700;">
+                                ${property.title}
+                            </h3>
+                            <p style="margin: 0; opacity: 0.8; font-size: 0.9rem;">
+                                照片 ${imageIndex + 1} / ${property.images.length}
+                            </p>
+                        </div>
+                        
+                        
+                        <!-- 縮圖導航 -->
+                        ${property.images.length > 1 ? `
+                        <div style="
+                            display: flex;
+                            gap: 10px;
+                            margin-top: 20px;
+                            padding: 15px;
+                            background: rgba(255,255,255,0.9);
+                            border-radius: 15px;
+                            backdrop-filter: blur(10px);
+                            max-width: 80vw;
+                            overflow-x: auto;
+                            -webkit-overflow-scrolling: touch;
+                            touch-action: pan-x;
+                        ">
+                            ${property.images.map((img, idx) => `
+                                <img src="${img}" 
+                                     alt="縮圖 ${idx + 1}" 
+                                     onclick="updateLightboxImage(${idx}, '${propertyId}')"
+                                     style="
+                                         width: 60px;
+                                         height: 45px;
+                                         object-fit: cover;
+                                         border-radius: 8px;
+                                         cursor: pointer;
+                                         border: ${idx === imageIndex ? '3px solid #667eea' : '2px solid transparent'};
+                                         transition: all 0.3s ease;
+                                         opacity: ${idx === imageIndex ? '1' : '0.7'};
+                                         touch-action: manipulation;
+                                         -webkit-user-select: none;
+                                         user-select: none;
+                                         flex-shrink: 0;
+                                     "
+                                     onmouseover="this.style.opacity='1'; this.style.transform='scale(1.05)'"
+                                     onmouseout="this.style.opacity='${idx === imageIndex ? '1' : '0.7'}'; this.style.transform='scale(1)'"
+                                     ondragstart="return false;">
+                            `).join('')}
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                modal.className = 'modal';
+                document.body.appendChild(modal);
+                
+                // 儲存到全域變數
+                currentLightbox = modal;
+                
+                // 點擊背景關閉
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeLightbox();
+                    }
+                });
+                
+                // ESC 鍵關閉
+                const handleEsc = (e) => {
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                        document.removeEventListener('keydown', handleEsc);
+                    }
+                };
+                document.addEventListener('keydown', handleEsc);
+                
+            }
+        }
+
+        // 地圖彈窗功能
+        function showMapModal(propertyId) {
+            const property = embeddedPropertiesData.properties.find(p => p.id === propertyId);
+            if (property) {
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.9);
+                    z-index: 10000;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 20px;
+                    box-sizing: border-box;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="
+                        background: white;
+                        border-radius: 15px;
+                        max-width: 90vw;
+                        max-height: 90vh;
+                        position: relative;
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                        overflow: hidden;
+                    ">
+                        <!-- 關閉按鈕 -->
+                        <button onclick="closeMapModal()" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 15px;
+                            background: #e74c3c;
+                            color: white;
+                            border: none;
+                            width: 35px;
+                            height: 35px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            font-size: 20px;
+                            font-weight: bold;
+                            z-index: 10001;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                        ">×</button>
+                        
+                        <!-- 地圖標題 -->
+                        <div style="padding: 20px 30px 10px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                            <h2 style="margin: 0; font-size: 1.3rem; font-weight: 600;">
+                                <i class="fas fa-map-marker-alt"></i> ${property.title} - 位置地圖
+                            </h2>
+                            <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem;">
+                                📍 ${property.address}
+                            </p>
+                        </div>
+                        
+                        <!-- 地圖容器 -->
+                        <div style="width: 100%; height: 70vh; min-height: 500px;">
+                            <iframe src="${property.google_maps || 'https://www.google.com/maps/embed?pb=!4v1758635508112!6m8!1m7!1sTcuziJwB6dHCbFzTFsQVIw!2m2!1d24.90580115978875!2d121.1774002660474!3f281.776500634199!4f24.362884434893175!5f0.7820865974627469'}" 
+                                    width="100%" 
+                                    height="100%" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                        
+                        <!-- 地圖操作按鈕 -->
+                        <div style="padding: 20px 30px; background: #f8f9fa; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.address)}" 
+                               target="_blank" 
+                               style="
+                                   background: linear-gradient(45deg, #4285f4, #34a853);
+                                   color: white;
+                                   text-decoration: none;
+                                   padding: 10px 20px;
+                                   border-radius: 25px;
+                                   font-weight: 600;
+                                   display: inline-flex;
+                                   align-items: center;
+                                   gap: 8px;
+                                   transition: all 0.3s ease;
+                               " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <i class="fas fa-external-link-alt"></i> 在 Google Maps 中開啟
+                            </a>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(property.address)}" 
+                               target="_blank" 
+                               style="
+                                   background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+                                   color: white;
+                                   text-decoration: none;
+                                   padding: 10px 20px;
+                                   border-radius: 25px;
+                                   font-weight: 600;
+                                   display: inline-flex;
+                                   align-items: center;
+                                   gap: 8px;
+                                   transition: all 0.3s ease;
+                               " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <i class="fas fa-route"></i> 規劃路線
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                modal.className = 'modal';
+                document.body.appendChild(modal);
+                
+                // 儲存到全域變數
+                currentMapModal = modal;
+                
+                // 點擊背景關閉
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeMapModal();
+                    }
+                });
+                
+                // ESC 鍵關閉
+                const handleEsc = (e) => {
+                    if (e.key === 'Escape') {
+                        closeMapModal();
+                        document.removeEventListener('keydown', handleEsc);
+                    }
+                };
+                document.addEventListener('keydown', handleEsc);
+            }
+        }
+
+        // 初始化系統
+        let embeddedPaginationSystem;
+        document.addEventListener('DOMContentLoaded', function() {
+            embeddedPaginationSystem = new EmbeddedPropertyPaginationSystem();
+        });
+    </script>
+</body>
+</html>
