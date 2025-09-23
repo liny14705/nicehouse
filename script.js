@@ -1,1675 +1,1113 @@
-// ==================== 全域變數與設定 ====================
-
-// 地址對應表
-const addressMap = {
-    '四維路59號': 'https://maps.app.goo.gl/jaKQjQ6jArFZda898',
-    '四維路60號': 'https://maps.app.goo.gl/rxGpsi2UpsTEEV5w5',
-    '四維路70號': 'https://maps.app.goo.gl/k3rPvM6UwQJqwC5k7',
-    '四維路72號': 'https://maps.app.goo.gl/VP9nyyYg2n244WF49',
-    '四維路77號': 'https://maps.app.goo.gl/ejp7GDgoJEyyEKZ56',
-    '四維路190號': 'https://maps.app.goo.gl/JzDhpp6KHtuRZFfBA',
-    '四維路216號': 'https://maps.app.goo.gl/LFtp8Cg33KXoSE1A7',
-    '四維路218號': 'https://maps.app.goo.gl/89A6N9QCSgAURCFv9'
-};
-
-// 性能優化相關變數
-const performanceConfig = {
-    debounceDelay: 300,        // 防抖動延遲
-    throttleDelay: 100,        // 節流延遲
-    maxRetries: 3,             // 最大重試次數
-    cacheTimeout: 5 * 60 * 1000, // 快取超時時間 (5分鐘)
-    imageLoadTimeout: 10000,   // 圖片載入超時時間 (10秒)
-    enableAnimations: false,   // 關閉動畫效果，避免閃爍
-    enableAlignmentDetection: false  // 關閉對齊檢測功能
-};
-
-// 快取管理
-const cache = {
-    data: new Map(),
-    timestamps: new Map(),
-    
-    set(key, value) {
-        this.data.set(key, value);
-        this.timestamps.set(key, Date.now());
-    },
-    
-    get(key) {
-        const timestamp = this.timestamps.get(key);
-        if (timestamp && Date.now() - timestamp < performanceConfig.cacheTimeout) {
-            return this.data.get(key);
-        }
-        this.delete(key);
-        return null;
-    },
-    
-    delete(key) {
-        this.data.delete(key);
-        this.timestamps.delete(key);
-    }
-};
-
-// 防抖動函數
-function debounce(func, delay) {
-    let timeoutId;
-    return function(...args) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(this, args), delay);
-    };
-}
-
-// 節流函數
-function throttle(func, delay) {
-    let lastCall = 0;
-    return function(...args) {
-        const now = Date.now();
-        if (now - lastCall >= delay) {
-            lastCall = now;
-            return func.apply(this, args);
-        }
-    };
-}
-
-// ==================== 除錯工具和日誌系統 ====================
-
-/**
- * 日誌管理器
- */
-const logger = {
-    levels: {
-        ERROR: 0,
-        WARN: 1,
-        INFO: 2,
-        DEBUG: 3
-    },
-    currentLevel: 2, // 預設顯示 INFO 以上
-    
-    log(level, message, ...args) {
-        if (this.levels[level] <= this.currentLevel) {
-            const timestamp = new Date().toISOString();
-            const prefix = `[${timestamp}] [${level}]`;
-            console.log(prefix, message, ...args);
-        }
-    },
-    
-    error(message, ...args) {
-        this.log('ERROR', message, ...args);
-    },
-    
-    warn(message, ...args) {
-        this.log('WARN', message, ...args);
-    },
-    
-    info(message, ...args) {
-        this.log('INFO', message, ...args);
-    },
-    
-    debug(message, ...args) {
-        this.log('DEBUG', message, ...args);
-    }
-};
-
-/**
- * 性能監控器
- */
-const performanceMonitor = {
-    timers: new Map(),
-    
-    start(label) {
-        this.timers.set(label, performance.now());
-    },
-    
-    end(label) {
-        const startTime = this.timers.get(label);
-        if (startTime) {
-            const duration = performance.now() - startTime;
-            logger.debug(`⏱️ ${label}: ${duration.toFixed(2)}ms`);
-            this.timers.delete(label);
-            return duration;
-        }
-        return 0;
-    }
-};
-
-/**
- * 錯誤邊界處理
- */
-function errorBoundary(func, context = '') {
-    return function(...args) {
-        try {
-            return func.apply(this, args);
-        } catch (error) {
-            logger.error(`❌ 錯誤發生在 ${context}:`, error);
-            showNotification('發生未預期的錯誤，請重新整理頁面', 'error');
-        }
-    };
-}
-
-// ==================== LINE瀏覽器兼容性 ====================
-
-/**
- * 檢測是否為LINE內建瀏覽器
- */
-function isLineBrowser() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return userAgent.includes('line/') || userAgent.includes('line-');
-}
-
-/**
- * 處理LINE內建瀏覽器的連結兼容性
- */
-function handleLineBrowserCompatibility() {
-    if (isLineBrowser()) {
-        // 處理所有 target="_blank" 的連結
-        const links = document.querySelectorAll('a[target="_blank"]');
-        links.forEach(link => {
-            // 移除 target="_blank" 屬性
-            link.removeAttribute('target');
-            
-            // 添加點擊事件處理
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                if (href && href.startsWith('http')) {
-                    window.location.href = href;
-                } else if (href && href.startsWith('tel:')) {
-                    // 電話連結直接跳轉
-                    window.location.href = href;
-                }
+﻿// 地圖分頁切換功能
+        function showMapTab(tabId) {
+            // 隱藏所有地圖內容
+            const mapContents = document.querySelectorAll('.map-content');
+            mapContents.forEach(content => {
+                content.style.display = 'none';
             });
-        });
-        
-        console.log('LINE內建瀏覽器兼容性處理已啟用');
-    }
-}
-
-// ==================== 地圖導航功能 ====================
-
-/**
- * 開啟地圖導航
- * @param {string} url - Google Maps 連結
- */
-function openMap(url) {
-    try {
-        // 輸入驗證
-        if (!url || typeof url !== 'string') {
-            console.error('地圖連結參數無效:', url);
-            showNotification('地圖連結無效，請稍後再試。', 'error');
-            return;
-        }
-
-        // URL格式驗證
-        if (!url.startsWith('http')) {
-            console.error('地圖連結格式錯誤:', url);
-            showNotification('地圖連結格式錯誤，請稍後再試。', 'error');
-            return;
-        }
-
-        // 執行導航
-        if (isLineBrowser()) {
-            // LINE內建瀏覽器使用 location.href
-            window.location.href = url;
-        } else {
-            const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-            // 檢查是否成功開啟新視窗（修正邏輯）
-            if (!newWindow) {
-                // 完全無法開啟新視窗（被阻擋）
-                throw new Error('彈出視窗被阻擋');
+            
+            // 重置所有標籤按鈕樣式
+            const mapTabs = document.querySelectorAll('.map-tab');
+            mapTabs.forEach(tab => {
+                tab.style.background = '#95a5a6';
+            });
+            
+            // 顯示選中的地圖內容
+            const selectedContent = document.getElementById(tabId);
+            if (selectedContent) {
+                selectedContent.style.display = 'block';
             }
             
-            // 使用延遲檢查來避免誤判（可選）
-            setTimeout(() => {
-                try {
-                    // 檢查視窗是否真的被阻擋（延遲檢查）
-                    if (newWindow.closed === false || newWindow.location.href === 'about:blank') {
-                        // 視窗正常開啟，不需要顯示錯誤
-                        return;
+            // 高亮選中的標籤按鈕
+            const selectedTab = event.target;
+            selectedTab.style.background = '#3498db';
+        }
+        
+        // 優化的手機觸控處理
+        document.addEventListener('DOMContentLoaded', function() {
+            let startX = 0;
+            let startY = 0;
+            let isScrolling = false;
+            
+            // 允許縮放手勢，不阻止
+            document.addEventListener('gesturestart', function(e) {
+                // 允許縮放手勢，不阻止
+            }, { passive: true });
+            
+            // 優化的觸控開始處理
+            document.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                    isScrolling = false;
+                }
+            }, { passive: true });
+            
+            // 優化的觸控移動處理 - 允許縮放但防止網頁滾動
+            document.addEventListener('touchmove', function(e) {
+                // 允許多指觸控（縮放）
+                if (e.touches.length > 1) {
+                    return; // 不阻止縮放手勢
+                }
+                
+                // 單指觸控時，檢查是否在可滾動區域內
+                if (e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const deltaX = Math.abs(touch.clientX - startX);
+                    const deltaY = Math.abs(touch.clientY - startY);
+                    
+                    // 檢查是否在可滑動區域內
+                    const target = e.target;
+                    const scrollableParent = target.closest('.photo-scroll-container, .property-card, .info-card, .container, .loan-modal');
+                    
+                    // 如果不在可滑動區域內，阻止預設行為
+                    if (!scrollableParent) {
+                        e.preventDefault();
                     }
-                } catch (e) {
-                    // 跨域限制，無法檢查，但這不表示被阻擋
-                    // 視窗可能已經正常開啟並導航到外部網站
+                    isScrolling = true;
                 }
-            }, 100);
-        }
-    } catch (error) {
-        console.error('開啟地圖時發生錯誤:', error);
-        showNotification('無法開啟地圖，請檢查您的瀏覽器設定或彈出視窗阻擋。', 'error');
-    }
-}
-
-// ==================== 通知系統 ====================
-
-/**
- * 顯示通知訊息
- * @param {string} message - 通知訊息
- * @param {string} type - 通知類型 (info, error)
- */
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'error' ? '#e74c3c' : '#3498db'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 10000;
-        animation: slideIn 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
-}
-
-/**
- * 顯示廠商聯絡資訊彈窗
- */
-function showSponsorContact() {
-    const modal = document.getElementById('sponsorModal');
-    if (modal) {
-        modal.classList.add('show');
-        // 防止背景滾動
-        document.body.style.overflow = 'hidden';
-        
-        // 確保彈窗在視窗中央
-        setTimeout(() => {
-            modal.scrollTop = 0;
-            // 滾動到彈窗位置
-            const modalContent = modal.querySelector('.sponsor-modal-content');
-            if (modalContent) {
-                modalContent.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center',
-                    inline: 'center'
-                });
-            }
-        }, 100);
-    }
-}
-
-/**
- * 隱藏廠商聯絡資訊彈窗
- */
-function hideSponsorContact() {
-    const modal = document.getElementById('sponsorModal');
-    if (modal) {
-        modal.classList.remove('show');
-        // 恢復背景滾動
-        document.body.style.overflow = '';
-    }
-}
-
-/**
- * 顯示醫療資訊彈窗
- */
-function showMedicalInfo() {
-    const modal = document.getElementById('medicalModal');
-    if (modal) {
-        modal.classList.add('show');
-        // 防止背景滾動
-        document.body.style.overflow = 'hidden';
-        
-        // 確保彈窗在視窗中央
-        setTimeout(() => {
-            modal.scrollTop = 0;
-            // 滾動到彈窗位置
-            const modalContent = modal.querySelector('.sponsor-modal-content');
-            if (modalContent) {
-                modalContent.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center',
-                    inline: 'center'
-                });
-            }
-        }, 100);
-    }
-}
-
-/**
- * 隱藏醫療資訊彈窗
- */
-function hideMedicalInfo() {
-    const modal = document.getElementById('medicalModal');
-    if (modal) {
-        modal.classList.remove('show');
-        // 恢復背景滾動
-        document.body.style.overflow = '';
-    }
-}
-
-/**
- * 切換顯示的週次
- * @param {number} weekNumber - 週次編號 (0-6)
- */
-function showWeek(weekNumber) {
-    // 隱藏所有週的內容
-    const allWeeks = document.querySelectorAll('.week-content');
-    allWeeks.forEach(week => {
-        week.classList.remove('active');
-    });
-    
-    // 移除所有分頁的active狀態
-    const allTabs = document.querySelectorAll('.week-tab');
-    allTabs.forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    // 顯示選中的週
-    const targetWeek = document.getElementById(`week${weekNumber}`);
-    if (targetWeek) {
-        targetWeek.classList.add('active');
-    }
-    
-    // 激活對應的分頁
-    if (allTabs[weekNumber]) {
-        allTabs[weekNumber].classList.add('active');
-    }
-    
-    // 平滑滾動到頂部
-    const content = document.querySelector('.content');
-    if (content) {
-        content.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
-
-/**
- * 初始化餐車名稱的點擊事件和tooltip
- */
-function initializeTruckNames() {
-    const truckNames = document.querySelectorAll('.truck-name');
-    truckNames.forEach(nameElement => {
-        let locationText = '';
-        let mapUrl = '';
-        
-        // 檢查是否已經有data-address屬性
-        if (nameElement.hasAttribute('data-address')) {
-            locationText = nameElement.getAttribute('data-address');
-            mapUrl = addressMap[locationText];
-        } else {
-            // 從.truck-location元素獲取地址
-            const locationElement = nameElement.parentElement.querySelector('.truck-location');
-            if (locationElement) {
-                locationText = locationElement.textContent.replace('📍', '').trim();
-                mapUrl = addressMap[locationText];
-                
-                // 添加地址到data-address屬性
-                nameElement.setAttribute('data-address', locationText);
-            }
-        }
-        
-        if (mapUrl) {
-            nameElement.style.cursor = 'pointer';
-            nameElement.addEventListener('click', function() {
-                openMap(mapUrl);
-            });
-        }
-    });
-}
-
-/**
- * 添加日期卡片的互動效果
- */
-function initializeDayCards() {
-    const dayCards = document.querySelectorAll('.day-card');
-    dayCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-}
-
-/**
- * 添加鍵盤導航支援
- */
-function initializeKeyboardNavigation() {
-    document.addEventListener('keydown', function(e) {
-        if (e.key >= '1' && e.key <= '7') {
-            const weekNumber = parseInt(e.key) - 1;
-            if (weekNumber >= 0 && weekNumber <= 6) {
-                showWeek(weekNumber);
-                // 更新分頁狀態
-                const allTabs = document.querySelectorAll('.week-tab');
-                allTabs.forEach(tab => tab.classList.remove('active'));
-                if (allTabs[weekNumber]) {
-                    allTabs[weekNumber].classList.add('active');
-                }
-            }
-        }
-    });
-}
-
-/**
- * 添加週次標籤的鍵盤支援
- */
-function initializeWeekTabs() {
-    const weekTabs = document.querySelectorAll('.week-tab');
-    weekTabs.forEach((tab, index) => {
-        tab.setAttribute('tabindex', '0');
-        tab.setAttribute('role', 'button');
-        tab.setAttribute('aria-label', `切換到第${index + 1}週`);
-        
-        tab.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                showWeek(index);
-                this.classList.add('active');
-            }
-        });
-    });
-}
-
-/**
- * 添加頁面載入動畫
- */
-function initializePageAnimation() {
-    // 頁面載入動畫
-    window.addEventListener('load', function() {
-        document.body.classList.add('loaded');
-    });
-
-    // 添加載入動畫
-    const container = document.querySelector('.container');
-    if (container) {
-        container.style.opacity = '0';
-        container.style.transform = 'translateY(20px)';
-        
-        setTimeout(() => {
-            container.style.transition = 'all 0.6s ease';
-            container.style.opacity = '1';
-            container.style.transform = 'translateY(0)';
-        }, 100);
-    }
-}
-
-/**
- * 餐車圖片資料庫 - 方便管理上架/下架
- * 使用方式：
- * 1. 要上架：將 isActive 設為 true
- * 2. 要下架：將 isActive 設為 false
- * 3. 要新增：在陣列中新增物件
- * 4. 要修改：直接編輯對應的物件
- */
-const foodTruckDatabase = [
-    {
-        id: 'truck_001',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990540/S__4653108_0_u5egpg.jpg',
-        alt: '餐車品牌1',
-        title: '餐車品牌1',
-        isActive: true,
-        priority: 1,
-        category: 'main'
-    },
-    {
-        id: 'truck_002',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990540/S__4653107_0_igxhgl.jpg',
-        alt: '餐車品牌2',
-        title: '餐車品牌2',
-        isActive: true,
-        priority: 2,
-        category: 'main'
-    },
-    {
-        id: 'truck_003',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990540/S__4653105_0_keaqnp.jpg',
-        alt: '餐車品牌3',
-        title: '餐車品牌3',
-        isActive: true,
-        priority: 3,
-        category: 'main'
-    },
-    {
-        id: 'truck_004',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653102_0_iwonvd.jpg',
-        alt: '餐車品牌4',
-        title: '餐車品牌4',
-        isActive: true,
-        priority: 4,
-        category: 'main'
-    },
-    {
-        id: 'truck_005',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653103_0_ste4ns.jpg',
-        alt: '餐車品牌5',
-        title: '餐車品牌5',
-        isActive: true,
-        priority: 5,
-        category: 'main'
-    },
-    {
-        id: 'truck_006',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653100_0_ono2dd.jpg',
-        alt: '餐車品牌6',
-        title: '餐車品牌6',
-        isActive: true,
-        priority: 6,
-        category: 'main'
-    },
-    {
-        id: 'truck_007',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653096_0_vycs5h.jpg',
-        alt: '餐車品牌7',
-        title: '餐車品牌7',
-        isActive: true,
-        priority: 7,
-        category: 'main'
-    },
-    {
-        id: 'truck_008',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653098_0_gidf0n.jpg',
-        alt: '餐車品牌8',
-        title: '餐車品牌8',
-        isActive: true,
-        priority: 8,
-        category: 'main'
-    },
-    {
-        id: 'truck_009',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653094_0_mxdtdj.jpg',
-        alt: '餐車品牌9',
-        title: '餐車品牌9',
-        isActive: true,
-        priority: 9,
-        category: 'main'
-    },
-    {
-        id: 'truck_010',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653099_0_sxppso.jpg',
-        alt: '餐車品牌10',
-        title: '餐車品牌10',
-        isActive: true,
-        priority: 10,
-        category: 'main'
-    },
-    {
-        id: 'truck_011',
-        src: 'https://res.cloudinary.com/db0mzs6ps/image/upload/v1757990539/S__4653095_0_scixck.jpg',
-        alt: '餐車品牌11',
-        title: '餐車品牌11',
-        isActive: true,
-        priority: 11,
-        category: 'main'
-    }
-];
-
-/**
- * 獲取活躍的餐車圖片
- * @returns {Array} 活躍的餐車圖片陣列
- */
-function getActiveFoodTrucks() {
-    return foodTruckDatabase
-        .filter(truck => truck.isActive)
-        .sort((a, b) => a.priority - b.priority);
-}
-
-// 管理功能 - 僅供後台使用，前端不顯示
-
-/**
- * 初始化圖片跑碼燈
- */
-async function initializeImageMarquee() {
-    performanceMonitor.start('initializeImageMarquee');
-    const now = Date.now();
-    
-    // 防止重複初始化
-    if (isInitializing) {
-        logger.warn('⚠️ 正在初始化中，跳過重複調用');
-        return;
-    }
-    
-    // 防止短時間內重複調用（500ms內）
-    if (now - lastInitTime < 500) {
-        logger.warn('⚠️ 距離上次初始化時間太短，跳過重複調用');
-        return;
-    }
-    
-    isInitializing = true;
-    lastInitTime = now;
-    
-    logger.info('🚀 開始初始化圖片跑碼燈...');
-    
-    // 從資料檔案讀取餐車資料
-    let imageData = [];
-    try {
-        // 優先從本地儲存載入
-        const localData = localStorage.getItem('foodTruckData');
-        if (localData) {
-            const data = JSON.parse(localData);
-            imageData = data.foodTrucks
-                .filter(truck => truck.isActive)
-                .sort((a, b) => a.priority - b.priority);
-            console.log('📱 從本地儲存載入餐車圖片資料');
-        } else {
-            // 如果本地沒有資料，從 data.json 載入
-            const response = await fetch('data.json');
-            const data = await response.json();
-            imageData = data.foodTrucks
-                .filter(truck => truck.isActive)
-                .sort((a, b) => a.priority - b.priority);
-            console.log('🌐 從 data.json 載入餐車圖片資料');
-        }
-    } catch (error) {
-        console.error('無法載入餐車資料:', error);
-        // 使用預設資料
-        imageData = getActiveFoodTrucks();
-    }
-    
-    const marqueeTrack = document.getElementById('marqueeTrack');
-    if (!marqueeTrack) return;
-    
-    // 如果沒有圖片資料，直接返回
-    if (!imageData || imageData.length === 0) {
-        console.log('🖼️ 沒有餐車圖片資料');
-        marqueeTrack.innerHTML = '';
-        isInitializing = false;
-        return;
-    }
-    
-    // 計算預期圖片數量（不重複）
-    const expectedCount = imageData.length;
-    
-    // 檢查是否已經有相同數量的圖片，避免重複添加
-    if (marqueeTrack.children.length === expectedCount && currentImageCount === expectedCount) {
-        console.log('🖼️ 圖片數量未變化，跳過重新初始化');
-        console.log(`📊 當前數量: ${marqueeTrack.children.length}, 預期數量: ${expectedCount}`);
-        isInitializing = false;
-        return;
-    }
-    
-    console.log(`🔄 需要重新初始化，當前: ${marqueeTrack.children.length}, 預期: ${expectedCount}`);
-    
-    // 完全清空現有內容
-    marqueeTrack.innerHTML = '';
-    console.log('🧹 已清空跑碼燈內容');
-    
-    // 創建圖片元素
-    const createImageItems = (images) => {
-        return images.map(item => {
-            const marqueeItem = document.createElement('div');
-            marqueeItem.className = 'marquee-item';
-            marqueeItem.title = item.title;
+            }, { passive: false });
             
-            // 處理多個連結（支援字串、陣列或物件陣列）
-            let linkData = '';
-            if (item.link) {
-                if (Array.isArray(item.link)) {
-                    // 檢查是否為物件陣列（包含 url 和 text）
-                    if (item.link.length > 0 && typeof item.link[0] === 'object' && item.link[0].url) {
-                        // 物件陣列格式：將物件轉換為字串格式
-                        linkData = item.link.map(linkObj => `${linkObj.url}|${linkObj.text}`).join(',');
-                    } else {
-                        // 普通字串陣列格式
-                        linkData = item.link.join(',');
+            // 觸控結束時重置狀態
+            document.addEventListener('touchend', function(e) {
+                isScrolling = false;
+            }, { passive: true });
+            
+            // 優化照片滑動容器
+            const photoScrollContainers = document.querySelectorAll('.photo-scroll-container');
+            photoScrollContainers.forEach(container => {
+                // 添加平滑滑動
+                container.style.scrollBehavior = 'smooth';
+                container.style.webkitOverflowScrolling = 'touch';
+                
+                // 優化觸控滑動
+                let isDragging = false;
+                let startScrollLeft = 0;
+                let startTouchX = 0;
+                
+                container.addEventListener('touchstart', function(e) {
+                    isDragging = true;
+                    startScrollLeft = this.scrollLeft;
+                    startTouchX = e.touches[0].clientX;
+                }, { passive: true });
+                
+                container.addEventListener('touchmove', function(e) {
+                    if (isDragging) {
+                        const touchX = e.touches[0].clientX;
+                        const diff = startTouchX - touchX;
+                        this.scrollLeft = startScrollLeft + diff;
                     }
-                } else {
-                    linkData = item.link;
-                }
-                marqueeItem.dataset.link = linkData;
-            }
-            
-            const img = document.createElement('img');
-            img.src = item.src;
-            img.alt = item.alt;
-            img.loading = 'lazy';
-            
-            // 添加圖片載入錯誤處理
-            img.onerror = function() {
-                console.warn('圖片載入失敗:', item.src);
-                this.style.background = '#f8f9fa';
-                this.style.border = '1px solid #e9ecef';
-                this.style.display = 'flex';
-                this.style.alignItems = 'center';
-                this.style.justifyContent = 'center';
-                this.style.fontSize = '0.7em';
-                this.style.color = '#6c757d';
-                this.alt = '圖片載入失敗';
-                this.title = '圖片載入失敗';
-            };
-            
-            // 添加圖片載入成功處理
-            img.onload = function() {
-                console.log('圖片載入成功:', item.src);
-            };
-            
-            // 如果有超連結，也儲存到圖片的 dataset 中
-            if (linkData) {
-                img.dataset.link = linkData;
-            }
-            
-            // 儲存圖片超連結
-            if (item.imgLink) {
-                marqueeItem.dataset.imgLink = item.imgLink;
-                img.dataset.imgLink = item.imgLink;
-            }
-            
-            // 點擊事件由事件委託處理
-            
-            marqueeItem.appendChild(img);
-            return marqueeItem;
-        });
-    };
-    
-    // 添加圖片到跑碼燈軌道（只添加一次，不重複）
-    const imageItems = createImageItems(imageData);
-    imageItems.forEach(item => marqueeTrack.appendChild(item));
-    console.log(`📝 已添加 ${imageItems.length} 個餐車圖片`);
-    
-    // 更新當前圖片數量
-    currentImageCount = marqueeTrack.children.length;
-    
-    console.log(`🖼️ 圖片跑碼燈已初始化，共 ${currentImageCount} 個圖片元素`);
-    console.log(`📊 預期數量: ${expectedCount}, 實際數量: ${currentImageCount}`);
-    
-    // 初始化互動功能
-    initializeMarqueeInteraction();
-    
-    // 重置初始化標記
-    setTimeout(() => {
-        isInitializing = false;
-        console.log('✅ 初始化完成，標記已重置');
-    }, 500);
-}
-
-// ==================== 圖片載入優化 ====================
-
-/**
- * 預載入圖片
- * @param {string} src - 圖片來源
- * @returns {Promise<HTMLImageElement>} 載入完成的圖片元素
- */
-function preloadImage(src) {
-    return new Promise((resolve, reject) => {
-        // 檢查快取
-        const cached = cache.get(`image_${src}`);
-        if (cached) {
-            resolve(cached);
-            return;
-        }
-
-        const img = new Image();
-        const timeout = setTimeout(() => {
-            reject(new Error('圖片載入超時'));
-        }, performanceConfig.imageLoadTimeout);
-
-        img.onload = () => {
-            clearTimeout(timeout);
-            cache.set(`image_${src}`, img);
-            resolve(img);
-        };
-
-        img.onerror = () => {
-            clearTimeout(timeout);
-            reject(new Error('圖片載入失敗'));
-        };
-
-        img.src = src;
-    });
-}
-
-/**
- * 顯示圖片放大彈窗
- * @param {string} src - 圖片來源
- * @param {string} alt - 圖片替代文字
- * @param {string} title - 圖片標題
- * @param {string|Array} links - 超連結網址（可選，支援多個連結）
- */
-function showImageModal(src, alt, title, links = '', imgLink = '') {
-    // 創建彈窗元素
-    let modal = document.getElementById('imageModal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'imageModal';
-        modal.className = 'image-modal';
-        document.body.appendChild(modal);
-    }
-    
-    // 處理連結資料
-    let linkButtons = '';
-    let firstLink = '';
-    let imgClickable = '';
-    
-    // 處理圖片超連結
-    if (imgLink) {
-        firstLink = imgLink;
-        imgClickable = 'style="cursor: pointer;"';
-    }
-    
-    // 處理按鈕連結（即使有圖片超連結也要顯示按鈕）
-    if (links) {
-        let linkArray = [];
-        
-        // 處理不同的連結格式
-        if (typeof links === 'string') {
-            // 字串格式：可能是逗號分隔的連結，或包含文字的分隔格式
-            if (links.includes('|')) {
-                // 包含按鈕文字的格式：url|text,url|text
-                linkArray = links.split(',').map(linkStr => {
-                    const [url, text] = linkStr.split('|');
-                    return { url: url.trim(), text: text ? text.trim() : '連結' };
-                });
-            } else {
-                // 普通逗號分隔的連結
-                linkArray = links.split(',').map(link => ({ url: link.trim(), text: '連結' }));
-            }
-        } else if (Array.isArray(links)) {
-            // 陣列格式
-            linkArray = links.map(link => {
-                if (typeof link === 'object' && link.url) {
-                    // 物件格式：{url: '...', text: '...'}
-                    return { url: link.url, text: link.text || '連結' };
-                } else {
-                    // 字串格式
-                    return { url: link, text: '連結' };
-                }
+                }, { passive: true });
+                
+                container.addEventListener('touchend', function(e) {
+                    isDragging = false;
+                }, { passive: true });
             });
-        }
-        
-        // 過濾掉空連結
-        const validLinks = linkArray.filter(link => link.url && link.url.trim() !== '');
-        
-        if (validLinks.length > 0) {
-            // 只有在沒有圖片超連結時，才使用第一個按鈕連結作為 firstLink
-            if (!imgLink) {
-                firstLink = validLinks[0].url;
-            }
-            
-            // 創建連結按鈕（最多3個）
-            const linkButtonsHTML = validLinks.slice(0, 3).map((linkObj, index) => {
-                const buttonText = linkObj.text || ['官網', 'FB', 'IG'][index] || `連結${index + 1}`;
-                if (isLineBrowser()) {
-                    return `<a href="${linkObj.url}" class="link-button" onclick="window.location.href='${linkObj.url}'">${buttonText}</a>`;
-                } else {
-                    return `<a href="${linkObj.url}" target="_blank" class="link-button">${buttonText}</a>`;
-                }
-            }).join('');
-            
-            linkButtons = `
-                <div class="link-buttons-container">
-                    ${linkButtonsHTML}
-                </div>
-            `;
-        }
-    }
-    
-    modal.innerHTML = `
-        <div class="image-modal-content">
-            <button class="image-modal-close" onclick="hideImageModal()">&times;</button>
-            <img src="${src}" alt="${alt}" title="${title}" ${imgClickable}>
-            ${linkButtons}
-        </div>
-    `;
-    
-    modal.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    
-    // 如果有超連結，添加圖片點擊事件
-    if (firstLink) {
-        const modalImage = modal.querySelector('img');
-        modalImage.addEventListener('click', function() {
-            if (isLineBrowser()) {
-                window.location.href = firstLink;
-            } else {
-                window.open(firstLink, '_blank');
-            }
         });
-    }
-    
-    // 點擊背景關閉
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            hideImageModal();
-        }
-    });
-    
-    // ESC鍵關閉
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            hideImageModal();
-        }
-    });
-}
-
-/**
- * 隱藏圖片放大彈窗
- */
-function hideImageModal() {
-    const modal = document.getElementById('imageModal');
-    if (modal) {
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-}
-
-// 防止重複初始化的標記
-let isInitializing = false;
-let currentImageCount = 0;
-let lastInitTime = 0;
-
-/**
- * 檢查資料更新
- */
-function checkDataUpdate() {
-    // 如果正在初始化，跳過檢查
-    if (isInitializing) return;
-    
-    const localData = localStorage.getItem('foodTruckData');
-    if (localData) {
-        try {
-            const data = JSON.parse(localData);
-            const lastUpdated = data.lastUpdated;
+        
+        // 添加一些互動效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 滾動動畫效果
+            const cards = document.querySelectorAll('.property-card, .info-card');
             
-            // 檢查是否有新的更新
-            const lastCheck = sessionStorage.getItem('lastDataCheck');
-            if (!lastCheck || lastUpdated > lastCheck) {
-                console.log('🔄 檢測到資料更新，重新載入餐車圖片');
-                console.log('📅 更新時間:', lastUpdated);
-                console.log('📊 餐車數量:', data.foodTrucks ? data.foodTrucks.length : 0);
-                console.log('🖼️ 活躍餐車:', data.foodTrucks ? data.foodTrucks.filter(t => t.isActive).length : 0);
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+            
+            // 優化的按鈕點擊效果
+            const buttons = document.querySelectorAll('.contact-button');
+            buttons.forEach(button => {
+                // 添加觸控反饋
+                button.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'scale(0.95)';
+                    this.style.transition = 'transform 0.1s ease';
+                }, { passive: true });
                 
-                isInitializing = true;
-                initializeImageMarquee();
-                sessionStorage.setItem('lastDataCheck', lastUpdated);
+                button.addEventListener('touchend', function(e) {
+                    this.style.transform = 'scale(1)';
+                    this.style.transition = 'transform 0.2s ease';
+                }, { passive: true });
                 
-                // 設定標記，防止短時間內重複調用
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                });
+            });
+        });
+        
+        // 貸款試算彈窗功能
+        function openLoanModal(propertyPrice = 896, monthlyIncome = 8) {
+            try {
+                console.log('開啟貸款試算彈窗');
+                document.getElementById('loanModal').style.display = 'block';
+                // 不設定 body overflow，讓彈窗內部可以滾動
+                
+                // 設置預設值
+                document.getElementById('modalHousePrice').value = propertyPrice;
+                document.getElementById('modalMonthlyIncome').value = monthlyIncome;
+                
+                // 重新綁定滑桿事件
                 setTimeout(() => {
-                    isInitializing = false;
-                }, 1000);
+                    bindSliderEvents();
+                    bindInputEvents(); // 綁定輸入框事件
+                    calculateModalLoan(); // 立即計算一次顯示結果
+                }, 100);
+            } catch (error) {
+                console.error('彈窗開啟錯誤:', error);
+                alert('彈窗開啟失敗，請檢查控制台錯誤訊息');
             }
-        } catch (error) {
-            console.error('❌ 解析 localStorage 資料失敗:', error);
         }
-    } else {
-        // 如果沒有 localStorage 資料，嘗試從 data.json 載入
-        console.log('📥 沒有 localStorage 資料，嘗試從 data.json 載入');
-        initializeImageMarquee();
-    }
-}
-
-
-/**
- * 初始化所有功能
- */
-function initializeApp() {
-    console.log('🍽️ 四維商圈餐車月行程表已載入完成！');
-    
-    // 初始化各種功能
-    initializeTruckNames();
-    initializeDayCards();
-    initializeKeyboardNavigation();
-    initializeWeekTabs();
-    initializePageAnimation();
-    initializeImageMarquee();
-    
-    // 設定定期檢查資料更新
-    setInterval(checkDataUpdate, 1000); // 每1秒檢查一次，提高同步速度
-}
-
-
-
-
-
-
-// ==================== 跑馬燈互動控制功能 ====================
-
-// 跑馬燈互動控制變數
-let marqueeInteraction = {
-    isDragging: false,
-    hasMoved: false,
-    startX: 0,
-    startY: 0,
-    currentX: 0,
-    currentY: 0,
-    offset: 0,
-    velocity: 0,
-    lastMoveTime: 0,
-    lastMoveX: 0,
-    autoScrollSpeed: 1, // 像素/毫秒
-    isUserControlled: false,
-    userControlTimeout: null,
-    marqueeTrack: null,
-    wrapper: null,
-    isHorizontalSwipe: false
-};
-
-// 初始化跑馬燈互動功能
-function initializeMarqueeInteraction() {
-    const marqueeTrack = document.getElementById('marqueeTrack');
-    const wrapper = document.querySelector('.marquee-wrapper');
-    
-    if (!marqueeTrack || !wrapper) {
-        console.log('⚠️ 找不到跑馬燈容器，跳過互動功能初始化');
-        return;
-    }
-    
-    // 儲存引用
-    marqueeInteraction.marqueeTrack = marqueeTrack;
-    marqueeInteraction.wrapper = wrapper;
-    
-    // 檢測設備類型
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-                     ('ontouchstart' in window) || 
-                     (navigator.maxTouchPoints > 0);
-    
-    marqueeInteraction.isMobile = isMobile;
-    
-    if (isMobile) {
-        // 手機版：觸控滑動 + 點擊
-        initializeMobileInteraction();
-    } else {
-        // 電腦版：滾輪 + 鍵盤 + 點擊
-        initializeDesktopInteraction();
-    }
-    
-    // 使用事件委託處理圖片點擊
-    wrapper.addEventListener('click', handleImageClick);
-    
-    console.log(`🎮 跑馬燈互動功能已初始化 (${isMobile ? '手機版' : '電腦版'})`);
-}
-
-// 手機版互動初始化
-function initializeMobileInteraction() {
-    const { wrapper } = marqueeInteraction;
-    
-    // 手機版只保留點擊功能，移除滑動控制
-    // 觸控事件已移除，只保留點擊功能
-    
-    // 鍵盤事件（手機版也支援外接鍵盤）
-    wrapper.addEventListener('keydown', handleKeyDown);
-    wrapper.setAttribute('tabindex', '0');
-    
-    console.log('📱 手機版互動功能已初始化（僅點擊功能）');
-}
-
-// 電腦版互動初始化
-function initializeDesktopInteraction() {
-    const { wrapper } = marqueeInteraction;
-    
-    // 滾輪事件 - 使用 capture 模式確保能捕獲到事件
-    wrapper.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-    
-    // 鍵盤事件
-    wrapper.addEventListener('keydown', handleKeyDown);
-    wrapper.setAttribute('tabindex', '0');
-    
-    // 添加調試信息
-    console.log('💻 電腦版互動功能已初始化');
-    console.log('🔧 滾輪事件已綁定到:', wrapper);
-}
-
-// 處理圖片點擊事件
-function handleImageClick(e) {
-    // 檢查是否點擊的是圖片或圖片容器
-    const marqueeItem = e.target.closest('.marquee-item');
-    if (!marqueeItem) return;
-    
-    // 如果沒有移動，則允許點擊
-    if (!marqueeInteraction.hasMoved) {
-        const img = marqueeItem.querySelector('img');
-        if (img) {
-            // 從圖片或容器中獲取超連結資訊
-            const linkData = img.dataset.link || marqueeItem.dataset.link || '';
-            const imgLink = img.dataset.imgLink || marqueeItem.dataset.imgLink || '';
+        
+        
+        function closeLoanModal() {
+            document.getElementById('loanModal').style.display = 'none';
+            // 不需要恢復 body overflow，因為沒有設定
+        }
+        
+        // 點擊彈窗外部關閉
+        window.onclick = function(event) {
+            const modal = document.getElementById('loanModal');
+            if (event.target === modal) {
+                closeLoanModal();
+            }
+        }
+        
+        // 滑桿值更新 - 確保在DOM載入後綁定
+        function bindSliderEvents() {
+            const loanRatioSlider = document.getElementById('modalLoanRatio');
+            const loanYearsSlider = document.getElementById('modalLoanYears');
+            const interestRateSlider = document.getElementById('modalInterestRate');
             
-            // 直接傳遞連結資料給 showImageModal，讓它處理格式解析
-            showImageModal(img.src, img.alt, marqueeItem.title || img.alt, linkData, imgLink);
-        }
-    }
-}
-
-// 電腦版不支援滑鼠拖拽，只保留觸控滑動
-
-// 觸控事件處理已移除 - 手機版不再支援滑動控制
-
-// 鍵盤事件處理
-function handleKeyDown(e) {
-    const step = 50; // 每次移動的像素數
-    
-    switch(e.key) {
-        case 'ArrowLeft':
-            e.preventDefault();
-            marqueeInteraction.offset -= step;
-            updateMarqueePosition();
-            setUserControl();
-            break;
-        case 'ArrowRight':
-            e.preventDefault();
-            marqueeInteraction.offset += step;
-            updateMarqueePosition();
-            setUserControl();
-            break;
-        case 'Home':
-            e.preventDefault();
-            marqueeInteraction.offset = 0;
-            updateMarqueePosition();
-            setUserControl();
-            break;
-        case 'End':
-            e.preventDefault();
-            // 跳到最後一個圖片的位置
-            const trackWidth = marqueeInteraction.marqueeTrack.scrollWidth;
-            const wrapperWidth = marqueeInteraction.wrapper.clientWidth;
-            marqueeInteraction.offset = -(trackWidth - wrapperWidth);
-            updateMarqueePosition();
-            setUserControl();
-            break;
-    }
-}
-
-// 滾輪事件處理
-function handleWheel(e) {
-    e.preventDefault();
-    
-    const delta = e.deltaY > 0 ? 30 : -30; // 滾輪靈敏度
-    marqueeInteraction.offset += delta;
-    updateMarqueePosition();
-    
-    setUserControl();
-    
-    console.log('🖱️ 滾輪事件觸發:', e.deltaY, 'offset:', marqueeInteraction.offset);
-}
-
-// 更新跑馬燈位置
-function updateMarqueePosition() {
-    if (!marqueeInteraction.marqueeTrack) return;
-    
-    marqueeInteraction.marqueeTrack.style.setProperty('--user-offset', `${marqueeInteraction.offset}px`);
-}
-
-// 設定使用者控制狀態
-function setUserControl() {
-    marqueeInteraction.isUserControlled = true;
-    marqueeInteraction.marqueeTrack.classList.add('user-controlled');
-    marqueeInteraction.wrapper.classList.add('user-controlled');
-    
-    // 清除之前的計時器
-    if (marqueeInteraction.userControlTimeout) {
-        clearTimeout(marqueeInteraction.userControlTimeout);
-    }
-    
-    // 3秒後恢復自動滾動
-    marqueeInteraction.userControlTimeout = setTimeout(() => {
-        resetToAutoScroll();
-    }, 3000);
-}
-
-// 重置為自動滾動
-function resetToAutoScroll() {
-    marqueeInteraction.isUserControlled = false;
-    marqueeInteraction.marqueeTrack.classList.remove('user-controlled');
-    marqueeInteraction.wrapper.classList.remove('user-controlled');
-    marqueeInteraction.offset = 0;
-    updateMarqueePosition();
-    
-    if (marqueeInteraction.userControlTimeout) {
-        clearTimeout(marqueeInteraction.userControlTimeout);
-        marqueeInteraction.userControlTimeout = null;
-    }
-}
-
-// 開始慣性滾動
-function startMomentumScroll() {
-    const momentum = marqueeInteraction.velocity * 100; // 慣性係數
-    let momentumOffset = momentum;
-    
-    const animate = () => {
-        marqueeInteraction.offset += momentumOffset;
-        updateMarqueePosition();
-        
-        momentumOffset *= 0.95; // 摩擦力
-        
-        if (Math.abs(momentumOffset) > 0.1) {
-            requestAnimationFrame(animate);
-        } else {
-            resetToAutoScroll();
-        }
-    };
-    
-    animate();
-}
-
-// 頁面載入完成後執行初始化
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
-    
-    // 處理LINE內建瀏覽器兼容性
-    handleLineBrowserCompatibility();
-    
-    // 初始化重疊檢測
-    initOverlapDetection();
-    
-    // 清除所有對齊檢測標記（避免綠色虛線）
-    clearAlignmentDetection();
-    
-    // 初始化對齊檢測（可選）
-    if (performanceConfig.enableAlignmentDetection) {
-        initAlignmentDetection();
-    }
-});
-
-// ==================== 重疊檢測功能 ====================
-
-// 使用Intersection Observer API檢測重疊
-function detectOverlaps() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.intersectionRatio < 0.1) {
-                entry.target.style.zIndex = '999';
-                entry.target.classList.add('overlap-warning');
-            } else {
-                entry.target.style.zIndex = '';
-                entry.target.classList.remove('overlap-warning');
+            if (loanRatioSlider) {
+                loanRatioSlider.addEventListener('input', function() {
+                    document.getElementById('modalLoanRatioValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+                loanRatioSlider.addEventListener('change', function() {
+                    document.getElementById('modalLoanRatioValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                    // 只有在變更時才檢查新青安貸款設定
+                    if (document.getElementById('modalExistingLoan').value === 'youth') {
+                        showYouthLoanNotice();
+                    }
+                });
             }
-        });
-    }, { 
-        threshold: 0.1,
-        rootMargin: '10px'
-    });
-    
-    // 監控所有可能重疊的元素
-    const elementsToWatch = [
-        '.day-card',
-        '.truck-item',
-        '.ad-item',
-        '.week-tab',
-        '.image-marquee-item'
-    ];
-    
-    elementsToWatch.forEach(selector => {
-        document.querySelectorAll(selector).forEach(el => {
-            observer.observe(el);
-        });
-    });
-}
-
-// 初始化重疊檢測
-function initOverlapDetection() {
-    // 檢查瀏覽器是否支援 Intersection Observer
-    if ('IntersectionObserver' in window) {
-        detectOverlaps();
+            
+            if (loanYearsSlider) {
+                loanYearsSlider.addEventListener('input', function() {
+                    document.getElementById('modalLoanYearsValue').textContent = this.value + '年';
+                    calculateModalLoan(); // 即時計算
+                });
+                loanYearsSlider.addEventListener('change', function() {
+                    document.getElementById('modalLoanYearsValue').textContent = this.value + '年';
+                    calculateModalLoan(); // 即時計算
+                });
+            }
+            
+            if (interestRateSlider) {
+                interestRateSlider.addEventListener('input', function() {
+                    document.getElementById('modalInterestRateValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+                interestRateSlider.addEventListener('change', function() {
+                    document.getElementById('modalInterestRateValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+            }
+        }
         
-        // 當內容動態更新時重新檢測 - 減少頻率
-        const mutationObserver = new MutationObserver((mutations) => {
-            let shouldRefresh = false;
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    shouldRefresh = true;
+        // 驗證計算準確性的測試函數
+        function validateLoanCalculation() {
+            // 測試案例1：無寬限期，標準計算
+            console.log("=== 貸款計算驗證測試 ===");
+            
+            // 測試數據
+            const testCases = [
+                {
+                    name: "標準案例：無寬限期",
+                    housePrice: 1500, // 萬元
+                    loanRatio: 80,    // %
+                    loanYears: 20,    // 年
+                    interestRate: 2.1, // %
+                    gracePeriod: 0,   // 年
+                    expectedMonthlyPayment: 7628, // 預期月付約7628元
+                },
+                {
+                    name: "寬限期案例：3年寬限期",
+                    housePrice: 1500,
+                    loanRatio: 80,
+                    loanYears: 20,
+                    interestRate: 2.1,
+                    gracePeriod: 3,
+                    expectedGracePayment: 2100, // 預期寬限期月付約2100元
+                },
+                {
+                    name: "新青安案例：5年寬限期",
+                    housePrice: 1500,
+                    loanRatio: 80,
+                    loanYears: 30,
+                    interestRate: 2.1,
+                    gracePeriod: 5,
+                    expectedGracePayment: 2100, // 預期寬限期月付約2100元
                 }
-            });
+            ];
             
-            // 只在有實際內容變化時才重新檢測
-            if (shouldRefresh) {
-                setTimeout(detectOverlaps, 500);
-            }
-        });
-        
-        // 監控整個文檔的變化
-        mutationObserver.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    } else {
-        console.warn('Intersection Observer API 不支援，跳過重疊檢測');
-    }
-}
-
-// 手動檢測重疊（備用方案）
-function manualOverlapDetection() {
-    const elements = document.querySelectorAll('.day-card, .truck-item, .ad-item');
-    
-    elements.forEach((element, index) => {
-        const rect = element.getBoundingClientRect();
-        let hasOverlap = false;
-        
-        elements.forEach((otherElement, otherIndex) => {
-            if (index !== otherIndex) {
-                const otherRect = otherElement.getBoundingClientRect();
+            testCases.forEach(testCase => {
+                console.log(`\n測試：${testCase.name}`);
                 
-                // 檢查是否有重疊
-                if (rect.left < otherRect.right && 
-                    rect.right > otherRect.left && 
-                    rect.top < otherRect.bottom && 
-                    rect.bottom > otherRect.top) {
-                    hasOverlap = true;
+                // 設置測試數據
+                document.getElementById('modalHousePrice').value = testCase.housePrice;
+                document.getElementById('modalLoanRatio').value = testCase.loanRatio;
+                document.getElementById('modalLoanYears').value = testCase.loanYears;
+                document.getElementById('modalInterestRate').value = testCase.interestRate;
+                document.getElementById('modalGracePeriod').value = testCase.gracePeriod;
+                
+                // 執行計算
+                calculateModalLoan();
+                
+                console.log("測試完成，請檢查結果是否合理");
+            });
+        }
+        
+        // 根據貸款狀況調整貸款條件
+        function adjustLoanConditions() {
+            const existingLoan = document.getElementById('modalExistingLoan').value;
+            const loanRatioSlider = document.getElementById('modalLoanRatio');
+            const gracePeriodSelect = document.getElementById('modalGracePeriod');
+            const interestRateSlider = document.getElementById('modalInterestRate');
+            
+            if (existingLoan === 'existing') {
+                // 第二戶貸款：限制貸款成數50%，取消寬限期
+                loanRatioSlider.max = 50;
+                loanRatioSlider.value = Math.min(loanRatioSlider.value, 50);
+                document.getElementById('modalLoanRatioValue').textContent = loanRatioSlider.value + '%';
+                
+                gracePeriodSelect.value = '0'; // 強制設為無寬限期
+                
+                // 恢復一般利率範圍
+                interestRateSlider.min = 1.5;
+                interestRateSlider.max = 5;
+                interestRateSlider.value = Math.max(interestRateSlider.value, 1.5);
+                document.getElementById('modalInterestRateValue').textContent = interestRateSlider.value + '%';
+                
+                // 顯示政策提醒
+                showPolicyNotice('第二戶房貸限制：貸款成數最高50%，無寬限期');
+                
+            } else if (existingLoan === 'youth') {
+                // 新青安貸款：限制1000萬額度，優惠利率，5年寬限期
+                loanRatioSlider.max = 80;
+                loanRatioSlider.value = Math.min(loanRatioSlider.value, 80);
+                document.getElementById('modalLoanRatioValue').textContent = loanRatioSlider.value + '%';
+                
+                gracePeriodSelect.value = '5'; // 強制設為新青安5年寬限期
+                
+                // 設置新青安優惠利率範圍 (基準利率+0.555%-政府補貼2碼)
+                interestRateSlider.min = 1.2;
+                interestRateSlider.max = 2.0;
+                interestRateSlider.value = 1.8; // 預設新青安優惠利率
+                document.getElementById('modalInterestRateValue').textContent = interestRateSlider.value + '%';
+                
+                // 顯示新青安政策提醒和一般貸款利率設定
+                showYouthLoanNotice();
+                
+            } else {
+                // 首購：恢復正常條件
+                loanRatioSlider.max = 85;
+                loanRatioSlider.value = Math.min(loanRatioSlider.value, 85);
+                document.getElementById('modalLoanRatioValue').textContent = loanRatioSlider.value + '%';
+                
+                gracePeriodSelect.value = '5'; // 恢復新青安5年寬限期
+                
+                // 恢復一般利率範圍
+                interestRateSlider.min = 1.5;
+                interestRateSlider.max = 5;
+                interestRateSlider.value = Math.max(interestRateSlider.value, 1.5);
+                document.getElementById('modalInterestRateValue').textContent = interestRateSlider.value + '%';
+                
+                // 隱藏政策提醒
+                hidePolicyNotice();
+            }
+            
+            // 重新計算
+            calculateModalLoan();
+        }
+        
+        // 顯示政策提醒
+        function showPolicyNotice(message) {
+            let notice = document.getElementById('policyNotice');
+            if (!notice) {
+                notice = document.createElement('div');
+                notice.id = 'policyNotice';
+                notice.style.cssText = `
+                    background: linear-gradient(135deg, #fef3c7, #fde68a);
+                    border: 1px solid #f59e0b;
+                    border-radius: 6px;
+                    padding: 0.6rem;
+                    margin: 0.6rem 0;
+                    font-size: 0.8rem;
+                    color: #92400e;
+                    text-align: center;
+                    animation: fadeIn 0.3s ease-in;
+                `;
+                
+                // 插入到寬限期選擇框之後
+                const gracePeriodGroup = document.querySelector('#modalGracePeriod').closest('div[style*="grid-template-columns"]');
+                gracePeriodGroup.parentNode.insertBefore(notice, gracePeriodGroup.nextSibling);
+            }
+            notice.textContent = '⚠️ ' + message;
+            notice.style.display = 'block';
+        }
+        
+        // 隱藏政策提醒
+        function hidePolicyNotice() {
+            const notice = document.getElementById('policyNotice');
+            if (notice) {
+                notice.style.display = 'none';
+            }
+            // 同時隱藏新青安一般貸款利率設定
+            const youthRateSetting = document.getElementById('youthNormalRateSetting');
+            if (youthRateSetting) {
+                youthRateSetting.style.display = 'none';
+            }
+        }
+        
+        // 顯示新青安貸款提醒和一般貸款利率設定
+        function showYouthLoanNotice() {
+            showPolicyNotice('新青安貸款：前1000萬享優惠利率1.8%，超過部分適用一般利率，優惠至2026/7/31');
+            
+            // 創建或顯示一般貸款利率設定區域
+            let youthRateSetting = document.getElementById('youthNormalRateSetting');
+            if (!youthRateSetting) {
+                youthRateSetting = document.createElement('div');
+                youthRateSetting.id = 'youthNormalRateSetting';
+                youthRateSetting.style.cssText = `
+                    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+                    border: 1px solid #2196f3;
+                    border-radius: 6px;
+                    padding: 0.8rem;
+                    margin: 0.6rem 0;
+                    font-size: 0.85rem;
+                    color: #0d47a1;
+                    animation: fadeIn 0.3s ease-in;
+                `;
+                
+                // 插入到政策提醒之後
+                const policyNotice = document.getElementById('policyNotice');
+                if (policyNotice) {
+                    policyNotice.parentNode.insertBefore(youthRateSetting, policyNotice.nextSibling);
                 }
             }
-        });
-        
-        if (hasOverlap) {
-            element.classList.add('overlap-warning');
-            element.style.zIndex = '999';
-        } else {
-            element.classList.remove('overlap-warning');
-            element.style.zIndex = '';
-        }
-    });
-}
-
-// ==================== 對齊檢測功能 ====================
-
-// 自動檢測和修正對齊問題
-class AlignmentDetector {
-    constructor() {
-        this.threshold = 2; // 2px容差
-        this.gridLines = [];
-        this.detectMisalignment();
-    }
-    
-    detectMisalignment() {
-        const elements = document.querySelectorAll('[data-align-check]');
-        this.gridLines = this.calculateGridLines();
-        
-        // 如果沒有足夠的網格線參考，跳過檢測
-        if (this.gridLines.vertical.length < 2 && this.gridLines.horizontal.length < 2) {
-            return;
-        }
-        
-        elements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const alignmentScore = this.calculateAlignmentScore(rect, this.gridLines);
             
-            // 提高對齊分數閾值，減少誤判
-            if (alignmentScore < 0.7) {
-                this.suggestAlignment(element, rect, this.gridLines);
-            }
-        });
-    }
-    
-    calculateGridLines() {
-        const container = document.querySelector('.container');
-        if (!container) return [];
-        
-        const containerRect = container.getBoundingClientRect();
-        const gridLines = {
-            vertical: [],
-            horizontal: []
-        };
-        
-        // 計算垂直網格線
-        const weekTabs = document.querySelectorAll('.week-tab');
-        if (weekTabs.length > 0) {
-            weekTabs.forEach(tab => {
-                const rect = tab.getBoundingClientRect();
-                gridLines.vertical.push({
-                    position: rect.left - containerRect.left,
-                    type: 'left'
-                });
-                gridLines.vertical.push({
-                    position: rect.right - containerRect.left,
-                    type: 'right'
-                });
-            });
-        }
-        
-        // 計算水平網格線
-        const dayCards = document.querySelectorAll('.day-card');
-        if (dayCards.length > 0) {
-            dayCards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                gridLines.horizontal.push({
-                    position: rect.top - containerRect.top,
-                    type: 'top'
-                });
-                gridLines.horizontal.push({
-                    position: rect.bottom - containerRect.top,
-                    type: 'bottom'
-                });
-            });
-        }
-        
-        return gridLines;
-    }
-    
-    calculateAlignmentScore(rect, gridLines) {
-        let score = 0;
-        let totalChecks = 0;
-        
-        // 檢查垂直對齊
-        gridLines.vertical.forEach(line => {
-            const distance = Math.abs(rect.left - line.position);
-            if (distance <= this.threshold) {
-                score += 1;
-            }
-            totalChecks++;
-        });
-        
-        // 檢查水平對齊
-        gridLines.horizontal.forEach(line => {
-            const distance = Math.abs(rect.top - line.position);
-            if (distance <= this.threshold) {
-                score += 1;
-            }
-            totalChecks++;
-        });
-        
-        return totalChecks > 0 ? score / totalChecks : 1;
-    }
-    
-    suggestAlignment(element, rect, gridLines) {
-        const suggestion = this.findBestAlignment(rect, gridLines);
-        if (suggestion) {
-            element.style.setProperty('--suggested-margin-left', suggestion.marginLeft + 'px');
-            element.style.setProperty('--suggested-margin-top', suggestion.marginTop + 'px');
-            element.classList.add('alignment-suggestion');
+            // 獲取當前房屋總價和貸款成數來計算是否會超過1000萬
+            const housePrice = parseFloat(document.getElementById('modalHousePrice').value) * 10000;
+            const loanRatio = parseFloat(document.getElementById('modalLoanRatio').value) / 100;
+            const totalLoanAmount = housePrice * loanRatio;
+            const normalLoanAmount = Math.max(0, totalLoanAmount - 10000000);
             
-            // 添加視覺提示
-            this.addAlignmentHint(element, suggestion);
-        }
-    }
-    
-    findBestAlignment(rect, gridLines) {
-        let bestAlignment = null;
-        let bestScore = 0;
-        
-        // 尋找最佳垂直對齊
-        gridLines.vertical.forEach(line => {
-            const marginLeft = line.position - rect.left;
-            const score = 1 - Math.abs(marginLeft) / 100; // 正規化分數
-            
-            if (score > bestScore && Math.abs(marginLeft) <= 20) {
-                bestScore = score;
-                bestAlignment = {
-                    marginLeft: marginLeft,
-                    marginTop: 0,
-                    type: 'vertical',
-                    line: line
-                };
-            }
-        });
-        
-        // 尋找最佳水平對齊
-        gridLines.horizontal.forEach(line => {
-            const marginTop = line.position - rect.top;
-            const score = 1 - Math.abs(marginTop) / 100; // 正規化分數
-            
-            if (score > bestScore && Math.abs(marginTop) <= 20) {
-                bestScore = score;
-                bestAlignment = {
-                    marginLeft: 0,
-                    marginTop: marginTop,
-                    type: 'horizontal',
-                    line: line
-                };
-            }
-        });
-        
-        return bestAlignment;
-    }
-    
-    addAlignmentHint(element, suggestion) {
-        // 移除現有的提示
-        const existingHint = element.querySelector('.alignment-hint');
-        if (existingHint) {
-            existingHint.remove();
-        }
-        
-        // 創建新的提示
-        const hint = document.createElement('div');
-        hint.className = 'alignment-hint';
-        hint.innerHTML = `
-            <div class="hint-arrow"></div>
-            <div class="hint-text">
-                ${suggestion.type === 'vertical' ? '垂直對齊' : '水平對齊'}
-                <br>
-                <small>建議調整: ${Math.round(suggestion.marginLeft || suggestion.marginTop)}px</small>
-            </div>
-        `;
-        
-        element.appendChild(hint);
-        
-        // 3秒後自動移除提示
-        setTimeout(() => {
-            if (hint.parentNode) {
-                hint.remove();
-            }
-        }, 3000);
-    }
-    
-    // 應用對齊建議
-    applyAlignment(element) {
-        const marginLeft = element.style.getPropertyValue('--suggested-margin-left');
-        const marginTop = element.style.getPropertyValue('--suggested-margin-top');
-        
-        if (marginLeft) {
-            element.style.marginLeft = marginLeft;
-        }
-        if (marginTop) {
-            element.style.marginTop = marginTop;
-        }
-        
-        element.classList.remove('alignment-suggestion');
-        element.classList.add('alignment-applied');
-    }
-    
-    // 重新檢測所有元素
-    refresh() {
-        // 清除現有建議
-        document.querySelectorAll('.alignment-suggestion').forEach(el => {
-            el.classList.remove('alignment-suggestion');
-            const hint = el.querySelector('.alignment-hint');
-            if (hint) hint.remove();
-        });
-        
-        // 重新檢測
-        this.detectMisalignment();
-    }
-}
-
-// 初始化對齊檢測器
-let alignmentDetector = null;
-let detectionTimeout = null;
-
-function initAlignmentDetection() {
-    // 為需要檢測對齊的元素添加標記
-    const elementsToCheck = [
-        '.day-card',
-        '.truck-item',
-        '.ad-item',
-        '.week-tab'
-    ];
-    
-    elementsToCheck.forEach(selector => {
-        document.querySelectorAll(selector).forEach(el => {
-            el.setAttribute('data-align-check', 'true');
-        });
-    });
-    
-    // 延遲創建對齊檢測器，避免頁面載入時過度檢測
-    setTimeout(() => {
-        alignmentDetector = new AlignmentDetector();
-    }, 1000);
-    
-    // 監聽視窗大小變化 - 增加防抖動時間
-    window.addEventListener('resize', debounce(() => {
-        if (alignmentDetector) {
-            // 清除之前的檢測
-            if (detectionTimeout) {
-                clearTimeout(detectionTimeout);
-            }
-            // 延遲檢測，避免頻繁觸發
-            detectionTimeout = setTimeout(() => {
-                alignmentDetector.refresh();
-            }, 500);
-        }
-    }, 1000));
-    
-    // 監聽內容變化 - 減少檢測頻率
-    const mutationObserver = new MutationObserver((mutations) => {
-        let shouldRefresh = false;
-        
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                // 為新元素添加檢測標記
-                mutation.addedNodes.forEach(node => {
-                    if (node.nodeType === 1) { // Element node
-                        const elements = node.querySelectorAll('.day-card, .truck-item, .ad-item, .week-tab');
-                        elements.forEach(el => {
-                            el.setAttribute('data-align-check', 'true');
+            if (normalLoanAmount > 0) {
+                const normalLoanAmountWan = Math.round(normalLoanAmount / 10000);
+                youthRateSetting.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                        <span style="margin-right: 0.5rem;">💰</span>
+                        <strong>超過1000萬部分 (${normalLoanAmountWan}萬元) 一般貸款利率設定</strong>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; align-items: center;">
+                        <label style="font-size: 0.8rem;">一般貸款利率：</label>
+                        <div style="display: flex; align-items: center; gap: 0.3rem;">
+                            <input type="range" id="normalLoanRate" min="2.0" max="4.0" step="0.1" value="2.8" 
+                                   style="flex: 1; height: 4px; border-radius: 2px; background: #e0e0e0; outline: none; cursor: pointer;">
+                            <span id="normalLoanRateValue" style="font-weight: bold; min-width: 3rem; text-align: center;">2.8%</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.75rem; margin-top: 0.3rem; color: #666;">
+                        💡 超過1000萬的部分將使用此利率計算
+                    </div>
+                `;
+                youthRateSetting.style.display = 'block';
+                
+                // 綁定一般貸款利率滑桿事件（避免重複綁定）
+                setTimeout(() => {
+                    const normalRateSlider = document.getElementById('normalLoanRate');
+                    const normalRateValue = document.getElementById('normalLoanRateValue');
+                    
+                    if (normalRateSlider && normalRateValue && !normalRateSlider.hasAttribute('data-bound')) {
+                        normalRateSlider.setAttribute('data-bound', 'true');
+                        normalRateSlider.addEventListener('input', function() {
+                            normalRateValue.textContent = this.value + '%';
+                            calculateModalLoan(); // 重新計算
                         });
-                        if (elements.length > 0) {
-                            shouldRefresh = true;
+                    }
+                }, 100);
+            } else {
+                youthRateSetting.style.display = 'none';
+            }
+        }
+        
+        // 綁定輸入框事件
+        function bindInputEvents() {
+            // 房屋總價
+            const housePriceInput = document.getElementById('modalHousePrice');
+            if (housePriceInput) {
+                housePriceInput.addEventListener('input', function() {
+                    calculateModalLoan();
+                });
+                housePriceInput.addEventListener('change', function() {
+                    calculateModalLoan();
+                    // 只有在變更時才檢查新青安貸款設定
+                    if (document.getElementById('modalExistingLoan').value === 'youth') {
+                        showYouthLoanNotice();
+                    }
+                });
+            }
+            
+            // 寬限期下拉選單
+            const gracePeriodSelect = document.getElementById('modalGracePeriod');
+            if (gracePeriodSelect) {
+                gracePeriodSelect.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 代書費+契稅
+            const serviceFeeInput = document.getElementById('modalServiceFee');
+            if (serviceFeeInput) {
+                serviceFeeInput.addEventListener('input', calculateModalLoan);
+                serviceFeeInput.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 代書潤筆費
+            const notaryFeeInput = document.getElementById('modalNotaryFee');
+            if (notaryFeeInput) {
+                notaryFeeInput.addEventListener('input', calculateModalLoan);
+                notaryFeeInput.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 仲介費滑桿
+            const agentFeeSlider = document.getElementById('modalAgentFee');
+            if (agentFeeSlider) {
+                agentFeeSlider.addEventListener('input', function() {
+                    document.getElementById('modalAgentFeeValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+                agentFeeSlider.addEventListener('change', function() {
+                    document.getElementById('modalAgentFeeValue').textContent = this.value + '%';
+                    calculateModalLoan(); // 即時計算
+                });
+            }
+            
+            // 還款方式
+            const repaymentTypeSelect = document.getElementById('modalRepaymentType');
+            if (repaymentTypeSelect) {
+                repaymentTypeSelect.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 名下有無其他房貸
+            const existingLoanSelect = document.getElementById('modalExistingLoan');
+            if (existingLoanSelect) {
+                existingLoanSelect.addEventListener('change', adjustLoanConditions);
+            }
+            
+            // 月收入
+            const monthlyIncomeInput = document.getElementById('modalMonthlyIncome');
+            if (monthlyIncomeInput) {
+                monthlyIncomeInput.addEventListener('input', calculateModalLoan);
+                monthlyIncomeInput.addEventListener('change', calculateModalLoan);
+            }
+            
+            // 其他月支出
+            const otherExpensesInput = document.getElementById('modalOtherExpenses');
+            if (otherExpensesInput) {
+                otherExpensesInput.addEventListener('input', calculateModalLoan);
+                otherExpensesInput.addEventListener('change', calculateModalLoan);
+            }
+        }
+        
+        // 貸款試算計算功能
+        function calculateModalLoan() {
+            const housePrice = parseFloat(document.getElementById('modalHousePrice').value) * 10000;
+            const loanRatio = parseFloat(document.getElementById('modalLoanRatio').value) / 100;
+            const loanYears = parseInt(document.getElementById('modalLoanYears').value);
+            const interestRate = parseFloat(document.getElementById('modalInterestRate').value) / 100;
+            const gracePeriod = parseInt(document.getElementById('modalGracePeriod').value) || 0;
+            const serviceFee = parseFloat(document.getElementById('modalServiceFee').value) || 0;
+            const notaryFee = parseFloat(document.getElementById('modalNotaryFee').value) || 0;
+            const agentFeeRate = parseFloat(document.getElementById('modalAgentFee').value) || 0;
+            const agentFee = housePrice * (agentFeeRate / 100); // 仲介費按房屋總價百分比計算
+            const repaymentType = document.getElementById('modalRepaymentType').value;
+            const monthlyIncome = parseFloat(document.getElementById('modalMonthlyIncome').value) * 10000 || 0;
+            const otherExpenses = parseFloat(document.getElementById('modalOtherExpenses').value) * 10000 || 0;
+            const existingLoan = document.getElementById('modalExistingLoan').value;
+            
+            if (!housePrice || housePrice <= 0) {
+                alert('請輸入有效的房屋價格');
+                return;
+            }
+            
+            // 基本計算
+            const loanAmount = housePrice * loanRatio;
+            const downPayment = housePrice - loanAmount;
+            
+            // 新青安混合貸款計算
+            let youthLoanAmount = 0;
+            let normalLoanAmount = 0;
+            let youthInterestRate = interestRate;
+            let normalInterestRate = interestRate;
+            
+            if (existingLoan === 'youth') {
+                // 新青安：前1000萬享優惠利率，超過部分一般利率
+                youthLoanAmount = Math.min(loanAmount, 10000000);
+                normalLoanAmount = Math.max(0, loanAmount - 10000000);
+                youthInterestRate = 1.8 / 100; // 新青安優惠利率
+                
+                // 獲取用戶自定義的一般貸款利率
+                const normalRateSlider = document.getElementById('normalLoanRate');
+                if (normalRateSlider && normalLoanAmount > 0) {
+                    normalInterestRate = parseFloat(normalRateSlider.value) / 100;
+                } else {
+                    normalInterestRate = 2.8 / 100; // 預設一般貸款利率
+                }
+            }
+            
+            // 貸款計算（月利率）
+            const totalMonths = loanYears * 12;
+            const graceMonths = gracePeriod * 12;
+            const remainingMonths = totalMonths - graceMonths;
+            
+            // 計算月付金額
+            let monthlyPayment = 0;
+            let gracePayment = 0;
+            let totalInterest = 0;
+            
+            if (existingLoan === 'youth' && normalLoanAmount > 0) {
+                // 混合貸款：新青安 + 一般貸款
+                const youthMonthlyRate = youthInterestRate / 12;
+                const normalMonthlyRate = normalInterestRate / 12;
+                
+                // 寬限期內只付利息
+                const youthGracePayment = youthLoanAmount * youthMonthlyRate;
+                const normalGracePayment = normalLoanAmount * normalMonthlyRate;
+                gracePayment = youthGracePayment + normalGracePayment;
+                
+                // 寬限期後的正常還款
+                if (remainingMonths > 0) {
+                    let youthMonthlyPayment = 0;
+                    let normalMonthlyPayment = 0;
+                    
+                    if (repaymentType === 'equal_payment') {
+                        // 等額本息公式
+                        if (youthLoanAmount > 0) {
+                            youthMonthlyPayment = youthLoanAmount * (youthMonthlyRate * Math.pow(1 + youthMonthlyRate, remainingMonths)) / (Math.pow(1 + youthMonthlyRate, remainingMonths) - 1);
+                        }
+                        if (normalLoanAmount > 0) {
+                            normalMonthlyPayment = normalLoanAmount * (normalMonthlyRate * Math.pow(1 + normalMonthlyRate, remainingMonths)) / (Math.pow(1 + normalMonthlyRate, remainingMonths) - 1);
+                        }
+                    } else {
+                        // 等額本金公式（第一個月）
+                        if (youthLoanAmount > 0) {
+                            const youthMonthlyPrincipal = youthLoanAmount / remainingMonths;
+                            youthMonthlyPayment = youthMonthlyPrincipal + youthLoanAmount * youthMonthlyRate;
+                        }
+                        if (normalLoanAmount > 0) {
+                            const normalMonthlyPrincipal = normalLoanAmount / remainingMonths;
+                            normalMonthlyPayment = normalMonthlyPrincipal + normalLoanAmount * normalMonthlyRate;
                         }
                     }
-                });
+                    
+                    monthlyPayment = youthMonthlyPayment + normalMonthlyPayment;
+                } else {
+                    monthlyPayment = gracePayment;
+                }
+                
+                // 正確的總利息計算
+                const graceInterest = gracePayment * graceMonths;
+                let normalPeriodTotalPayment = 0;
+                
+                if (repaymentType === 'equal_payment') {
+                    // 等額本息：固定月付 × 剩餘月數
+                    normalPeriodTotalPayment = monthlyPayment * remainingMonths;
+                } else {
+                    // 等額本金：逐月計算
+                    if (youthLoanAmount > 0) {
+                        const youthMonthlyPrincipal = youthLoanAmount / remainingMonths;
+                        for (let i = 0; i < remainingMonths; i++) {
+                            const youthRemainingPrincipal = youthLoanAmount - (youthMonthlyPrincipal * i);
+                            normalPeriodTotalPayment += youthMonthlyPrincipal + (youthRemainingPrincipal * youthMonthlyRate);
+                        }
+                    }
+                    if (normalLoanAmount > 0) {
+                        const normalMonthlyPrincipal = normalLoanAmount / remainingMonths;
+                        for (let i = 0; i < remainingMonths; i++) {
+                            const normalRemainingPrincipal = normalLoanAmount - (normalMonthlyPrincipal * i);
+                            normalPeriodTotalPayment += normalMonthlyPrincipal + (normalRemainingPrincipal * normalMonthlyRate);
+                        }
+                    }
+                }
+                
+                totalInterest = graceInterest + (normalPeriodTotalPayment - loanAmount);
+            } else {
+                // 單一利率貸款
+                const monthlyRate = interestRate / 12;
+                
+                if (loanAmount > 0 && monthlyRate > 0) {
+                    // 寬限期內只付利息
+                    gracePayment = loanAmount * monthlyRate;
+                    
+                    // 寬限期後的正常還款
+                    if (remainingMonths > 0) {
+                        if (repaymentType === 'equal_payment') {
+                            // 等額本息公式
+                            monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) / (Math.pow(1 + monthlyRate, remainingMonths) - 1);
+                        } else {
+                            // 等額本金公式（第一個月）
+                            const monthlyPrincipal = loanAmount / remainingMonths;
+                            monthlyPayment = monthlyPrincipal + loanAmount * monthlyRate;
+                        }
+                    } else {
+                        monthlyPayment = gracePayment;
+                    }
+                    
+                    // 正確的總利息計算
+                    const graceInterest = gracePayment * graceMonths;
+                    let normalPeriodTotalPayment = 0;
+                    
+                    if (repaymentType === 'equal_payment') {
+                        // 等額本息：固定月付 × 剩餘月數
+                        normalPeriodTotalPayment = monthlyPayment * remainingMonths;
+                    } else {
+                        // 等額本金：逐月計算
+                        const monthlyPrincipal = loanAmount / remainingMonths;
+                        for (let i = 0; i < remainingMonths; i++) {
+                            const remainingPrincipal = loanAmount - (monthlyPrincipal * i);
+                            normalPeriodTotalPayment += monthlyPrincipal + (remainingPrincipal * monthlyRate);
+                        }
+                    }
+                    
+                    totalInterest = graceInterest + (normalPeriodTotalPayment - loanAmount);
+                }
+            }
+            
+            
+            // 雜項費用計算
+            const totalFees = serviceFee + notaryFee + agentFee;
+            
+            // 總成本計算（包含自備款和雜費）
+            const totalCost = downPayment + totalFees;
+            
+            // 負擔能力分析
+            const debtRatio = monthlyPayment / monthlyIncome; // 負債比
+            const availableIncome = monthlyIncome - otherExpenses; // 可用收入
+            const affordabilityRatio = monthlyPayment / availableIncome; // 房貸負擔比
+            const recommendedIncome = monthlyPayment * 3; // 建議月收入（房貸不超過收入1/3）
+            const isAffordable = affordabilityRatio <= 0.5; // 是否負擔得起（負擔比不超過50%）
+            
+            const results = `
+                <div style="line-height: 1.3;">
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">💰 房屋資訊</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>總價：</div><div class="font-semibold">${Math.round(housePrice / 10000)}萬</div>
+                            <div>貸款：</div><div class="font-semibold text-blue-600">${Math.round(loanAmount / 10000)}萬${existingLoan === 'youth' && normalLoanAmount > 0 ? ` (新青安${Math.round(youthLoanAmount/10000)}萬@${(youthInterestRate*100).toFixed(1)}%+一般${Math.round(normalLoanAmount/10000)}萬@${(normalInterestRate*100).toFixed(1)}%)` : existingLoan === 'youth' ? ' @1.8%' : ''}</div>
+                            <div>成數：</div><div class="font-semibold">${(loanRatio * 100).toFixed(0)}%</div>
+                            <div>自備款：</div><div class="font-semibold text-red-600">${Math.round(downPayment / 10000)}萬</div>
+                        </div>
+                    </div>
+                    
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">🏦 貸款條件</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>年限：</div><div class="font-semibold">${loanYears}年</div>
+                            <div>利率：</div><div class="font-semibold">${(interestRate * 100).toFixed(2)}%</div>
+                            <div>還款：</div><div class="font-semibold">${repaymentType === 'equal_payment' ? '等額本息' : '等額本金'}</div>
+                            <div>寬限期：</div><div class="font-semibold">${gracePeriod > 0 ? (gracePeriod === 5 ? '新青安5年' : `${gracePeriod}年`) : '無'}</div>
+                            ${gracePeriod > 0 ? `<div>寬限期月付：</div><div class="font-semibold text-green-600">${Math.round(gracePayment).toLocaleString()}元</div>` : ''}
+                            <div>正常期月付：</div><div class="font-semibold text-blue-600">${Math.round(monthlyPayment).toLocaleString()}元</div>
+                            <div>總利息：</div><div class="font-semibold text-orange-600">${(totalInterest / 10000).toFixed(1)}萬</div>
+                        </div>
+                    </div>
+                    
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">📋 雜項費用</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>代書費+契稅：</div><div class="font-semibold">${serviceFee.toLocaleString()}元</div>
+                            <div>貸書潤筆費：</div><div class="font-semibold">${notaryFee.toLocaleString()}元</div>
+                            <div>仲介費(${agentFeeRate}%)：</div><div class="font-semibold">${Math.round(agentFee).toLocaleString()}元</div>
+                            <div class="font-bold">雜費總計：</div><div class="font-bold text-red-600">${totalFees.toLocaleString()}元</div>
+                        </div>
+                    </div>
+                    
+                    <div class="loan-result-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-bottom: 0.4rem;">
+                        <div class="loan-result-highlight" style="padding: 0.6rem;">
+                            <h3 style="font-size: 0.8rem; margin-bottom: 0.2rem;">🎯 購屋資金需求</h3>
+                            <div class="amount" style="font-size: 1.1rem;">${(totalCost / 10000).toFixed(1)}萬</div>
+                            <p style="opacity: 0.9; margin-top: 0.2rem; font-size: 0.7rem;">自備款+雜費</p>
+                        </div>
+                        
+                        <div class="loan-result-highlight" style="padding: 0.6rem;">
+                            <h3 style="font-size: 0.8rem; margin-bottom: 0.2rem;">💳 每月負擔</h3>
+                            <div class="amount" style="font-size: 1.1rem;">${Math.round(monthlyPayment).toLocaleString()}元</div>
+                            <p style="opacity: 0.9; margin-top: 0.2rem; font-size: 0.7rem;">${gracePeriod > 0 ? '正常期月付' : '房貸月付'}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="loan-result-card" style="margin-bottom: 0.4rem;">
+                        <div class="loan-result-title" style="margin-bottom: 0.4rem; font-size: 0.85rem;">📊 負擔能力分析</div>
+                        <div class="loan-result-grid" style="gap: 0.2rem; font-size: 0.75rem;">
+                            <div>負債比：</div><div class="font-semibold ${debtRatio > 0.3 ? 'text-red-600' : debtRatio > 0.2 ? 'text-orange-600' : 'text-green-600'}">${(debtRatio * 100).toFixed(1)}%</div>
+                            <div>房貸負擔比：</div><div class="font-semibold ${affordabilityRatio > 0.5 ? 'text-red-600' : affordabilityRatio > 0.3 ? 'text-orange-600' : 'text-green-600'}">${(affordabilityRatio * 100).toFixed(1)}%</div>
+                            <div>建議月收入：</div><div class="font-semibold text-blue-600">${Math.round(recommendedIncome / 10000).toFixed(1)}萬</div>
+                            <div>負擔評估：</div><div class="font-semibold ${isAffordable ? 'text-green-600' : 'text-red-600'}">${isAffordable ? '✅ 可負擔' : '⚠️ 負擔過重'}</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            `;
+            
+            document.getElementById('modalLoanResults').innerHTML = results;
+        }
+        
+        
+        // 急售倒數計時功能
+        function updateUrgentCountdown() {
+            // 直接顯示「低自備」，不再使用倒數計時
+            document.getElementById('urgentCountdown').textContent = '低自備';
+        }
+        
+        // 頁面載入時啟動倒數計時
+        document.addEventListener('DOMContentLoaded', function() {
+            // 立即更新一次
+            updateUrgentCountdown();
+            
+            // 每秒更新一次
+            setInterval(updateUrgentCountdown, 1000);
+        });
+        
+        // 複製 LINE ID 功能
+        document.getElementById('copyLineId').addEventListener('click', async ()=>{
+            try {
+                await navigator.clipboard.writeText('@931aeinu');
+                alert('已複製 LINE ID：@931aeinu');
+            } catch(e) {
+                // 備用方案：使用舊的複製方法
+                const textArea = document.createElement('textarea');
+                textArea.value = '@931aeinu';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('已複製 LINE ID：@931aeinu');
+            }
+        });
+
+        // 客戶見證輪播功能
+        let currentTestimonialIndex = 0;
+        const testimonialSlides = document.getElementById('testimonialSlides');
+        const testimonialPrev = document.getElementById('testimonialPrev');
+        const testimonialNext = document.getElementById('testimonialNext');
+        const totalTestimonials = document.querySelectorAll('.testimonial-slide').length;
+
+        function updateTestimonialCarousel() {
+            testimonialSlides.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
+        }
+
+        testimonialPrev.addEventListener('click', () => {
+            currentTestimonialIndex = currentTestimonialIndex > 0 ? currentTestimonialIndex - 1 : totalTestimonials - 1;
+            updateTestimonialCarousel();
+        });
+
+        testimonialNext.addEventListener('click', () => {
+            currentTestimonialIndex = currentTestimonialIndex < totalTestimonials - 1 ? currentTestimonialIndex + 1 : 0;
+            updateTestimonialCarousel();
+        });
+
+        // 自動播放客戶見證
+        setInterval(() => {
+            currentTestimonialIndex = currentTestimonialIndex < totalTestimonials - 1 ? currentTestimonialIndex + 1 : 0;
+            updateTestimonialCarousel();
+        }, 5000);
+
+        // 照片燈箱功能
+        let currentPhotoIndex = 0;
+        let currentPhotoSet = '';
+        let photoSets = {
+            'property1': {
+                images: [
+                    { src: 'images/2-1/客廳.jpg', title: '客廳' },
+                    { src: 'images/2-1/客廳視角2.jpg', title: '客廳視角2' },
+                    { src: 'images/2-1/客廳視角3.jpg', title: '客廳視角3' },
+                    { src: 'images/2-1/客廳視角4.jpg', title: '客廳視角4' },
+                    { src: 'images/2-1/玄關.jpg', title: '玄關' },
+                    { src: 'images/2-1/主臥房.jpg', title: '主臥房' },
+                    { src: 'images/2-1/主臥房2.jpg', title: '主臥房2' },
+                    { src: 'images/2-1/次臥房.jpg', title: '次臥房' },
+                    { src: 'images/2-1/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/2-1/陽台照片.jpg', title: '陽台照片' },
+                    { src: 'images/2-1/陽台照片2.jpg', title: '陽台照片2' },
+                    { src: 'images/2-1/格局圖.png', title: '格局圖' }
+                ]
+            },
+            'property1b': {
+                images: [
+                    { src: 'images/2-2/客廳.jpg', title: '客廳' },
+                    { src: 'images/2-2/客餐廳.jpg', title: '客餐廳' },
+                    { src: 'images/2-2/主臥房.jpg', title: '主臥房' },
+                    { src: 'images/2-2/次臥房.jpg', title: '次臥房' },
+                    { src: 'images/2-2/廚房.jpg', title: '廚房' },
+                    { src: 'images/2-2/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/2-2/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property2': {
+                images: [
+                    { src: 'images/3-1/客廳.jpg', title: '客廳' },
+                    { src: 'images/3-1/客廳1.jpg', title: '客廳1' },
+                    { src: 'images/3-1/客廳2.jpg', title: '客廳2' },
+                    { src: 'images/3-1/廚房.jpg', title: '廚房' },
+                    { src: 'images/3-1/主臥.jpg', title: '主臥' },
+                    { src: 'images/3-1/次臥房-1.jpg', title: '次臥房-1' },
+                    { src: 'images/3-1/次臥房-1-1.jpg', title: '次臥房-1-1' },
+                    { src: 'images/3-1/次臥房2.jpg', title: '次臥房2' },
+                    { src: 'images/3-1/次臥房2-1.jpg', title: '次臥房2-1' },
+                    { src: 'images/3-1/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/3-1/衛浴1.jpg', title: '衛浴1' },
+                    { src: 'images/3-1/廁所.jpg', title: '廁所' },
+                    { src: 'images/3-1/陽台.jpg', title: '陽台' },
+                    { src: 'images/3-1/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property2b': {
+                images: [
+                    { src: 'images/3-2/客廳.jpg', title: '客廳' },
+                    { src: 'images/3-2/主臥.jpg', title: '主臥' },
+                    { src: 'images/3-2/主臥1.jpg', title: '主臥1' },
+                    { src: 'images/3-2/廚房.jpg', title: '廚房' },
+                    { src: 'images/3-2/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/3-2/房間.jpg', title: '房間' },
+                    { src: 'images/3-2/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/3-2/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/3-2/B205CS178329j.jpg', title: 'B205CS178329j' },
+                    { src: 'images/3-2/B205CS178329k.jpg', title: 'B205CS178329k' },
+                    { src: 'images/3-2/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property3a': {
+                images: [
+                    { src: 'images/4-1/客廳.jpg', title: '客廳' },
+                    { src: 'images/4-1/廚房.jpg', title: '廚房' },
+                    { src: 'images/4-1/主臥房視角.jpg', title: '主臥房視角' },
+                    { src: 'images/4-1/主臥房視角2.jpg', title: '主臥房視角2' },
+                    { src: 'images/4-1/次臥房.jpg', title: '次臥房' },
+                    { src: 'images/4-1/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/4-1/次臥房4.jpg', title: '次臥房4' },
+                    { src: 'images/4-1/衛浴.jpg', title: '衛浴' },
+                    { src: 'images/4-1/前陽台.jpg', title: '前陽台' },
+                    { src: 'images/4-1/前陽台景觀.jpg', title: '前陽台景觀' },
+                    { src: 'images/4-1/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/4-1/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/4-1/格局圖.jpg', title: '格局圖' }
+                ]
+            },
+            'property3b': {
+                images: [
+                    { src: 'images/4-2/客廳全景.jpg', title: '客廳全景' },
+                    { src: 'images/4-2/客廳細節.jpg', title: '客廳細節' },
+                    { src: 'images/4-2/客廳角度二.jpg', title: '客廳角度二' },
+                    { src: 'images/4-2/廚房.jpg', title: '廚房' },
+                    { src: 'images/4-2/主臥室.jpg', title: '主臥室' },
+                    { src: 'images/4-2/次臥室.jpg', title: '次臥室' },
+                    { src: 'images/4-2/次臥房3.jpg', title: '次臥房3' },
+                    { src: 'images/4-2/次臥房4.jpg', title: '次臥房4' },
+                    { src: 'images/4-2/臥室細節.jpg', title: '臥室細節' },
+                    { src: 'images/4-2/衛浴開窗.jpg', title: '衛浴開窗' },
+                    { src: 'images/4-2/主臥衛浴開窗.jpg', title: '主臥衛浴開窗' },
+                    { src: 'images/4-2/後陽台.jpg', title: '後陽台' },
+                    { src: 'images/4-2/陽台景觀.jpg', title: '陽台景觀' },
+                    { src: 'images/4-2/格局圖.jpg', title: '格局圖' }
+                ]
+            }
+        };
+        
+        function openLightbox(index, photoSet) {
+            currentPhotoIndex = index;
+            currentPhotoSet = photoSet;
+            
+            const lightbox = document.getElementById('photoLightbox');
+            const mainImage = document.getElementById('lightboxMainImage');
+            const title = document.getElementById('lightboxTitle');
+            const counter = document.getElementById('lightboxCounter');
+            const thumbnails = document.getElementById('lightboxThumbnails');
+            
+            // 顯示燈箱
+            lightbox.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // 更新主圖
+            const currentPhoto = photoSets[photoSet].images[index];
+            mainImage.src = currentPhoto.src;
+            mainImage.alt = currentPhoto.title;
+            
+            // 更新標題和計數器
+            title.textContent = currentPhoto.title;
+            counter.textContent = `${index + 1} / ${photoSets[photoSet].images.length}`;
+            
+            // 生成縮圖
+            thumbnails.innerHTML = '';
+            photoSets[photoSet].images.forEach((photo, i) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = photo.src;
+                thumbnail.alt = photo.title;
+                thumbnail.className = 'lightbox-thumbnail';
+                if (i === index) thumbnail.classList.add('active');
+                thumbnail.onclick = () => switchToImage(i);
+                thumbnails.appendChild(thumbnail);
+            });
+            
+            // 綁定鍵盤事件
+            document.addEventListener('keydown', handleKeyPress);
+        }
+        
+        function closeLightbox() {
+            document.getElementById('photoLightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.removeEventListener('keydown', handleKeyPress);
+        }
+        
+        function nextImage() {
+            const totalImages = photoSets[currentPhotoSet].images.length;
+            currentPhotoIndex = (currentPhotoIndex + 1) % totalImages;
+            switchToImage(currentPhotoIndex);
+        }
+        
+        function previousImage() {
+            const totalImages = photoSets[currentPhotoSet].images.length;
+            currentPhotoIndex = (currentPhotoIndex - 1 + totalImages) % totalImages;
+            switchToImage(currentPhotoIndex);
+        }
+        
+        function switchToImage(index) {
+            currentPhotoIndex = index;
+            const currentPhoto = photoSets[currentPhotoSet].images[index];
+            
+            // 更新主圖
+            document.getElementById('lightboxMainImage').src = currentPhoto.src;
+            document.getElementById('lightboxTitle').textContent = currentPhoto.title;
+            document.getElementById('lightboxCounter').textContent = `${index + 1} / ${photoSets[currentPhotoSet].images.length}`;
+            
+            // 更新縮圖活動狀態
+            const thumbnails = document.querySelectorAll('.lightbox-thumbnail');
+            thumbnails.forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+        }
+        
+        function handleKeyPress(event) {
+            switch(event.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    previousImage();
+                    break;
+                case 'ArrowRight':
+                    nextImage();
+                    break;
+            }
+        }
+        
+        // 點擊燈箱背景關閉
+        document.getElementById('photoLightbox').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeLightbox();
             }
         });
         
-        // 只在有實際內容變化時才重新檢測
-        if (shouldRefresh && alignmentDetector) {
-            // 清除之前的檢測
-            if (detectionTimeout) {
-                clearTimeout(detectionTimeout);
+        // 分頁切換功能
+        function switchTab(tabName) {
+            // 隱藏所有分頁內容
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+            
+            // 移除所有按鈕的active狀態
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.style.background = 'transparent';
+                button.style.color = '#666';
+                button.style.boxShadow = 'none';
+            });
+            
+            // 顯示選中的分頁
+            const activePane = document.getElementById('tab-' + tabName);
+            if (activePane) {
+                activePane.classList.add('active');
             }
-            // 延遲檢測
-            detectionTimeout = setTimeout(() => {
-                alignmentDetector.refresh();
-            }, 800);
+            
+            // 激活選中的按鈕
+            const activeButton = event.target;
+            activeButton.classList.add('active');
+            activeButton.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            activeButton.style.color = 'white';
+            activeButton.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.3)';
+            
+            // 同步切換地圖分頁
+            switchMapTab(tabName);
         }
-    });
-    
-    mutationObserver.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-}
-
-// 清除所有對齊檢測標記和樣式
-function clearAlignmentDetection() {
-    // 移除所有對齊建議樣式
-    document.querySelectorAll('.alignment-suggestion').forEach(el => {
-        el.classList.remove('alignment-suggestion');
-        el.style.removeProperty('--suggested-margin-left');
-        el.style.removeProperty('--suggested-margin-top');
-    });
-    
-    // 移除所有對齊提示
-    document.querySelectorAll('.alignment-hint').forEach(hint => {
-        hint.remove();
-    });
-    
-    // 移除所有檢測標記
-    document.querySelectorAll('[data-align-check]').forEach(el => {
-        el.removeAttribute('data-align-check');
-    });
-    
-    // 停止對齊檢測器
-    if (alignmentDetector) {
-        alignmentDetector = null;
-    }
-}
+        
+        // 地圖分頁同步切換功能
+        function switchMapTab(tabName) {
+            // 隱藏所有地圖內容
+            const mapContents = document.querySelectorAll('.map-content');
+            mapContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // 重置所有地圖標籤按鈕樣式
+            const mapTabs = document.querySelectorAll('.map-tab');
+            mapTabs.forEach(tab => {
+                tab.style.background = '#95a5a6';
+            });
+            
+            // 根據物件分頁切換對應的地圖
+            let mapId = '';
+            switch(tabName) {
+                case 'property1':
+                    mapId = 'map-2room';
+                    break;
+                case 'property2':
+                    mapId = 'map-3room';
+                    break;
+                case 'property3':
+                    mapId = 'map-4room';
+                    break;
+            }
+            
+            // 顯示對應的地圖內容
+            if (mapId) {
+                const selectedMapContent = document.getElementById(mapId);
+                if (selectedMapContent) {
+                    selectedMapContent.style.display = 'block';
+                }
+                
+                // 高亮對應的地圖標籤按鈕
+                const mapTabButtons = document.querySelectorAll('.map-tab');
+                mapTabButtons.forEach(tab => {
+                    if (tab.onclick && tab.onclick.toString().includes(mapId)) {
+                        tab.style.background = '#3498db';
+                    }
+                });
+            }
+        }
